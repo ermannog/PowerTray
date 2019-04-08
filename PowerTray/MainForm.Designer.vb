@@ -23,12 +23,13 @@ Partial Class MainForm
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Me.nicMain = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.cmsNotifyIcon = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mniNotifyIconSettings = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mniNotifyIconSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.mniNotifyIconExit = New System.Windows.Forms.ToolStripMenuItem()
         Me.pnlMain = New System.Windows.Forms.Panel()
-        Me.mniNotifyIconSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.mniNotifyIconSettings = New System.Windows.Forms.ToolStripMenuItem()
         Me.cmsNotifyIcon.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -43,12 +44,24 @@ Partial Class MainForm
         Me.cmsNotifyIcon.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.cmsNotifyIcon.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mniNotifyIconSettings, Me.mniNotifyIconSeparator1, Me.mniNotifyIconExit})
         Me.cmsNotifyIcon.Name = "cmsNotifyIcon"
-        Me.cmsNotifyIcon.Size = New System.Drawing.Size(126, 54)
+        Me.cmsNotifyIcon.Size = New System.Drawing.Size(157, 84)
+        '
+        'mniNotifyIconSettings
+        '
+        Me.mniNotifyIconSettings.Image = CType(resources.GetObject("mniNotifyIconSettings.Image"), System.Drawing.Image)
+        Me.mniNotifyIconSettings.Name = "mniNotifyIconSettings"
+        Me.mniNotifyIconSettings.Size = New System.Drawing.Size(156, 26)
+        Me.mniNotifyIconSettings.Text = "Settings..."
+        '
+        'mniNotifyIconSeparator1
+        '
+        Me.mniNotifyIconSeparator1.Name = "mniNotifyIconSeparator1"
+        Me.mniNotifyIconSeparator1.Size = New System.Drawing.Size(153, 6)
         '
         'mniNotifyIconExit
         '
         Me.mniNotifyIconExit.Name = "mniNotifyIconExit"
-        Me.mniNotifyIconExit.Size = New System.Drawing.Size(125, 22)
+        Me.mniNotifyIconExit.Size = New System.Drawing.Size(156, 26)
         Me.mniNotifyIconExit.Text = "Exit"
         '
         'pnlMain
@@ -61,17 +74,6 @@ Partial Class MainForm
         Me.pnlMain.Name = "pnlMain"
         Me.pnlMain.Size = New System.Drawing.Size(600, 366)
         Me.pnlMain.TabIndex = 1
-        '
-        'mniNotifyIconSeparator1
-        '
-        Me.mniNotifyIconSeparator1.Name = "mniNotifyIconSeparator1"
-        Me.mniNotifyIconSeparator1.Size = New System.Drawing.Size(122, 6)
-        '
-        'mniNotifyIconSettings
-        '
-        Me.mniNotifyIconSettings.Name = "mniNotifyIconSettings"
-        Me.mniNotifyIconSettings.Size = New System.Drawing.Size(152, 22)
-        Me.mniNotifyIconSettings.Text = "Settings..."
         '
         'MainForm
         '

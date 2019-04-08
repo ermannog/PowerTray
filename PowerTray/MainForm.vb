@@ -6,18 +6,6 @@ Public Class MainForm
         Me.nicMain.Text = My.Application.Info.Title
         Me.mniNotifyIconSettings.Font = New Font(Me.mniNotifyIconSettings.Font, FontStyle.Bold)
 
-
-        Dim resourceSet = My.Resources.ResourceManager.GetResourceSet(System.Globalization.CultureInfo.CurrentCulture, False, True)
-        Dim names As New System.Collections.Specialized.StringCollection()
-
-        For Each resource As System.Collections.DictionaryEntry In resourceSet
-            If TypeOf resource.Value Is String AndAlso resource.Key.ToString().StartsWith("PSQuery_") Then
-
-
-
-            End If
-        Next
-
         'Lettura impostazioni
         Try
             PowerTryConfiguration.Load()
@@ -26,7 +14,6 @@ Public Class MainForm
         End Try
 
         Util.RunPowerShellScript2(My.Resources.PSQuery_IPv4Info.ToString())
-
     End Sub
 
     Protected Overrides Sub OnShown(e As EventArgs)
@@ -71,7 +58,7 @@ Public Class MainForm
     Private Sub mniNotifyIconSettings_Click(sender As Object, e As EventArgs) Handles mniNotifyIconSettings.Click
         Using frm As New SettingsForm
             'frm.Icon = System.Drawing.Icon.FromHandle(
-            '    DirectCast(DirectCast(sender, ToolStripButton).Image, System.Drawing.Bitmap).GetHicon)
+            '    DirectCast(DirectCast(sender, ToolStripMenuItem).Image, System.Drawing.Bitmap).GetHicon)
             frm.prgMain.SelectedObject = PowerTryConfiguration
 
             If frm.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then

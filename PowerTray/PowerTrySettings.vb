@@ -2,6 +2,7 @@
 'https://www.codeproject.com/Articles/9517/PropertyGrid-and-Drop-Down-properties
 
 Imports System.ComponentModel
+Imports System.Drawing.Design
 
 <Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Never)>
 <System.ComponentModel.Description("PowerTry settings")>
@@ -119,7 +120,7 @@ End Class
 
 
 <Global.Microsoft.VisualBasic.HideModuleNameAttribute()>
-Public Module HVGuestConsoleSettingsDefaultProperty
+Public Module PowerTrySettingsDefaultProperty
     Public ReadOnly Property PowerTryConfiguration() As PowerTrySettings
         Get
             Return PowerTrySettings.Default
@@ -133,6 +134,10 @@ Public Class PSScriptSettings
     Private Sub New()
         Me.nameValue = "Script name"
     End Sub
+
+    Private Const SourceCategory As String = "Source"
+    Private Const LayoutCategory As String = "Layout"
+    Private Const BehaviourCategory As String = "Behaviour"
 
 #Region "Name"
     Private nameValue As String = String.Empty
@@ -151,34 +156,85 @@ Public Class PSScriptSettings
     End Property
 #End Region
 
-    Public Enum ScriptSources As Integer
+#Region "Source"
+    Public Enum Sources As Integer
         Text
         File
         Predefined
     End Enum
 
-#Region "Source"
-    Private Const DefaultSource As PSScriptSettings.ScriptSources = ScriptSources.Text
-    Private sourceValue As PSScriptSettings.ScriptSources = PSScriptSettings.DefaultSource
+    Private Const DefaultSource As PSScriptSettings.Sources = Sources.Text
+    Private sourceValue As PSScriptSettings.Sources = PSScriptSettings.DefaultSource
 
+    <System.ComponentModel.Category(PSScriptSettings.SourceCategory)>
     <System.ComponentModel.DefaultValue(PSScriptSettings.DefaultSource)>
-    Public Property Source() As PSScriptSettings.ScriptSources
+    Public Property Source() As PSScriptSettings.Sources
         Get
             Return Me.sourceValue
         End Get
-        Set(ByVal value As PSScriptSettings.ScriptSources)
+        Set(ByVal value As PSScriptSettings.Sources)
             Me.sourceValue = value
 
             ' Set ReadOnly Attribute
             Const PredefinedScriptNamePropertyName = "PredefinedScriptName"
+            Const TextPropertyName = "Text"
+            Const FilePathPropertyName = "FilePath"
             Select Case Me.sourceValue
-                Case ScriptSources.Text
-                    Util.SetReadOnlyAttribute(Me.GetType(), PredefinedScriptNamePropertyName, True)
-                Case ScriptSources.File
-                    Util.SetReadOnlyAttribute(Me.GetType(), PredefinedScriptNamePropertyName, True)
-                Case ScriptSources.Predefined
-                    Util.SetReadOnlyAttribute(Me.GetType(), PredefinedScriptNamePropertyName, False)
+                Case Sources.Text
+                    Util.SetBrowsableAttribute(Me.GetType(), PredefinedScriptNamePropertyName, False)
+                    Util.SetReadOnlyAttribute(Me.GetType(), TextPropertyName, False)
+                    Util.SetBrowsableAttribute(Me.GetType(), FilePathPropertyName, False)
+                Case Sources.File
+                    Util.SetBrowsableAttribute(Me.GetType(), PredefinedScriptNamePropertyName, False)
+                    Util.SetReadOnlyAttribute(Me.GetType(), TextPropertyName, True)
+                    Util.SetBrowsableAttribute(Me.GetType(), FilePathPropertyName, True)
+                Case Sources.Predefined
+                    Util.SetBrowsableAttribute(Me.GetType(), PredefinedScriptNamePropertyName, True)
+                    Util.SetReadOnlyAttribute(Me.GetType(), TextPropertyName, True)
+                    Util.SetBrowsableAttribute(Me.GetType(), FilePathPropertyName, False)
             End Select
+        End Set
+    End Property
+#End Region
+
+#Region "Text"
+    Private textValue As String = String.Empty
+
+    <System.ComponentModel.Category(PSScriptSettings.SourceCategory)>
+    <System.ComponentModel.DisplayName("Script text")>
+    <System.ComponentModel.Editor(GetType(System.ComponentModel.Design.MultilineStringEditor), GetType(System.Drawing.Design.UITypeEditor))>
+    <System.ComponentModel.ReadOnly(False)>
+    <System.ComponentModel.DefaultValue("")>
+    Public Property Text() As String
+        Get
+            Return Me.textValue
+        End Get
+        Set(ByVal value As String)
+            Me.textValue = value
+            If String.IsNullOrWhiteSpace(Me.textValue) Then
+                Me.textValue = String.Empty
+            End If
+        End Set
+    End Property
+#End Region
+
+#Region "FilePath"
+    Private filePathValue As String = String.Empty
+
+    <System.ComponentModel.Category(PSScriptSettings.SourceCategory)>
+    <System.ComponentModel.DisplayName("Script file path")>
+    <System.ComponentModel.Editor(GetType(System.Windows.Forms.Design.FileNameEditor), GetType(System.Drawing.Design.UITypeEditor))>
+    <System.ComponentModel.Browsable(True)>
+    <System.ComponentModel.DefaultValue("")>
+    Public Property FilePath() As String
+        Get
+            Return Me.filePathValue
+        End Get
+        Set(ByVal value As String)
+            Me.filePathValue = value
+            If String.IsNullOrWhiteSpace(Me.filePathValue) Then
+                Me.filePathValue = String.Empty
+            End If
         End Set
     End Property
 #End Region
@@ -186,20 +242,22 @@ Public Class PSScriptSettings
 #Region "PredefinedScriptName"
     Private predefinedScriptNameValue As String = String.Empty
 
+    <System.ComponentModel.Category(PSScriptSettings.SourceCategory)>
+    <System.ComponentModel.DisplayName("Predefined script name")>
     <System.ComponentModel.TypeConverter(GetType(ScriptNameConverter))>
-    <System.ComponentModel.ReadOnly(True)>
+    <System.ComponentModel.Browsable(False)>
+    <System.ComponentModel.DefaultValue("")>
     Public Property PredefinedScriptName() As String
         Get
             Return Me.predefinedScriptNameValue
         End Get
         Set(ByVal value As String)
             Me.predefinedScriptNameValue = value
+            If String.IsNullOrWhiteSpace(Me.predefinedScriptNameValue) Then
+                Me.predefinedScriptNameValue = String.Empty
+            End If
         End Set
     End Property
-
-    Private Function ShouldSerializePredefinedScriptName() As Boolean
-        Return Me.predefinedScriptNameValue IsNot String.Empty
-    End Function
 
     Public Class ScriptNameConverter
         Inherits System.ComponentModel.StringConverter
@@ -232,6 +290,7 @@ Public Class PSScriptSettings
     Private Const DefaultEnabled As Boolean = True
     Private enabledValue As Boolean = PSScriptSettings.DefaultEnabled
 
+    <System.ComponentModel.Category(PSScriptSettings.BehaviourCategory)>
     <System.ComponentModel.DisplayName("Enabled")>
     <System.ComponentModel.Description("Enable execution of the script")>
     <System.ComponentModel.DefaultValue(PSScriptSettings.DefaultEnabled)>
@@ -249,10 +308,27 @@ Public Class PSScriptSettings
     'End Function
 #End Region
 
+#Region "Property OutputLocation"
+    Private outputLocationValue As System.Drawing.Point = System.Drawing.Point.Empty
+
+    <System.ComponentModel.Category(PSScriptSettings.LayoutCategory)>
+    <System.ComponentModel.DisplayName("Output location")>
+    <System.ComponentModel.Description("Location where output will be show")>
+    Public Property OutputLocation() As System.Drawing.Point
+        Get
+            Return Me.outputLocationValue
+        End Get
+        Set(ByVal value As System.Drawing.Point)
+            Me.outputLocationValue = value
+        End Set
+    End Property
+
+    Private Function ShouldSerializeOutputLocation() As Boolean
+        Return Not Me.outputLocationValue.Equals(System.Drawing.Point.Empty)
+    End Function
+#End Region
+
     Public Overrides Function ToString() As String
         Return Me.nameValue
     End Function
-
-
-
 End Class

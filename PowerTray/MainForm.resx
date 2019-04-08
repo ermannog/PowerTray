@@ -123,6 +123,20 @@
   <metadata name="cmsNotifyIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>127, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="mniNotifyIconSettings.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAGiSURBVFhH7ZU9koIwGIY5yp7FnlvY23sJh57eY2xtTy+9
+        hQJKy/pk8iJkg2RFV50xM4+Q7/dNCBhp1HXdPAPb/oUEzGazf+Ej4CPg9QUc9sVDeD8Bmg/RLR6C8t5D
+        QFVWzel46oHNLfoXRgXM5/NmuVyaYBrKLrDhK4uqKQ5lr3gIowJ2u525VtXRXDebTZvEfdcHpd0RxQi3
+        sZBf+bZ9X4AagU+A7BKLCMUIX3OQX3XUfMWEgnEcm4D1et3ked4sFos2iXts+JgTKxGhj0O1XAHfTLqr
+        DUW7wpnwNXRRnivgSwatDlhhmqamCXCvHQJi3RyXUQHnH7N6wRYTQKMsy1q7wCYRxMqOwCRJ2gYiREBb
+        APTMWS12rkpybcQqD7te0WuolvoaARwkOQRFfXbi8fnsTxfgs4urApQMUx7BrQK2msCth5DtD3kVfwm4
+        x2vIp9nXzIdy1U8CJn+I+APz+YdwBUz6FAP/oooLoSeAIQPFtCro7oprJ1bzW7HtLwJchgTcC9v+Ms5G
+        Hgdnoj2YHvARs7Jpjxm2idt8a913GFH0AwS013anhD/TAAAAAElFTkSuQmCC
+</value>
+  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>322</value>
   </metadata>

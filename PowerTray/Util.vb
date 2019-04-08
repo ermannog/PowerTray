@@ -68,24 +68,24 @@
         Return ShowMessage(text, title, System.Windows.Forms.MessageBoxIcon.None)
     End Function
 
-    Public Overloads Shared Function ShowMessage(ByVal text As String, _
+    Public Overloads Shared Function ShowMessage(ByVal text As String,
                 ByVal icon As System.Windows.Forms.MessageBoxIcon) As System.Windows.Forms.DialogResult
         Return ShowMessage(text, String.Empty, icon)
     End Function
 
-    Public Overloads Shared Function ShowMessage(ByVal text As String, _
-                                  ByVal title As String, _
+    Public Overloads Shared Function ShowMessage(ByVal text As String,
+                                  ByVal title As String,
                                   ByVal icon As System.Windows.Forms.MessageBoxIcon) As System.Windows.Forms.DialogResult
         Return ShowMessage(text, title, System.Windows.Forms.MessageBoxButtons.OK, icon, System.Windows.Forms.MessageBoxDefaultButton.Button1)
     End Function
 
-    Public Overloads Shared Function ShowMessage(ByVal text As String, _
-                                  ByVal title As String, _
-                                  ByVal buttons As System.Windows.Forms.MessageBoxButtons, _
-                                  ByVal icon As System.Windows.Forms.MessageBoxIcon, _
+    Public Overloads Shared Function ShowMessage(ByVal text As String,
+                                  ByVal title As String,
+                                  ByVal buttons As System.Windows.Forms.MessageBoxButtons,
+                                  ByVal icon As System.Windows.Forms.MessageBoxIcon,
                                   ByVal defaultButton As System.Windows.Forms.MessageBoxDefaultButton) As System.Windows.Forms.DialogResult
-        ShowMessage = System.Windows.Forms.MessageBox.Show(text, _
-            My.Application.Info.Title & " " & title, _
+        ShowMessage = System.Windows.Forms.MessageBox.Show(text,
+            My.Application.Info.Title & " " & title,
             buttons, icon, defaultButton)
     End Function
 #End Region
@@ -152,7 +152,7 @@
     Public Shared Function GetLastWin32Error(ByVal message As String) As String
         Dim text As String = message
 
-        Dim ex As New System.ComponentModel.Win32Exception( _
+        Dim ex As New System.ComponentModel.Win32Exception(
             System.Runtime.InteropServices.Marshal.GetLastWin32Error())
 
 
@@ -183,10 +183,10 @@
 
         Dim input As Byte() = System.Text.Encoding.UTF8.GetBytes(value)
 
-        Dim encriptor As System.Security.Cryptography.ICryptoTransform = _
+        Dim encriptor As System.Security.Cryptography.ICryptoTransform =
              rjm.CreateEncryptor()
 
-        Dim output As Byte() = encriptor.TransformFinalBlock( _
+        Dim output As Byte() = encriptor.TransformFinalBlock(
             input, 0, input.Length)
 
         'Rilascio risorse 
@@ -212,10 +212,10 @@
 
         Dim input As Byte() = Convert.FromBase64String(value)
 
-        Dim decriptor As System.Security.Cryptography.ICryptoTransform = _
+        Dim decriptor As System.Security.Cryptography.ICryptoTransform =
              rjm.CreateDecryptor()
 
-        Dim output As Byte() = decriptor.TransformFinalBlock( _
+        Dim output As Byte() = decriptor.TransformFinalBlock(
             input, 0, input.Length)
 
         'Rilascio risorse 
@@ -294,15 +294,15 @@
 
 
         'Creazione directory se inesistente
-        If Not System.IO.Directory.Exists( _
+        If Not System.IO.Directory.Exists(
             System.IO.Path.GetDirectoryName(filePath)) Then
-            System.IO.Directory.CreateDirectory( _
+            System.IO.Directory.CreateDirectory(
                 System.IO.Path.GetDirectoryName(filePath))
         End If
 
         'Creazione/Sovrascrittura File
         Dim serializer As System.Xml.Serialization.XmlSerializer
-        serializer = New System.Xml.Serialization.XmlSerializer( _
+        serializer = New System.Xml.Serialization.XmlSerializer(
             obj.GetType())
 
         If encryptByRijndael Then
@@ -318,7 +318,7 @@
             serializeText = Nothing
         Else
             Using stream = New System.IO.FileStream(filePath, System.IO.FileMode.Create)
-                serializer = New System.Xml.Serialization.XmlSerializer( _
+                serializer = New System.Xml.Serialization.XmlSerializer(
                     obj.GetType())
                 serializer.Serialize(stream, obj)
             End Using
@@ -331,7 +331,7 @@
         Dim obj As System.Object = System.Activator.CreateInstance(type)
         Util.XmlSerialize(filePath, obj, encryptByRijndael)
 
-        Dim iDisposable As System.Type = obj.GetType.GetInterface( _
+        Dim iDisposable As System.Type = obj.GetType.GetInterface(
             "IDisposable", True)
         If iDisposable IsNot Nothing Then
             DirectCast(obj, System.IDisposable).Dispose()
@@ -412,7 +412,7 @@
             End If
 
             If setValueFlag Then
-                Dim sourceValue As Object = _
+                Dim sourceValue As Object =
                     sourceObject.GetType.GetProperty(p.Name).GetValue(sourceObject, Nothing)
                 p.SetValue(destinationObject, sourceValue, Nothing)
             End If
@@ -508,5 +508,12 @@
         isReadOnlyField.SetValue(readOnlyAttribute, value)
     End Sub
 
+    Public Shared Sub SetBrowsableAttribute(type As System.Type, propertyName As String, value As Boolean)
+        Dim propertyDescriptor = System.ComponentModel.TypeDescriptor.GetProperties(type)(propertyName)
+        Dim browsableAttribute = DirectCast(propertyDescriptor.Attributes(GetType(System.ComponentModel.BrowsableAttribute)), System.ComponentModel.BrowsableAttribute)
 
+        Dim isBrowsableField = browsableAttribute.GetType().GetField("browsable", System.Reflection.BindingFlags.NonPublic Or System.Reflection.BindingFlags.Instance)
+
+        isBrowsableField.SetValue(browsableAttribute, value)
+    End Sub
 End Class
