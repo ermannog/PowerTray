@@ -13,7 +13,7 @@ Public Class MainForm
             Util.ShowErrorException("Error during load settings.", ex, False)
         End Try
 
-        Util.RunPowerShellScript2(My.Resources.PSQuery_IPv4Info.ToString())
+        'Util.RunPowerShellScript2(My.Resources.PSQuery_IPv4Info.ToString())
     End Sub
 
     Protected Overrides Sub OnShown(e As EventArgs)
