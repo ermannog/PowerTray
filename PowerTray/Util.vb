@@ -155,7 +155,6 @@
         Dim ex As New System.ComponentModel.Win32Exception(
             System.Runtime.InteropServices.Marshal.GetLastWin32Error())
 
-
         'Aggiunta Error code
         If ex.NativeErrorCode <> 0 Then
             If Not String.IsNullOrEmpty(text) Then _
@@ -421,37 +420,35 @@
 #End Region
 
 #Region "Execute PowerShell Script"
-    Public Shared Function RunPowerShellScript(scriptText As String) As String
-        Dim results As ObjectModel.Collection(Of Management.Automation.PSObject) = Nothing
+    'Public Shared Function RunPowerShellScript(scriptText As String) As String
+    '    'https://www.codeproject.com/Articles/18229/How-to-run-PowerShell-scripts-from-C
 
-        Using runspace = System.Management.Automation.Runspaces.RunspaceFactory.CreateRunspace()
-            runspace.Open()
+    '    Dim results As ObjectModel.Collection(Of Management.Automation.PSObject) = Nothing
 
-            Using pipeline = runspace.CreatePipeline()
-                pipeline.Commands.AddScript(scriptText)
-                pipeline.Commands.Add("Out-String")
-                results = pipeline.Invoke()
-                runspace.Close()
-            End Using
-        End Using
+    '    Using runspace = System.Management.Automation.Runspaces.RunspaceFactory.CreateRunspace()
+    '        runspace.Open()
 
-        Dim result = String.Empty
-        If results IsNot Nothing Then
-            Dim stringBuilder = New System.Text.StringBuilder()
-            For Each psObject In results
-                stringBuilder.AppendLine(psObject.ToString())
-            Next
-            result = stringBuilder.ToString()
-        End If
+    '        Using pipeline = runspace.CreatePipeline()
+    '            pipeline.Commands.AddScript(scriptText)
+    '            pipeline.Commands.Add("Out-String")
+    '            results = pipeline.Invoke()
+    '            runspace.Close()
+    '        End Using
+    '    End Using
 
-        MsgBox(result)
+    '    Dim result = String.Empty
+    '    If results IsNot Nothing Then
+    '        Dim stringBuilder = New System.Text.StringBuilder()
+    '        For Each psObject In results
+    '            stringBuilder.AppendLine(psObject.ToString())
+    '        Next
+    '        result = stringBuilder.ToString()
+    '    End If
 
-        Return result
+    '    'MsgBox(result)
 
-
-        'https://www.emoreau.com/Entries/Articles/2018/06/Running-a-PowerShell-script-from-a-Net-application.aspx
-        'https://www.codeproject.com/Articles/18229/How-to-run-PowerShell-scripts-from-C
-    End Function
+    '    Return result
+    'End Function
 
 
     Public Enum PowerShellOutputFormats
@@ -459,7 +456,9 @@
         Table
     End Enum
 
-    Public Shared Function RunPowerShellScript2(scriptText As String) As String
+    Public Shared Function RunPowerShellScript(scriptText As String) As String
+        'https://www.emoreau.com/Entries/Articles/2018/06/Running-a-PowerShell-script-from-a-Net-application.aspx
+
         Dim output = String.Empty
         Dim errors = String.Empty
 
@@ -485,13 +484,19 @@
 #End Region
 
 #Region "Predefined Scripts"
-    Public Shared Function GetPredefinedScripts() As System.Collections.Specialized.StringDictionary
+    Public Shared Function GetPredefinedScripts() As System.Collections.Generic.Dictionary(Of String, String)
+        'La classe System.Collections.Specialized.StringDictionary
+        'non è stata utilizzata perchè le key sonbo gestite in LowerCase
+
+
         Dim resourceSet = My.Resources.ResourceManager.GetResourceSet(System.Globalization.CultureInfo.CurrentCulture, False, True)
-        Dim scripts As New System.Collections.Specialized.StringDictionary
+        Dim scripts As New System.Collections.Generic.Dictionary(Of String, String)
+
+        Const PSQueryPrefix = "PSQuery_"
 
         For Each resource As System.Collections.DictionaryEntry In resourceSet
-            If TypeOf resource.Value Is String AndAlso resource.Key.ToString().StartsWith("PSQuery_") Then
-                scripts.Add(resource.Key.ToString(), resource.Value.ToString())
+            If TypeOf resource.Value Is String AndAlso resource.Key.ToString().StartsWith(PSQueryPrefix) Then
+                scripts.Add(resource.Key.ToString().Remove(0, PSQueryPrefix.Length), resource.Value.ToString())
             End If
         Next
 

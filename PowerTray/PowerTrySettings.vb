@@ -178,7 +178,7 @@ Public Class PSScriptSettings
         Set(ByVal value As PSScriptSettings.Sources)
             Me.sourceValue = value
 
-            ' Set ReadOnly Attribute
+            ' Set Browsable Attribute
             Const PredefinedScriptNamePropertyName = "PredefinedScriptName"
             Const TextPropertyName = "Text"
             Const FilePathPropertyName = "FilePath"
@@ -282,12 +282,13 @@ Public Class PSScriptSettings
         End Function
 
         Public Overrides Function GetStandardValues(context As ITypeDescriptorContext) As StandardValuesCollection
-            Dim names(Util.GetPredefinedScripts().Count) As String
+            Dim predefinedScripts = Util.GetPredefinedScripts()
+            Dim names(predefinedScripts.Count) As String
 
             names(0) = String.Empty
 
-            If Util.GetPredefinedScripts().Count > 0 Then
-                Util.GetPredefinedScripts().Keys.CopyTo(names, 1)
+            If predefinedScripts.Count > 0 Then
+                predefinedScripts.Keys.CopyTo(names, 1)
             End If
 
             Return New StandardValuesCollection(names)
@@ -311,10 +312,50 @@ Public Class PSScriptSettings
             Me.enabledValue = value
         End Set
     End Property
+#End Region
 
-    'Private Function ShouldSerializeEnabled() As Boolean
-    '    Return Me.enabledValue <> True 'PSScriptSettings.DefaultEnabled
-    'End Function
+#Region "Property ExecutionCacheEnabled"
+    Private Const DefaultExecutionCacheEnabled As Boolean = False
+    Private executionCacheEnabledValue As Boolean = PSScriptSettings.DefaultExecutionCacheEnabled
+
+    <System.ComponentModel.Category(PSScriptSettings.BehaviourCategory)>
+    <System.ComponentModel.DisplayName("Execution cache enabled")>
+    <System.ComponentModel.Description("Enable the execution cache")>
+    <System.ComponentModel.DefaultValue(PSScriptSettings.DefaultExecutionCacheEnabled)>
+    Public Property ExecutionCacheEnabled() As Boolean
+        Get
+            Return Me.executionCacheEnabledValue
+        End Get
+        Set(ByVal value As Boolean)
+            Me.executionCacheEnabledValue = value
+
+            ' Set ReadOnly Attribute
+            Const ExecutionCachePropertyName = "ExecutionCache"
+            Util.SetReadOnlyAttribute(Me.GetType(), ExecutionCachePropertyName, Not value)
+        End Set
+    End Property
+#End Region
+
+#Region "Property ExecutionCache"
+    Private Const DefaultExecutionCache As UInteger = 60000
+    Private executionCacheValue As UInteger = PSScriptSettings.DefaultExecutionCache
+
+    <System.ComponentModel.Category(PSScriptSettings.BehaviourCategory)>
+    <System.ComponentModel.DisplayName("Execution cache [ms]")>
+    <System.ComponentModel.Description("Execution cache in milli seconds")>
+    <System.ComponentModel.ReadOnly(True)>
+    Public Property ExecutionCache() As UInteger
+        Get
+            Return Me.executionCacheValue
+        End Get
+        Set(ByVal value As UInteger)
+            Me.executionCacheValue = value
+        End Set
+    End Property
+
+    Private Function ShouldSerializeExecutionCache() As Boolean
+        Return Me.executionCacheValue <> PSScriptSettings.DefaultExecutionCache
+    End Function
 #End Region
 
 #Region "Property ShowOutput"

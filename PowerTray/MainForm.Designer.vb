@@ -30,6 +30,7 @@ Partial Class MainForm
         Me.mniNotifyIconSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.mniNotifyIconExit = New System.Windows.Forms.ToolStripMenuItem()
         Me.pnlMain = New System.Windows.Forms.Panel()
+        Me.mniNotifyIconOpen = New System.Windows.Forms.ToolStripMenuItem()
         Me.cmsNotifyIcon.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -42,9 +43,9 @@ Partial Class MainForm
         'cmsNotifyIcon
         '
         Me.cmsNotifyIcon.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.cmsNotifyIcon.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mniNotifyIconSettings, Me.mniNotifyIconSeparator1, Me.mniNotifyIconExit})
+        Me.cmsNotifyIcon.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mniNotifyIconOpen, Me.mniNotifyIconSettings, Me.mniNotifyIconSeparator1, Me.mniNotifyIconExit})
         Me.cmsNotifyIcon.Name = "cmsNotifyIcon"
-        Me.cmsNotifyIcon.Size = New System.Drawing.Size(157, 84)
+        Me.cmsNotifyIcon.Size = New System.Drawing.Size(157, 110)
         '
         'mniNotifyIconSettings
         '
@@ -75,6 +76,13 @@ Partial Class MainForm
         Me.pnlMain.Size = New System.Drawing.Size(600, 366)
         Me.pnlMain.TabIndex = 1
         '
+        'mniNotifyIconOpen
+        '
+        Me.mniNotifyIconOpen.Image = CType(resources.GetObject("mniNotifyIconOpen.Image"), System.Drawing.Image)
+        Me.mniNotifyIconOpen.Name = "mniNotifyIconOpen"
+        Me.mniNotifyIconOpen.Size = New System.Drawing.Size(156, 26)
+        Me.mniNotifyIconOpen.Text = "Open"
+        '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -100,4 +108,5 @@ Partial Class MainForm
     Friend WithEvents pnlMain As Panel
     Friend WithEvents mniNotifyIconSettings As ToolStripMenuItem
     Friend WithEvents mniNotifyIconSeparator1 As ToolStripSeparator
+    Friend WithEvents mniNotifyIconOpen As ToolStripMenuItem
 End Class
