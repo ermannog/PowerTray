@@ -6,17 +6,17 @@ Imports System.ComponentModel
 Imports System.Drawing.Design
 
 <Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Never)>
-<System.ComponentModel.Description("PowerTry settings")>
+<System.ComponentModel.Description("PowerTray settings")>
 <Serializable()>
-Public Class PowerTrySettings
-    Private Const IPv4InfoCategory As String = "IPv4 Info"
+Public Class PowerTraySettings
+    Private Const GeneralCategory As String = "General"
     Private Const PSScriptsCategory As String = "PowerShell scripts"
 
 #Region "Proprietà Default"
-    Private Shared defaultInstanceValue As New PowerTrySettings
+    Private Shared defaultInstanceValue As New PowerTraySettings
 
     <Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Never)>
-    Public Shared ReadOnly Property [Default]() As PowerTrySettings
+    Public Shared ReadOnly Property [Default]() As PowerTraySettings
         Get
             Return defaultInstanceValue
         End Get
@@ -36,45 +36,24 @@ Public Class PowerTrySettings
         End Get
     End Property
 
-#Region "Property ShowIPv4Info"
-    Private Const DefaultShowIPv4Info As Boolean = False
-    Private showIPv4InfoValue As Boolean = PowerTrySettings.DefaultShowIPv4Info
+#Region "Property RefreshBackgroundInterval"
+    Private Const DefaultRefreshBackgroundInterval As Integer = 5000
+    Private refreshBackgroundIntervalValue As Integer = PowerTraySettings.DefaultRefreshBackgroundInterval
 
-    <System.ComponentModel.Category(IPv4InfoCategory)>
-    <System.ComponentModel.DisplayName("Show IPv4 info")>
-    <System.ComponentModel.Description("Show IPv4 adresses")>
-    <System.ComponentModel.DefaultValue(PowerTrySettings.DefaultShowIPv4Info)>
-    Public Property ShowIPv4Info As Boolean
+    <System.ComponentModel.Category(GeneralCategory)>
+    <System.ComponentModel.DisplayName("Refresh background interval")>
+    <System.ComponentModel.Description("Refresh background interval in milliseconds")>
+    Public Property RefreshBackgroundInterval As Integer
         Get
-            Return Me.showIPv4InfoValue
+            Return Me.refreshBackgroundIntervalValue
         End Get
-        Set(value As Boolean)
-            Me.showIPv4InfoValue = value
+        Set(value As Integer)
+            Me.refreshBackgroundIntervalValue = value
         End Set
     End Property
 
-    Private Function ShouldSerializeShowIPv4Info() As Boolean
-        Return Me.showIPv4InfoValue <> False
-    End Function
-#End Region
-
-#Region "Property IPv4InfoLocation"
-    Private ipv4InfoLocationValue As System.Drawing.Point = System.Drawing.Point.Empty
-
-    <System.ComponentModel.Category(IPv4InfoCategory)>
-    <System.ComponentModel.DisplayName("IPv4 info location")>
-    <System.ComponentModel.Description("Location where IPv4 info will be show")>
-    Public Property IPv4InfoLocation() As System.Drawing.Point
-        Get
-            Return Me.ipv4InfoLocationValue
-        End Get
-        Set(ByVal value As System.Drawing.Point)
-            Me.ipv4InfoLocationValue = value
-        End Set
-    End Property
-
-    Private Function ShouldSerializeIPv4InfoLocation() As Boolean
-        Return Not Me.IPv4InfoLocation.Equals(System.Drawing.Point.Empty)
+    Private Function ShouldSerializeRefreshBackgroundInterval() As Boolean
+        Return Me.refreshBackgroundIntervalValue <> PowerTraySettings.DefaultRefreshBackgroundInterval
     End Function
 #End Region
 
@@ -115,16 +94,16 @@ Public Class PowerTrySettings
 
     Public Sub Clear()
         defaultInstanceValue = Nothing
-        defaultInstanceValue = New PowerTrySettings
+        defaultInstanceValue = New PowerTraySettings
     End Sub
 End Class
 
 
 <Global.Microsoft.VisualBasic.HideModuleNameAttribute()>
-Public Module PowerTrySettingsDefaultProperty
-    Public ReadOnly Property PowerTryConfiguration() As PowerTrySettings
+Public Module PowerTraySettingsDefaultProperty
+    Public ReadOnly Property PowerTrayConfiguration() As PowerTraySettings
         Get
-            Return PowerTrySettings.Default
+            Return PowerTraySettings.Default
         End Get
     End Property
 End Module
@@ -134,6 +113,9 @@ Public Class PSScriptSettings
 
     Private Sub New()
         Me.nameValue = "Script name"
+
+        'Inizializzazione Source per corretta inizializzazione del PropertyGrid
+        Me.Source = PSScriptSettings.DefaultSource
     End Sub
 
     Private Const GeneralCategory As String = "General"
@@ -141,7 +123,7 @@ Public Class PSScriptSettings
     Private Const LayoutCategory As String = "Layout"
     Private Const BehaviourCategory As String = "Behaviour"
 
-#Region "Name"
+#Region "Property Name"
     Private nameValue As String = String.Empty
 
     <System.ComponentModel.Category(PSScriptSettings.GeneralCategory)>
@@ -159,7 +141,7 @@ Public Class PSScriptSettings
     End Property
 #End Region
 
-#Region "Source"
+#Region "Property Source"
     Public Enum Sources As Integer
         Text
         File
@@ -167,22 +149,22 @@ Public Class PSScriptSettings
     End Enum
 
     Private Const DefaultSource As PSScriptSettings.Sources = Sources.Text
-    Private sourceValue As PSScriptSettings.Sources = PSScriptSettings.DefaultSource
+    Private sourceInternal As PSScriptSettings.Sources = PSScriptSettings.DefaultSource
 
     <System.ComponentModel.Category(PSScriptSettings.SourceCategory)>
     <System.ComponentModel.DefaultValue(PSScriptSettings.DefaultSource)>
     Public Property Source() As PSScriptSettings.Sources
         Get
-            Return Me.sourceValue
+            Return Me.sourceInternal
         End Get
         Set(ByVal value As PSScriptSettings.Sources)
-            Me.sourceValue = value
+            Me.sourceInternal = value
 
             ' Set Browsable Attribute
             Const PredefinedScriptNamePropertyName = "PredefinedScriptName"
             Const TextPropertyName = "Text"
             Const FilePathPropertyName = "FilePath"
-            Select Case Me.sourceValue
+            Select Case Me.sourceInternal
                 Case Sources.Text
                     Util.SetBrowsableAttribute(Me.GetType(), TextPropertyName, True)
                     Util.SetBrowsableAttribute(Me.GetType(), FilePathPropertyName, False)
@@ -206,7 +188,7 @@ Public Class PSScriptSettings
     End Property
 #End Region
 
-#Region "Text"
+#Region "Property Text"
     Private textInternalValue As String = String.Empty
 
     <System.ComponentModel.Category(PSScriptSettings.SourceCategory)>
@@ -227,7 +209,7 @@ Public Class PSScriptSettings
     End Property
 #End Region
 
-#Region "FilePath"
+#Region "Property FilePath"
     Private filePathInternalValue As String = String.Empty
 
     <System.ComponentModel.Category(PSScriptSettings.SourceCategory)>
@@ -248,7 +230,7 @@ Public Class PSScriptSettings
     End Property
 #End Region
 
-#Region "PredefinedScriptName"
+#Region "Property PredefinedScriptName"
     Private predefinedScriptNameInternalValue As String = String.Empty
 
     <System.ComponentModel.Category(PSScriptSettings.SourceCategory)>

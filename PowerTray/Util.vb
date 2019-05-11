@@ -451,10 +451,10 @@
     'End Function
 
 
-    Public Enum PowerShellOutputFormats
-        List
-        Table
-    End Enum
+    'Public Enum PowerShellOutputFormats
+    '    List
+    '    Table
+    'End Enum
 
     Public Shared Function RunPowerShellScript(scriptText As String) As String
         'https://www.emoreau.com/Entries/Articles/2018/06/Running-a-PowerShell-script-from-a-Net-application.aspx

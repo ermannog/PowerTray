@@ -9,7 +9,7 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("PowerTray")>
-<Assembly: AssemblyDescription("Powertray allows the execution and display of powershell script output")>
+<Assembly: AssemblyDescription("PowerTray allows the execution and display of powershell script output")>
 <Assembly: AssemblyCompany("DevAdmin")>
 <Assembly: AssemblyProduct("PowerTray")>
 <Assembly: AssemblyCopyright("Copyright ©  2019")>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("0.4.*")>
-<Assembly: AssemblyFileVersion("0.4.0.0")>
+<Assembly: AssemblyVersion("0.5.*")>
+<Assembly: AssemblyFileVersion("0.5.0.0")>
