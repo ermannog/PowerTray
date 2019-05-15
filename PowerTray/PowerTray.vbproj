@@ -128,6 +128,7 @@
     </Compile>
     <Compile Include="Util.vb" />
     <Compile Include="UtilExecuteScripts.vb" />
+    <Compile Include="UtilPropertyGrid.vb" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -159,6 +160,7 @@
   <ItemGroup>
     <Content Include="Notes.txt" />
     <Content Include="PSQueries\PSQuery_IPv4Info.txt" />
+    <None Include="Resources\PowerTrayRed.ico" />
     <None Include="Resources\PowerTray.ico" />
   </ItemGroup>
   <ItemGroup>

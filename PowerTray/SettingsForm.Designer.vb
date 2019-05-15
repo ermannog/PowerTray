@@ -32,9 +32,10 @@ Partial Class SettingsForm
         '
         Me.btnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancel.Location = New System.Drawing.Point(447, 326)
+        Me.btnCancel.Location = New System.Drawing.Point(596, 401)
+        Me.btnCancel.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btnCancel.Name = "btnCancel"
-        Me.btnCancel.Size = New System.Drawing.Size(75, 23)
+        Me.btnCancel.Size = New System.Drawing.Size(100, 28)
         Me.btnCancel.TabIndex = 0
         Me.btnCancel.Text = "Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
@@ -43,9 +44,10 @@ Partial Class SettingsForm
         '
         Me.btnOK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.btnOK.Location = New System.Drawing.Point(366, 326)
+        Me.btnOK.Location = New System.Drawing.Point(488, 401)
+        Me.btnOK.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btnOK.Name = "btnOK"
-        Me.btnOK.Size = New System.Drawing.Size(75, 23)
+        Me.btnOK.Size = New System.Drawing.Size(100, 28)
         Me.btnOK.TabIndex = 1
         Me.btnOK.Text = "OK"
         Me.btnOK.UseVisualStyleBackColor = True
@@ -56,23 +58,25 @@ Partial Class SettingsForm
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.prgMain.Location = New System.Drawing.Point(0, 0)
+        Me.prgMain.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.prgMain.Name = "prgMain"
         Me.prgMain.PropertySort = System.Windows.Forms.PropertySort.Categorized
-        Me.prgMain.Size = New System.Drawing.Size(534, 320)
+        Me.prgMain.Size = New System.Drawing.Size(712, 394)
         Me.prgMain.TabIndex = 2
         Me.prgMain.ToolbarVisible = False
         '
         'SettingsForm
         '
         Me.AcceptButton = Me.btnOK
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCancel
-        Me.ClientSize = New System.Drawing.Size(534, 361)
+        Me.ClientSize = New System.Drawing.Size(712, 444)
         Me.Controls.Add(Me.prgMain)
         Me.Controls.Add(Me.btnOK)
         Me.Controls.Add(Me.btnCancel)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.MinimizeBox = False
         Me.Name = "SettingsForm"
         Me.ShowInTaskbar = False

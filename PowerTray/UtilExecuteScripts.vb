@@ -50,29 +50,36 @@
                 'Impostazione sourceScript
                 Dim sourceScript = String.Empty
 
-                If Not UtilExecuteScripts.scriptsOutputValue.ContainsKey(script) Then
-                    Select Case script.Source
-                        Case PSScriptSettings.Sources.Text
-                            sourceScript = script.Text
-                        Case PSScriptSettings.Sources.File
-                            Try
-                                sourceScript = System.IO.File.ReadAllText(script.FilePath)
-                            Catch ex As Exception
-                                UtilExecuteScripts.executionErrorValue = True
-                                UtilExecuteScripts.errorMessagesValue.Add(Util.GetExceptionMessage(String.Format("Error during read script '{0}'", script.PredefinedScriptName), ex))
-                                Continue For
-                            End Try
-                        Case PSScriptSettings.Sources.Predefined
-                            Try
-                                sourceScript = Util.GetPredefinedScripts().Item(script.PredefinedScriptName)
-                            Catch ex As Exception
-                                UtilExecuteScripts.executionErrorValue = True
-                                UtilExecuteScripts.errorMessagesValue.Add(Util.GetExceptionMessage(String.Format("Error during read predefined script '{0}'", script.PredefinedScriptName), ex))
-                                Continue For
-                            End Try
-                    End Select
-                Else
-                    sourceScript = UtilExecuteScripts.scriptsOutputValue.Item(script)
+                'If Not UtilExecuteScripts.scriptsOutputValue.ContainsKey(script) Then
+                Select Case script.Source
+                    Case PSScriptSettings.Sources.Text
+                        sourceScript = script.Text
+                    Case PSScriptSettings.Sources.File
+                        Try
+                            sourceScript = System.IO.File.ReadAllText(script.FilePath)
+                        Catch ex As Exception
+                            UtilExecuteScripts.executionErrorValue = True
+                            UtilExecuteScripts.errorMessagesValue.Add(Util.GetExceptionMessage(String.Format("Error during read script '{0}'", script.PredefinedScriptName), ex))
+                            Continue For
+                        End Try
+                    Case PSScriptSettings.Sources.PredefinedScript
+                        Try
+                            sourceScript = PowerTraySettings.PSPredefinedScripts.Item(script.PredefinedScriptName)
+                        Catch ex As Exception
+                            UtilExecuteScripts.executionErrorValue = True
+                            UtilExecuteScripts.errorMessagesValue.Add(Util.GetExceptionMessage(String.Format("Error during read predefined script '{0}'", script.PredefinedScriptName), ex))
+                            Continue For
+                        End Try
+                End Select
+                'Else
+                '    sourceScript = UtilExecuteScripts.scriptsOutputValue.Item(script)
+                'End If
+
+                'Raise evento ScriptExecuting
+                Dim utilScriptExecutingEventArgs = New UtilScriptExecutingEventArgs(script)
+                UtilExecuteScripts.OnScriptExecuting(Nothing, utilScriptExecutingEventArgs)
+                If utilScriptExecutingEventArgs.Cancel Then
+                    Continue For
                 End If
 
                 'Esecuzione script
@@ -91,6 +98,7 @@
                     Continue For
                 End Try
 
+                'Raise evento ScriptExecuted
                 UtilExecuteScripts.OnScriptExecuted(Nothing, New UtilScriptExecutedEventArgs(script, output))
             Next
         Catch ex As Exception
@@ -98,8 +106,19 @@
             Util.GetExceptionMessage("Error during execute scripts.", ex)
         End Try
 
+        'Raise evento ScriptsExecuted
         UtilExecuteScripts.OnScriptsExecuted(Nothing, New System.EventArgs)
     End Sub
+
+#Region "Gestione Evento ScriptExecuting"
+    'Definizione Evento
+    Public Event ScriptExecuting As System.EventHandler(Of UtilScriptExecutingEventArgs)
+
+    'Definizione Sub per il Raise dell'evento
+    Private Sub OnScriptExecuting(ByVal sender As Object, ByVal e As UtilScriptExecutingEventArgs)
+        RaiseEvent ScriptExecuting(sender, e)
+    End Sub
+#End Region
 
 #Region "Gestione Evento ScriptExecuted"
     'Definizione Evento
@@ -123,6 +142,23 @@
 
 End Module
 
+Public Class UtilScriptExecutingEventArgs
+    Inherits System.ComponentModel.CancelEventArgs
+
+    Public Sub New(script As PSScriptSettings)
+        MyBase.New()
+        Me.scriptValue = script
+    End Sub
+
+#Region "Property Script"
+    Private scriptValue As PSScriptSettings = Nothing
+    Public ReadOnly Property Script As PSScriptSettings
+        Get
+            Return Me.scriptValue
+        End Get
+    End Property
+#End Region
+End Class
 
 Public Class UtilScriptExecutedEventArgs
     Inherits System.EventArgs

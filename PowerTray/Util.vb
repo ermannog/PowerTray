@@ -474,35 +474,37 @@
             output = process.StandardOutput.ReadToEnd().Trim()
             errors = process.StandardError.ReadToEnd()
 
-            If Not String.IsNullOrEmpty(errors) Then
-                Throw New System.Exception(errors)
-            End If
+            process.Close()
         End Using
+
+        If Not String.IsNullOrEmpty(errors) Then
+            Throw New System.Exception(errors)
+        End If
 
         Return output
     End Function
 #End Region
 
-#Region "Predefined Scripts"
-    Public Shared Function GetPredefinedScripts() As System.Collections.Generic.Dictionary(Of String, String)
-        'La classe System.Collections.Specialized.StringDictionary
-        'non è stata utilizzata perchè le key sonbo gestite in LowerCase
+    '#Region "Predefined Scripts"
+    '    Public Shared Function GetPredefinedScripts() As System.Collections.Generic.Dictionary(Of String, String)
+    '        'La classe System.Collections.Specialized.StringDictionary
+    '        'non è stata utilizzata perchè le key sonbo gestite in LowerCase
 
 
-        Dim resourceSet = My.Resources.ResourceManager.GetResourceSet(System.Globalization.CultureInfo.CurrentCulture, False, True)
-        Dim scripts As New System.Collections.Generic.Dictionary(Of String, String)
+    '        Dim resourceSet = My.Resources.ResourceManager.GetResourceSet(System.Globalization.CultureInfo.CurrentCulture, False, True)
+    '        Dim scripts As New System.Collections.Generic.Dictionary(Of String, String)
 
-        Const PSQueryPrefix = "PSQuery_"
+    '        Const PSQueryPrefix = "PSQuery_"
 
-        For Each resource As System.Collections.DictionaryEntry In resourceSet
-            If TypeOf resource.Value Is String AndAlso resource.Key.ToString().StartsWith(PSQueryPrefix) Then
-                scripts.Add(resource.Key.ToString().Remove(0, PSQueryPrefix.Length), resource.Value.ToString())
-            End If
-        Next
+    '        For Each resource As System.Collections.DictionaryEntry In resourceSet
+    '            If TypeOf resource.Value Is String AndAlso resource.Key.ToString().StartsWith(PSQueryPrefix) Then
+    '                scripts.Add(resource.Key.ToString().Remove(0, PSQueryPrefix.Length), resource.Value.ToString())
+    '            End If
+    '        Next
 
-        Return scripts
-    End Function
-#End Region
+    '        Return scripts
+    '    End Function
+    '#End Region
 
     Public Shared Sub SetReadOnlyAttribute(type As System.Type, propertyName As String, value As Boolean)
         Dim propertyDescriptor = System.ComponentModel.TypeDescriptor.GetProperties(type)(propertyName)

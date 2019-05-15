@@ -211,41 +211,22 @@ Public Class MainForm
     Private tmrExecuteScriptsError As String = String.Empty
 
     Private Sub tmrExecuteScripts_Tick(sender As Object, e As EventArgs) Handles tmrExecuteScripts.Tick
-        ''Check per evitare chiamate concorrenti
-        ''SyncLock Me.tmrMainLock
-        'If Me.tmrMainLockRunning Then
-        '        Dim h = 0
-        '    End If
-        '    If Me.tmrMainLockRunning Then Exit Sub
-        ''End SyncLock
+        'Impostazione icona blue durante esecuzione scripts
+        Me.nicMain.Icon = My.Resources.PowerTrayBlue
 
-        'SyncLock Me.tmrMainLock
-        'Me.tmrMainRunning = True
-        'End SyncLock
-
-        'Try
-        '    Me.tmrExecuteScriptsError = String.Empty
+        'Esecuzione scripts
         UtilExecuteScripts.ExecuteScripts()
-        'Catch ex As Exception
-        '    Me.tmrMainError = Util.GetExceptionMessage("Error during execute scritps.", ex)
-        'End Try
 
+        'Reimpostazione icona
+        If Not UtilExecuteScripts.ExecutionError Then
+            Me.nicMain.Icon = My.Resources.PowerTrayGreen
+        Else
+            Me.nicMain.Icon = My.Resources.PowerTrayRed
+        End If
 
-        'Set last execution time
-        'Me.tmrMainLastExecution = Now
-
-        'Refresh UI
-        'Me.pnlMain.Refresh()
-
-        'Me.pnlMain.Invalidate(Me.pnlMain.DisplayRectangle, False)
-
-
-        'Reset del timer per assicurare sempre 
-        'almeno l'intervallo tra  esecuzioni successive
+        'Reset del timer per assicurare l'intervallo tra esecuzioni successive
         Me.tmrExecuteScripts.Stop()
         Me.tmrExecuteScripts.Start()
-
-        'Me.tmrMainRunning = False
     End Sub
 
 
