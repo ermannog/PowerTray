@@ -1,24 +1,24 @@
 ﻿Public Module UtilControlExtensions
 
-    '#Region "Metodo E2InvokeSetText"
-    '    ''' <summary>
-    '    ''' This method is  thread safe.
-    '    ''' </summary>
-    '    <System.Runtime.CompilerServices.Extension()>
-    '    Public Sub E2InvokeSetText(ByVal control As System.Windows.Forms.Control, ByVal text As String)
-    '        If control.InvokeRequired Then
-    '            control.Invoke(New E2SetText(AddressOf E2SetTextMethod), New Object() {control, text})
-    '        Else
-    '            E2ControlExtensions.E2SetTextMethod(control, text)
-    '        End If
-    '    End Sub
+#Region "Metodo UtilInvokeRefresh"
+    ''' <summary>
+    ''' This method is  thread safe.
+    ''' </summary>
+    <System.Runtime.CompilerServices.Extension()>
+    Public Sub UtilInvokeRefresh(ByVal control As System.Windows.Forms.Control)
+        If control.InvokeRequired Then
+            control.Invoke(New UtilRefresh(AddressOf UtilInvokeRefreshMethod), New Object() {control})
+        Else
+            UtilControlExtensions.UtilInvokeRefreshMethod(control)
+        End If
+    End Sub
 
-    '    Private Delegate Sub E2SetText(ByVal control As System.Windows.Forms.Control, ByVal text As String)
+    Private Delegate Sub UtilRefresh(ByVal control As System.Windows.Forms.Control)
 
-    '    Private Sub E2SetTextMethod(ByVal control As System.Windows.Forms.Control, ByVal text As String)
-    '        control.Text = text
-    '    End Sub
-    '#End Region
+    Private Sub UtilInvokeRefreshMethod(ByVal control As System.Windows.Forms.Control)
+        control.Refresh()
+    End Sub
+#End Region
 
     '#Region "Metodo E2InvokeGetText"
     '    ''' <summary>

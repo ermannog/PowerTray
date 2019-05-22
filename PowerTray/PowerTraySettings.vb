@@ -37,24 +37,28 @@ Public Class PowerTraySettings
         End Get
     End Property
 
-#Region "Property RefreshBackgroundInterval"
-    Private Const DefaultRefreshBackgroundInterval As Integer = 5000
-    Private refreshBackgroundIntervalValue As Integer = PowerTraySettings.DefaultRefreshBackgroundInterval
+#Region "Property RefreshInterval"
+    Public Const MinimumRefreshInterval As Integer = 1000
+    Public Const DefaultRefreshInterval As Integer = 5000
+    Private refreshIntervalValue As Integer = PowerTraySettings.DefaultRefreshInterval
 
     <System.ComponentModel.Category(GeneralCategory)>
-    <System.ComponentModel.DisplayName("Refresh background interval")>
-    <System.ComponentModel.Description("Refresh background interval in milliseconds")>
-    Public Property RefreshBackgroundInterval As Integer
+    <System.ComponentModel.DisplayName("Refresh interval")>
+    <System.ComponentModel.Description("Refresh interval in milliseconds")>
+    Public Property RefreshInterval As Integer
         Get
-            Return Me.refreshBackgroundIntervalValue
+            Return Me.refreshIntervalValue
         End Get
         Set(value As Integer)
-            Me.refreshBackgroundIntervalValue = value
+            If value < PowerTraySettings.MinimumRefreshInterval Then
+                Throw New System.ArgumentOutOfRangeException()
+            End If
+            Me.refreshIntervalValue = value
         End Set
     End Property
 
-    Private Function ShouldSerializeRefreshBackgroundInterval() As Boolean
-        Return Me.refreshBackgroundIntervalValue <> PowerTraySettings.DefaultRefreshBackgroundInterval
+    Private Function ShouldSerializeRefreshInterval() As Boolean
+        Return Me.refreshIntervalValue <> PowerTraySettings.DefaultRefreshInterval
     End Function
 #End Region
 
@@ -85,6 +89,28 @@ Public Class PowerTraySettings
     Public Shared ReadOnly Property PSPredefinedScripts() As System.Collections.Generic.Dictionary(Of String, String)
         Get
             If PowerTraySettings.psPredefinedScriptsInternal Is Nothing Then
+
+                'Dim executingAssembly = System.Reflection.Assembly.GetExecutingAssembly()
+                'Dim h = executingAssembly.GetManifestResourceNames()
+
+                'Dim resourceName = executingAssembly.GetName().Name + ".Resources.resources"
+                'Dim rm = New System.Resources.ResourceManager(resourceName, executingAssembly)
+                'Dim rs = rm.GetResourceSet(System.Globalization.CultureInfo.CurrentCulture, True, True)
+
+                'For Each r In rs
+                '    Dim f = r
+                'Next
+
+                'Dim reader As New System.Resources.ResXResourceReader("PowerTray.Resources.resources")
+                'Dim en As IDictionaryEnumerator
+                'en = reader.GetEnumerator()
+
+                'While en.MoveNext()
+                '    Dim s = String.Format("Resource Name: [{0}] = {1}", en.Key, en.Value)
+                'End While
+
+                'reader.Close()
+
                 'La classe System.Collections.Specialized.StringDictionary
                 'non è stata utilizzata perchè le key sono gestite in LowerCase
 
@@ -94,6 +120,15 @@ Public Class PowerTraySettings
                 Const PSQueryPrefix = "PSQuery_"
 
                 For Each resource As System.Collections.DictionaryEntry In resourceSet
+                    If TypeOf resource.Value Is String Then
+                        'Dim h = System.IO.Path.GetExtension(resource.Key.ToString())
+                        'h = h
+
+
+
+                    End If
+
+
                     If TypeOf resource.Value Is String AndAlso resource.Key.ToString().StartsWith(PSQueryPrefix) Then
                         PowerTraySettings.psPredefinedScriptsInternal.Add(resource.Key.ToString().Remove(0, PSQueryPrefix.Length), resource.Value.ToString())
                     End If
@@ -186,29 +221,16 @@ Public Class PSScriptSettings
         Set(ByVal value As PSScriptSettings.Sources)
             Me.sourceInternal = value
 
-            ' Set Browsable Attribute
-            'Const PredefinedScriptNamePropertyName = "PredefinedScriptName"
-            'Const TextPropertyName = "Text"
-            'Const FilePathPropertyName = "FilePath"
             Select Case Me.sourceInternal
                 Case Sources.Text
-                    'Util.SetBrowsableAttribute(Me.GetType(), TextPropertyName, True)
-                    'Util.SetBrowsableAttribute(Me.GetType(), FilePathPropertyName, False)
                     Me.ResetFilePath()
-                    'Util.SetBrowsableAttribute(Me.GetType(), PredefinedScriptNamePropertyName, False)
                     Me.ResetPredefinedScriptName()
                 Case Sources.File
-                    'Util.SetBrowsableAttribute(Me.GetType(), TextPropertyName, False)
                     Me.ResetText()
-                    'Util.SetBrowsableAttribute(Me.GetType(), FilePathPropertyName, True)
-                    'Util.SetBrowsableAttribute(Me.GetType(), PredefinedScriptNamePropertyName, False)
                     Me.ResetPredefinedScriptName()
                 Case Sources.PredefinedScript
-                    'Util.SetBrowsableAttribute(Me.GetType(), TextPropertyName, False)
                     Me.ResetText()
-                    'Util.SetBrowsableAttribute(Me.GetType(), FilePathPropertyName, False)
                     Me.ResetFilePath()
-                    'Util.SetBrowsableAttribute(Me.GetType(), PredefinedScriptNamePropertyName, True)
             End Select
         End Set
     End Property
@@ -344,11 +366,12 @@ Public Class PSScriptSettings
 #Region "Property ExecutionMode"
     Public Enum ExecutionModes As Integer
         OnStartupOnly
-        OnDefaultRefreshInterval
-        OnCustomRefreshInterval
+        OnOpen
+        OnRefreshInterval
+        OnManualStart
     End Enum
 
-    Private Const DefaultExecutionMode As PSScriptSettings.ExecutionModes = ExecutionModes.OnDefaultRefreshInterval
+    Private Const DefaultExecutionMode As PSScriptSettings.ExecutionModes = ExecutionModes.OnRefreshInterval
 
     Private executionModeInternal As PSScriptSettings.ExecutionModes = PSScriptSettings.DefaultExecutionMode
 
@@ -360,6 +383,50 @@ Public Class PSScriptSettings
         End Get
         Set(ByVal value As PSScriptSettings.ExecutionModes)
             Me.executionModeInternal = value
+        End Set
+    End Property
+#End Region
+
+#Region "Property RefreshInterval"
+    Private Shared ReadOnly DefaultCustomRefreshInterval As Integer? = Nothing
+    Private refreshIntervalValue As Integer? = PSScriptSettings.DefaultCustomRefreshInterval
+
+    <System.ComponentModel.Category(PSScriptSettings.BehaviourCategory)>
+    <System.ComponentModel.DisplayName("Refresh interval")>
+    <System.ComponentModel.Description("Refresh interval in milliseconds (if null the application refresh interval will be used)")>
+    Public Property RefreshInterval As Integer?
+        Get
+            Return Me.refreshIntervalValue
+        End Get
+        Set(value As Integer?)
+            If value.HasValue AndAlso
+                (value.Value < PowerTraySettings.MinimumRefreshInterval OrElse
+                value.Value < PowerTraySettings.Default.RefreshInterval) Then
+                Throw New System.ArgumentOutOfRangeException()
+            End If
+            Me.refreshIntervalValue = value
+        End Set
+    End Property
+
+    Private Function ShouldSerializeRefreshInterval() As Boolean
+        Return Me.refreshIntervalValue.HasValue
+    End Function
+#End Region
+
+#Region "Property Timeout"
+    Private Const DefaultTimeout As Integer = 5000
+    Private timeoutValue As Integer = PSScriptSettings.DefaultTimeout
+
+    <System.ComponentModel.Category(PSScriptSettings.BehaviourCategory)>
+    <System.ComponentModel.DisplayName("Timeout")>
+    <System.ComponentModel.Description("Execution timeout in milliseconds")>
+    <System.ComponentModel.DefaultValue(PSScriptSettings.DefaultTimeout)>
+    Public Property Timeout As Integer
+        Get
+            Return Me.timeoutValue
+        End Get
+        Set(value As Integer)
+            Me.timeoutValue = value
         End Set
     End Property
 #End Region

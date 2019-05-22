@@ -159,7 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Notes.txt" />
-    <Content Include="PSQueries\PSQuery_IPv4Info.txt" />
+    <None Include="PSQueries\PSQuery_IPv4Info.ps1" />
     <None Include="Resources\PowerTrayRed.ico" />
     <None Include="Resources\PowerTray.ico" />
   </ItemGroup>

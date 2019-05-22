@@ -1,5 +1,4 @@
 ﻿Imports System.ComponentModel
-
 Public Class MainForm
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.nicMain.Icon = My.Resources.PowerTrayGreen
@@ -23,11 +22,16 @@ Public Class MainForm
         End Try
 
         'Abilitazione gestione eventi esecuzuione scripts
+        AddHandler UtilExecuteScripts.ExecuteScriptsStarting, AddressOf UtilExecuteScripts_ExecuteScriptsStarting
+        AddHandler UtilExecuteScripts.ExecuteScriptsStarted, AddressOf UtilExecuteScripts_ExecuteScriptsStarted
         AddHandler UtilExecuteScripts.ScriptExecuted, AddressOf UtilExecuteScripts_ScriptExecuted
-        AddHandler UtilExecuteScripts.ScriptsExecuted, AddressOf UtilExecuteScripts_ScriptsExecuted
+        AddHandler UtilExecuteScripts.ExecuteScriptsComplete, AddressOf UtilExecuteScripts_ExecuteScriptsComplete
+
+        'Esecuzione scripts di avvio
+        UtilExecuteScripts.ExecuteScriptsAsync(PSScriptSettings.ExecutionModes.OnStartupOnly)
 
         'Impostazione e attivazione Timer
-        Me.tmrExecuteScripts.Interval = PowerTrayConfiguration.RefreshBackgroundInterval
+        Me.tmrExecuteScripts.Interval = PowerTrayConfiguration.RefreshInterval
         Me.tmrExecuteScripts.Enabled = True
 
         'Me.ExecuteScripts()
@@ -79,26 +83,34 @@ Public Class MainForm
     End Sub
 
     Private Sub mniNotifyIconSettings_Click(sender As Object, e As EventArgs) Handles mniNotifyIconSettings.Click
+        Me.mniNotifyIconSettings.Enabled = False
+
         'Stop del timer di esecuzione scripts
         Me.tmrExecuteScripts.Stop()
 
-        Using frm As New SettingsForm
-            'frm.Icon = System.Drawing.Icon.FromHandle(
-            '    DirectCast(DirectCast(sender, ToolStripMenuItem).Image, System.Drawing.Bitmap).GetHicon)
-            frm.prgMain.SelectedObject = PowerTrayConfiguration
+        Try
+            Using frm As New SettingsForm
+                frm.prgMain.SelectedObject = PowerTrayConfiguration
 
-            If frm.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
-                'Salvataggio Impostazioni
-                Try
-                    PowerTrayConfiguration.Save()
-                Catch ex As Exception
-                    Util.ShowErrorException("Error during save settings.", ex, False)
-                End Try
-            End If
-        End Using
+                If frm.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
+                    'Salvataggio Impostazioni
+                    Try
+                        PowerTrayConfiguration.Save()
+                    Catch ex As Exception
+                        Util.ShowErrorException("Error during save settings.", ex, False)
+                    End Try
+                End If
+            End Using
+        Catch ex As Exception
+            Util.ShowErrorException("Error during open settings.", ex, False)
+        End Try
 
         'Start del timer di esecuzione scripts
         Me.tmrExecuteScripts.Start()
+
+        'Util.SetWaitCursor(False)
+
+        Me.mniNotifyIconSettings.Enabled = True
     End Sub
 
 #Region "Draw Output"
@@ -123,8 +135,8 @@ Public Class MainForm
             'Draw output or error
             If Not UtilExecuteScripts.ExecutionError Then
                 'Draw output
-                For Each scriptOutput In UtilExecuteScripts.ScriptsOutput
-                    e.Graphics.DrawString(scriptOutput.Value, System.Drawing.SystemFonts.DefaultFont, System.Drawing.SystemBrushes.HighlightText, scriptOutput.Key.OutputLocation)
+                For Each executeInfo In UtilExecuteScripts.ScriptsExecuteInfo
+                    e.Graphics.DrawString(executeInfo.Value.Output, System.Drawing.SystemFonts.DefaultFont, System.Drawing.SystemBrushes.HighlightText, executeInfo.Key.OutputLocation)
                 Next
             Else
                 'Draw error
@@ -137,7 +149,9 @@ Public Class MainForm
 
             'Draw last execution time
             Dim lastExecutionLocation As New Point(Me.pnlMain.ClientSize.Width - 130, (Me.pnlMain.ClientSize.Height - 12))
-            If UtilExecuteScripts.LastExecutionTime.HasValue Then
+            If UtilExecuteScripts.IsExecuting Then
+                e.Graphics.DrawString("Execution in progress...", System.Drawing.SystemFonts.DefaultFont, System.Drawing.SystemBrushes.HighlightText, lastExecutionLocation)
+            ElseIf UtilExecuteScripts.LastExecutionTime.HasValue Then
                 e.Graphics.DrawString(String.Format("Last execution: {0}", UtilExecuteScripts.LastExecutionTime.Value.ToLongTimeString()), System.Drawing.SystemFonts.DefaultFont, System.Drawing.SystemBrushes.HighlightText, lastExecutionLocation)
             Else
                 e.Graphics.DrawString("Last execution: never", System.Drawing.SystemFonts.DefaultFont, System.Drawing.SystemBrushes.HighlightText, lastExecutionLocation)
@@ -156,15 +170,39 @@ Public Class MainForm
 #End Region
 
 #Region "Execute Scripts"
-    Private Sub UtilExecuteScripts_ScriptExecuted(sender As Object, e As UtilScriptExecutedEventArgs)
-        Me.pnlMain.Refresh()
+    Private Sub UtilExecuteScripts_ExecuteScriptsStarting(sender As Object, e As System.ComponentModel.CancelEventArgs)
+        'Condizioni di blocco
     End Sub
 
-    Private Sub UtilExecuteScripts_ScriptsExecuted(sender As Object, e As System.EventArgs)
-        If UtilExecuteScripts.ExecutionError Then
-            Me.pnlMain.Refresh()
+    Private Sub UtilExecuteScripts_ExecuteScriptsStarted(sender As Object, e As System.EventArgs)
+        Me.pnlMain.UtilInvokeRefresh()
+
+        'Impostazione icona blue durante esecuzione scripts
+        Me.nicMain.Icon = My.Resources.PowerTrayBlue
+    End Sub
+
+    Private Sub UtilExecuteScripts_ScriptExecuted(sender As Object, e As UtilScriptExecutedEventArgs)
+        Me.pnlMain.UtilInvokeRefresh()
+    End Sub
+
+    Private Sub UtilExecuteScripts_ExecuteScriptsComplete(sender As Object, e As System.EventArgs)
+        Me.pnlMain.UtilInvokeRefresh()
+
+        'Reimpostazione icona
+        If Not UtilExecuteScripts.ExecutionError Then
+            Me.nicMain.Icon = My.Resources.PowerTrayGreen
+        Else
+            Me.nicMain.Icon = My.Resources.PowerTrayRed
         End If
     End Sub
+
+    'Private Sub pnlMain_Refresh()
+    '    If Me.pnlMain.InvokeRequired Then
+    '        Me.pnlMain.BeginInvoke(New Action(Of Object, System.EventArgs)(AddressOf UtilExecuteScripts_ScriptsExecuted), sender, e)
+    '    Else
+    '        Me.pnlMain.Refresh()
+    '    End If
+    'End Sub
 
 
     'Private executeScriptsErrorText As String = String.Empty
@@ -208,27 +246,13 @@ Public Class MainForm
     'Private tmrMainLock As New Object
     'Private tmrMainRunning As Boolean = False
     'Private tmrMainLastExecution As Date = Date.MinValue
-    Private tmrExecuteScriptsError As String = String.Empty
+
+    'Private xtmrExecuteScriptsError As String = String.Empty
 
     Private Sub tmrExecuteScripts_Tick(sender As Object, e As EventArgs) Handles tmrExecuteScripts.Tick
-        'Impostazione icona blue durante esecuzione scripts
-        Me.nicMain.Icon = My.Resources.PowerTrayBlue
-
         'Esecuzione scripts
-        UtilExecuteScripts.ExecuteScripts()
-
-        'Reimpostazione icona
-        If Not UtilExecuteScripts.ExecutionError Then
-            Me.nicMain.Icon = My.Resources.PowerTrayGreen
-        Else
-            Me.nicMain.Icon = My.Resources.PowerTrayRed
-        End If
-
-        'Reset del timer per assicurare l'intervallo tra esecuzioni successive
-        Me.tmrExecuteScripts.Stop()
-        Me.tmrExecuteScripts.Start()
+        UtilExecuteScripts.ExecuteScriptsAsync(PSScriptSettings.ExecutionModes.OnRefreshInterval)
     End Sub
-
 
 #End Region
 
