@@ -93,10 +93,20 @@
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Drawing" />
+    <Import Include="System.Linq" />
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="MainForm.ExecuteScripts.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingsForm1.Designer.vb">
+      <DependentUpon>SettingsForm1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsForm1.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UtilControlExtensions.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -156,10 +166,16 @@
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SettingsForm1.resx">
+      <DependentUpon>SettingsForm1.vb</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Notes.txt" />
-    <None Include="PSQueries\PSQuery_IPv4Info.ps1" />
+    <Content Include="PSQueries\PSQuery_UpTime.txt" />
+    <None Include="ToDo notes.txt" />
+    <None Include="PSQueries\PSQuery_LastBootUpTime.txt" />
+    <None Include="PSQueries\PSQuery_IPv4Info.txt" />
     <None Include="Resources\PowerTrayRed.ico" />
     <None Include="Resources\PowerTray.ico" />
   </ItemGroup>

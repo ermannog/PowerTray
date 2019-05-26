@@ -48,13 +48,13 @@
     Private executeScriptsAsyncTask As System.Threading.Tasks.Task = Nothing
 
     'http://codetailor.blogspot.com/2012/03/async-come-trasformare-un-metodo-non.html
-    Public Sub ExecuteScriptsAsync(mode As PSScriptSettings.ExecutionModes)
+    Public Sub ExecuteScriptsAsync(mode As PSScriptSettings.ExecutionModes, mainForm As System.Windows.Forms.Form)
         Try
             If UtilExecuteScripts.isExecutingValue Then
                 UtilExecuteScripts.executeScriptsAsyncTask.Wait(5000)
             End If
 
-            UtilExecuteScripts.executeScriptsAsyncTask = System.Threading.Tasks.Task.Run(Sub() UtilExecuteScripts.ExecuteScripts(mode))
+            UtilExecuteScripts.executeScriptsAsyncTask = System.Threading.Tasks.Task.Run(Sub() UtilExecuteScripts.ExecuteScripts(mode, mainForm))
         Catch ex As Exception
             UtilExecuteScripts.executionErrorValue = True
             UtilExecuteScripts.errorMessagesValue.Add(Util.GetExceptionMessage("Error during async scritps execution.", ex))
@@ -72,7 +72,7 @@
 #End Region
 
 
-    Public Sub ExecuteScripts(mode As PSScriptSettings.ExecutionModes)
+    Public Sub ExecuteScripts(mode As PSScriptSettings.ExecutionModes, mainForm As System.Windows.Forms.Form)
         If UtilExecuteScripts.isExecutingValue Then Exit Sub
 
         'Raise evento ExecuteScriptsStarting
@@ -103,6 +103,10 @@
             For Each script In PowerTrayConfiguration.PSScripts
                 'Gestione condizioni in cui lo script non deve essere eseguito
                 If Not script.Enabled Then Continue For
+
+                If script.ReExecuteOnlyWhenVisible AndAlso UtilExecuteScripts.scriptsExecuteInfoValue.ContainsKey(script) Then
+                    If mainForm Is Nothing OrElse Not mainForm.Visible Then Continue For
+                End If
 
                 If Not script.ExecutionMode = mode Then Continue For
 

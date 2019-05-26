@@ -1,0 +1,17 @@
+﻿<#
+.SYNOPSIS
+  Info on last boot up time
+
+.DESCRIPTION
+  Get the date and time the operating system was last restarted
+
+.NOTES
+  Version:        1.0
+  Author:         Ermanno Goletto
+  Creation Date:  2019-05-23
+#>
+
+
+Get-WmiObject -Class Win32_OperatingSystem | Select-Object  @{label='LastBootUpTime';expression={$_.ConvertToDateTime($_.LastBootUpTime)}} | Format-Table -HideTableHeaders
+
+#Get-CimInstance -ClassName win32_operatingsystem | Select-Object LastBootUpTime | Format-Table -HideTableHeaders

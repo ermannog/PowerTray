@@ -32,6 +32,7 @@ Partial Class MainForm
         Me.mniNotifyIconExit = New System.Windows.Forms.ToolStripMenuItem()
         Me.pnlMain = New System.Windows.Forms.Panel()
         Me.tmrExecuteScripts = New System.Windows.Forms.Timer(Me.components)
+        Me.Settings2ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.cmsNotifyIcon.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -44,33 +45,33 @@ Partial Class MainForm
         'cmsNotifyIcon
         '
         Me.cmsNotifyIcon.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.cmsNotifyIcon.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mniNotifyIconOpen, Me.mniNotifyIconSettings, Me.mniNotifyIconSeparator1, Me.mniNotifyIconExit})
+        Me.cmsNotifyIcon.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mniNotifyIconOpen, Me.mniNotifyIconSettings, Me.mniNotifyIconSeparator1, Me.mniNotifyIconExit, Me.Settings2ToolStripMenuItem})
         Me.cmsNotifyIcon.Name = "cmsNotifyIcon"
-        Me.cmsNotifyIcon.Size = New System.Drawing.Size(130, 88)
+        Me.cmsNotifyIcon.Size = New System.Drawing.Size(157, 136)
         '
         'mniNotifyIconOpen
         '
         Me.mniNotifyIconOpen.Image = CType(resources.GetObject("mniNotifyIconOpen.Image"), System.Drawing.Image)
         Me.mniNotifyIconOpen.Name = "mniNotifyIconOpen"
-        Me.mniNotifyIconOpen.Size = New System.Drawing.Size(129, 26)
+        Me.mniNotifyIconOpen.Size = New System.Drawing.Size(156, 26)
         Me.mniNotifyIconOpen.Text = "Open"
         '
         'mniNotifyIconSettings
         '
         Me.mniNotifyIconSettings.Image = CType(resources.GetObject("mniNotifyIconSettings.Image"), System.Drawing.Image)
         Me.mniNotifyIconSettings.Name = "mniNotifyIconSettings"
-        Me.mniNotifyIconSettings.Size = New System.Drawing.Size(129, 26)
+        Me.mniNotifyIconSettings.Size = New System.Drawing.Size(156, 26)
         Me.mniNotifyIconSettings.Text = "Settings..."
         '
         'mniNotifyIconSeparator1
         '
         Me.mniNotifyIconSeparator1.Name = "mniNotifyIconSeparator1"
-        Me.mniNotifyIconSeparator1.Size = New System.Drawing.Size(126, 6)
+        Me.mniNotifyIconSeparator1.Size = New System.Drawing.Size(153, 6)
         '
         'mniNotifyIconExit
         '
         Me.mniNotifyIconExit.Name = "mniNotifyIconExit"
-        Me.mniNotifyIconExit.Size = New System.Drawing.Size(129, 26)
+        Me.mniNotifyIconExit.Size = New System.Drawing.Size(156, 26)
         Me.mniNotifyIconExit.Text = "Exit"
         '
         'pnlMain
@@ -84,8 +85,11 @@ Partial Class MainForm
         Me.pnlMain.Size = New System.Drawing.Size(600, 366)
         Me.pnlMain.TabIndex = 1
         '
-        'tmrExecuteScripts
+        'Settings2ToolStripMenuItem
         '
+        Me.Settings2ToolStripMenuItem.Name = "Settings2ToolStripMenuItem"
+        Me.Settings2ToolStripMenuItem.Size = New System.Drawing.Size(156, 26)
+        Me.Settings2ToolStripMenuItem.Text = "Settings2..."
         '
         'MainForm
         '
@@ -114,4 +118,5 @@ Partial Class MainForm
     Friend WithEvents mniNotifyIconSeparator1 As ToolStripSeparator
     Friend WithEvents mniNotifyIconOpen As ToolStripMenuItem
     Friend WithEvents tmrExecuteScripts As Timer
+    Friend WithEvents Settings2ToolStripMenuItem As ToolStripMenuItem
 End Class

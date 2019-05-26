@@ -1,0 +1,7 @@
+﻿- Creare una form per l'impostaizone dei settings che permette di gestire contemporanemante impostazioni generali e quelle degli scripts:
+  PropertyGrid per impostazioni generali
+  List per gli scripts con PropertyGrid per script selezionato
+
+
+- Gestire resize della form
+- Gestire colore sfondo e colore testo e carattere

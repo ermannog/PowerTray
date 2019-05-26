@@ -1,0 +1,16 @@
+﻿<#
+.SYNOPSIS
+  Info on up time
+
+.DESCRIPTION
+  Get the time the operating system is up
+
+.NOTES
+  Version:        1.0
+  Author:         Ermanno Goletto
+  Creation Date:  2019-05-23
+#>
+
+$LastBootUpTime=Get-WmiObject -Class Win32_OperatingSystem | Select-Object  @{label='LastBootUpTime';expression={$_.ConvertToDateTime($_.LastBootUpTime)}}
+$UpTime=New-TimeSpan -Start $LastBootUpTime.LastBootUpTime.Date -End (Get-Date)
+$UpTime | Select-Object @{Label='Uptime'; Expression={$_.Days.ToString() + ' day(s) ' + $_.Hours.ToString() + ' hour(s) ' + $_.Minutes.ToString() +  ' minute(s)'}} | Format-Table -HideTableHeaders

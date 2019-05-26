@@ -90,6 +90,27 @@
     End Function
 #End Region
 
+#Region "Metodo Question"
+    Public Overloads Shared Function ShowQuestion(ByVal text As String) As System.Windows.Forms.DialogResult
+        Return ShowQuestion(text, System.Windows.Forms.MessageBoxButtons.YesNo)
+    End Function
+
+    Public Overloads Shared Function ShowQuestion(ByVal text As String, ByVal defaultButton As System.Windows.Forms.MessageBoxDefaultButton) As System.Windows.Forms.DialogResult
+        Return ShowQuestion(text, System.Windows.Forms.MessageBoxButtons.YesNo, defaultButton)
+    End Function
+
+    Public Overloads Shared Function ShowQuestion(ByVal text As String,
+                                    ByVal buttons As System.Windows.Forms.MessageBoxButtons) As System.Windows.Forms.DialogResult
+        Return ShowQuestion(text, buttons, System.Windows.Forms.MessageBoxDefaultButton.Button2)
+    End Function
+
+    Public Overloads Shared Function ShowQuestion(ByVal text As String,
+                                              ByVal buttons As System.Windows.Forms.MessageBoxButtons,
+                                              ByVal defaultButton As System.Windows.Forms.MessageBoxDefaultButton) As System.Windows.Forms.DialogResult
+        Return ShowMessage(text, String.Empty, buttons, System.Windows.Forms.MessageBoxIcon.Question, defaultButton)
+    End Function
+#End Region
+
     Public Shared Sub ShowError(ByVal message As String, ByVal abort As Boolean)
         Util.ShowMessage(message, "Error", System.Windows.Forms.MessageBoxIcon.Stop)
 

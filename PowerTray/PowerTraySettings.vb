@@ -89,28 +89,6 @@ Public Class PowerTraySettings
     Public Shared ReadOnly Property PSPredefinedScripts() As System.Collections.Generic.Dictionary(Of String, String)
         Get
             If PowerTraySettings.psPredefinedScriptsInternal Is Nothing Then
-
-                'Dim executingAssembly = System.Reflection.Assembly.GetExecutingAssembly()
-                'Dim h = executingAssembly.GetManifestResourceNames()
-
-                'Dim resourceName = executingAssembly.GetName().Name + ".Resources.resources"
-                'Dim rm = New System.Resources.ResourceManager(resourceName, executingAssembly)
-                'Dim rs = rm.GetResourceSet(System.Globalization.CultureInfo.CurrentCulture, True, True)
-
-                'For Each r In rs
-                '    Dim f = r
-                'Next
-
-                'Dim reader As New System.Resources.ResXResourceReader("PowerTray.Resources.resources")
-                'Dim en As IDictionaryEnumerator
-                'en = reader.GetEnumerator()
-
-                'While en.MoveNext()
-                '    Dim s = String.Format("Resource Name: [{0}] = {1}", en.Key, en.Value)
-                'End While
-
-                'reader.Close()
-
                 'La classe System.Collections.Specialized.StringDictionary
                 'non è stata utilizzata perchè le key sono gestite in LowerCase
 
@@ -121,13 +99,7 @@ Public Class PowerTraySettings
 
                 For Each resource As System.Collections.DictionaryEntry In resourceSet
                     If TypeOf resource.Value Is String Then
-                        'Dim h = System.IO.Path.GetExtension(resource.Key.ToString())
-                        'h = h
-
-
-
                     End If
-
 
                     If TypeOf resource.Value Is String AndAlso resource.Key.ToString().StartsWith(PSQueryPrefix) Then
                         PowerTraySettings.psPredefinedScriptsInternal.Add(resource.Key.ToString().Remove(0, PSQueryPrefix.Length), resource.Value.ToString())
@@ -173,6 +145,9 @@ End Module
 
 <System.ComponentModel.RefreshProperties(RefreshProperties.All)>
 Public Class PSScriptSettings
+    Public Shared Function CreateInstance() As PSScriptSettings
+        Return New PSScriptSettings()
+    End Function
 
     Private Sub New()
         Me.nameValue = "Script name"
@@ -197,6 +172,46 @@ Public Class PSScriptSettings
             End If
 
             Me.nameValue = value
+        End Set
+    End Property
+#End Region
+
+#Region "Property Label"
+    Private labelValue As String = String.Empty
+
+    <System.ComponentModel.Category(PSScriptSettings.LayoutCategory)>
+    <System.ComponentModel.DisplayName("Label text")>
+    <System.ComponentModel.DefaultValue("")>
+    Public Property Label() As String
+        Get
+            Return Me.labelValue
+        End Get
+        Set(ByVal value As String)
+            Me.labelValue = value
+        End Set
+    End Property
+#End Region
+
+#Region "Property LabelPosition"
+    Public Enum LabelPositions
+        Left
+        Right
+        Up
+        Down
+    End Enum
+
+    Private Const DefaultLabelPosition As LabelPositions = LabelPositions.Left
+    Private labelPositionValue As LabelPositions = PSScriptSettings.DefaultLabelPosition
+
+    <System.ComponentModel.Category(PSScriptSettings.LayoutCategory)>
+    <System.ComponentModel.DisplayName("Label position")>
+    <System.ComponentModel.DefaultValue(PSScriptSettings.DefaultLabelPosition)>
+    Public Property LabelPosition() As PSScriptSettings.LabelPositions
+        Get
+            Return Me.labelPositionValue
+        End Get
+        Set(ByVal value As PSScriptSettings.LabelPositions)
+            Me.labelPositionValue = value
         End Set
     End Property
 #End Region
@@ -376,6 +391,7 @@ Public Class PSScriptSettings
     Private executionModeInternal As PSScriptSettings.ExecutionModes = PSScriptSettings.DefaultExecutionMode
 
     <System.ComponentModel.Category(PSScriptSettings.BehaviourCategory)>
+    <System.ComponentModel.DisplayName("Execution mode")>
     <System.ComponentModel.DefaultValue(PSScriptSettings.DefaultExecutionMode)>
     Public Property ExecutionMode() As PSScriptSettings.ExecutionModes
         Get
@@ -383,6 +399,24 @@ Public Class PSScriptSettings
         End Get
         Set(ByVal value As PSScriptSettings.ExecutionModes)
             Me.executionModeInternal = value
+        End Set
+    End Property
+#End Region
+
+#Region "Property ReExecuteOnlyWhenVisible"
+    Private Const DefaultReExecuteOnlyWhenVisible As Boolean = True
+    Private reExecuteOnlyWhenVisibleValue As Boolean = PSScriptSettings.DefaultReExecuteOnlyWhenVisible
+
+    <System.ComponentModel.Category(PSScriptSettings.BehaviourCategory)>
+    <System.ComponentModel.DisplayName("Re-Execute only when visible")>
+    <System.ComponentModel.Description("Re-Execute the script only when output is visible")>
+    <System.ComponentModel.DefaultValue(PSScriptSettings.DefaultReExecuteOnlyWhenVisible)>
+    Public Property ReExecuteOnlyWhenVisible() As Boolean
+        Get
+            Return Me.reExecuteOnlyWhenVisibleValue
+        End Get
+        Set(ByVal value As Boolean)
+            Me.reExecuteOnlyWhenVisibleValue = value
         End Set
     End Property
 #End Region
@@ -433,43 +467,43 @@ Public Class PSScriptSettings
 
 #Region "Property ShowOutput"
     Private Const DefaultShowOutput As Boolean = True
-        Private showOutputValue As Boolean = PSScriptSettings.DefaultShowOutput
+    Private showOutputValue As Boolean = PSScriptSettings.DefaultShowOutput
 
-        <System.ComponentModel.Category(PSScriptSettings.LayoutCategory)>
-        <System.ComponentModel.DisplayName("Show output")>
-        <System.ComponentModel.Description("Show execution output of the script")>
-        <System.ComponentModel.DefaultValue(PSScriptSettings.DefaultShowOutput)>
-        Public Property ShowOutput() As Boolean
-            Get
-                Return Me.showOutputValue
-            End Get
-            Set(ByVal value As Boolean)
-                Me.showOutputValue = value
-            End Set
-        End Property
+    <System.ComponentModel.Category(PSScriptSettings.LayoutCategory)>
+    <System.ComponentModel.DisplayName("Show output")>
+    <System.ComponentModel.Description("Show execution output of the script")>
+    <System.ComponentModel.DefaultValue(PSScriptSettings.DefaultShowOutput)>
+    Public Property ShowOutput() As Boolean
+        Get
+            Return Me.showOutputValue
+        End Get
+        Set(ByVal value As Boolean)
+            Me.showOutputValue = value
+        End Set
+    End Property
 #End Region
 
 #Region "Property OutputLocation"
-        Private outputLocationValue As System.Drawing.Point = System.Drawing.Point.Empty
+    Private outputLocationValue As System.Drawing.Point = System.Drawing.Point.Empty
 
-        <System.ComponentModel.Category(PSScriptSettings.LayoutCategory)>
-        <System.ComponentModel.DisplayName("Output location")>
-        <System.ComponentModel.Description("Location where output will be show")>
-        Public Property OutputLocation() As System.Drawing.Point
-            Get
-                Return Me.outputLocationValue
-            End Get
-            Set(ByVal value As System.Drawing.Point)
-                Me.outputLocationValue = value
-            End Set
-        End Property
+    <System.ComponentModel.Category(PSScriptSettings.LayoutCategory)>
+    <System.ComponentModel.DisplayName("Output location")>
+    <System.ComponentModel.Description("Location where output will be show")>
+    Public Property OutputLocation() As System.Drawing.Point
+        Get
+            Return Me.outputLocationValue
+        End Get
+        Set(ByVal value As System.Drawing.Point)
+            Me.outputLocationValue = value
+        End Set
+    End Property
 
-        Private Function ShouldSerializeOutputLocation() As Boolean
-            Return Not Me.outputLocationValue.Equals(System.Drawing.Point.Empty)
-        End Function
+    Private Function ShouldSerializeOutputLocation() As Boolean
+        Return Not Me.outputLocationValue.Equals(System.Drawing.Point.Empty)
+    End Function
 #End Region
 
-        Public Overrides Function ToString() As String
-            Return Me.nameValue
-        End Function
-    End Class
+    Public Overrides Function ToString() As String
+        Return Me.nameValue
+    End Function
+End Class

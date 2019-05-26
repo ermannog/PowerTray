@@ -113,26 +113,74 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized string similar to &lt;#
         '''.SYNOPSIS
-        '''  Name: IPv4Info.ps1
         '''  Info on IPv4 settings
         '''
-        '''  .DESCRIPTION
+        '''.DESCRIPTION
         '''  Get IPv4 WellKnow addresses of the system
         '''
-        '''  .NOTES
+        '''.NOTES
         '''  Version:        1.0
-        '''  Author:         Ermanno Goletto&gt;
+        '''  Author:         Ermanno Goletto
         '''  Creation Date:  2019-05-22
         '''#&gt;
         '''
         '''$IPv4Adresses=Get-NetIPAddress -AddressFamily IPv4 | Where-Object PrefixOrigin -ne &apos;WellKnow&apos;
         '''$IPv4Adresses | Format-Table @{Label=&apos;C1&apos;; Expression={$_.InterfaceAlias}}, `
         '''	@{Label=&apos;C2&apos;; Expression={&apos;[&apos;+ $_.PrefixOrigin+&apos;]&apos;}; Alignment=&apos;Left&apos;}, `
-        '''	@{Label=&apos;C3&apos;; Expression={&apos;:  [rest of string was truncated]&quot;;.
+        '''	@{Label=&apos;C3&apos;; Expression={&apos;: &apos; + $_.IPAddress+&apos;/&apos;+$_.Pre [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property PSQuery_IPv4Info() As String
             Get
                 Return ResourceManager.GetString("PSQuery_IPv4Info", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;#
+        '''.SYNOPSIS
+        '''  Info on last boot up time
+        '''
+        '''.DESCRIPTION
+        '''  Get the date and time the operating system was last restarted
+        '''
+        '''.NOTES
+        '''  Version:        1.0
+        '''  Author:         Ermanno Goletto
+        '''  Creation Date:  2019-05-23
+        '''#&gt;
+        '''
+        '''
+        '''Get-WmiObject -Class Win32_OperatingSystem | Select-Object  @{label=&apos;LastBootUpTime&apos;;expression={$_.ConvertToDateTime($_.LastBootUpTime)}} | Format-Table -HideTableHeaders
+        '''
+        '''#Get-CimInstance -ClassName win32_operatingsystem | Select-Object LastBootUpTime | Format-Table -HideTable [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property PSQuery_LastBootUpTime() As String
+            Get
+                Return ResourceManager.GetString("PSQuery_LastBootUpTime", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;#
+        '''.SYNOPSIS
+        '''  Info on last boot up time
+        '''
+        '''.DESCRIPTION
+        '''  Get the date and time the operating system was last restarted
+        '''
+        '''.NOTES
+        '''  Version:        1.0
+        '''  Author:         Ermanno Goletto
+        '''  Creation Date:  2019-05-23
+        '''#&gt;
+        '''
+        '''$LastBootUpTime=Get-WmiObject -Class Win32_OperatingSystem | Select-Object  @{label=&apos;LastBootUpTime&apos;;expression={$_.ConvertToDateTime($_.LastBootUpTime)}}
+        '''$UpTime=New-TimeSpan -Start $LastBootUpTime -End (Get-Date)
+        '''$UpTime | Select-Object Days, Hours, Minutes @{Label=&apos;Uptime&apos;; Exp [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property PSQuery_UpTime() As String
+            Get
+                Return ResourceManager.GetString("PSQuery_UpTime", resourceCulture)
             End Get
         End Property
     End Module
