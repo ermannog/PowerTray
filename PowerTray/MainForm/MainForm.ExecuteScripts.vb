@@ -42,8 +42,14 @@
     End Sub
 
     Private Sub tmrExecuteScripts_Tick(sender As Object, e As EventArgs) Handles tmrExecuteScripts.Tick
-        'Esecuzione scripts
+        'Esecuzione scripts OnRefreshInterval
         UtilExecuteScripts.ExecuteScriptsAsync(PSScriptSettings.ExecutionModes.OnRefreshInterval, Me)
     End Sub
 
+    Private Sub MainForm_VisibleChanged(sender As Object, e As EventArgs) Handles Me.VisibleChanged
+        If Not Me.isInitializing AndAlso Me.Visible Then
+            'Esecuzione scripts OnOpen
+            UtilExecuteScripts.ExecuteScriptsAsync(PSScriptSettings.ExecutionModes.OnOpen, Me)
+        End If
+    End Sub
 End Class

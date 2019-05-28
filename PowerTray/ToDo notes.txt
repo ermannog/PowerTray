@@ -1,7 +1,5 @@
-﻿- Creare una form per l'impostaizone dei settings che permette di gestire contemporanemante impostazioni generali e quelle degli scripts:
-  PropertyGrid per impostazioni generali
-  List per gli scripts con PropertyGrid per script selezionato
-
-
+﻿- Cerare editore custom per file in modo che rispetti l'attributo ReadOny
 - Gestire resize della form
 - Gestire colore sfondo e colore testo e carattere
+- Gestire il path del file configurazione cercando prima nel profilo utente poi nella directory del programma
+  nella for di settings visualizzare il path del file e consentire di sceglire se operare a livello utente o di applicativo 

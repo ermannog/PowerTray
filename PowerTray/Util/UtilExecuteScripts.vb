@@ -117,9 +117,9 @@
                 End If
 
                 If script.ExecutionMode = PSScriptSettings.ExecutionModes.OnRefreshInterval Then
-                    If script.RefreshInterval.HasValue AndAlso
+                    If script.ExecutionInterval.HasValue AndAlso
                             UtilExecuteScripts.scriptsExecuteInfoValue.ContainsKey(script) AndAlso
-                            (Now - UtilExecuteScripts.scriptsExecuteInfoValue.Item(script).Date).TotalMilliseconds < script.RefreshInterval.Value Then
+                            (Now - UtilExecuteScripts.scriptsExecuteInfoValue.Item(script).Date).TotalMilliseconds < script.ExecutionInterval.Value Then
                         Continue For
                     End If
                 End If
@@ -155,7 +155,7 @@
 
                 'Raise evento ScriptExecuting
                 Dim utilScriptExecutingEventArgs = New UtilScriptExecutingEventArgs(script)
-                UtilExecuteScripts.OnScriptExecuting(Nothing, utilScriptExecutingEventArgs)
+                UtilExecuteScripts.OnScriptExecuting(script, utilScriptExecutingEventArgs)
                 If utilScriptExecutingEventArgs.Cancel Then
                     Continue For
                 End If
@@ -181,7 +181,7 @@
 
                 'Raise evento ScriptExecuted
                 Try
-                    UtilExecuteScripts.OnScriptExecuted(Nothing, New UtilScriptExecutedEventArgs(script, executeInfo))
+                    UtilExecuteScripts.OnScriptExecuted(script, New UtilScriptExecutedEventArgs(script, executeInfo))
                 Catch ex As Exception
                     UtilExecuteScripts.executionErrorValue = True
                     UtilExecuteScripts.errorMessagesValue.Add(Util.GetExceptionMessage(String.Format("Error during during raise event ScriptExecuted for script '{0}'", script.Name), ex))

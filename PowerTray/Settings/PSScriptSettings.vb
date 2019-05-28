@@ -1,149 +1,10 @@
-﻿'https://www.codeproject.com/Articles/152945/Enabling-disabling-properties-at-runtime-in-the-Pr
-'https://www.codeproject.com/Articles/9517/PropertyGrid-and-Drop-Down-properties
-'https://www.codeproject.com/Articles/57760/Exposing-Object-Methods-in-the-PropertyGrid-Comman
-'https://www.codeproject.com/Articles/13342/Filtering-properties-in-a-PropertyGrid
+﻿'https://social.msdn.microsoft.com/Forums/vstudio/en-US/985b3727-c96c-4d98-8908-56ca402df0f8/propertygrid-with-readonly-properties-And-uitypeeditor-set-Not-grey?forum=winforms
+
+'https://social.msdn.microsoft.com/Forums/windows/en-US/07ad29f2-3040-4f1d-81c6-d55e0522afe7/property-grid-with-file-path?forum=winforms
 
 Imports System.ComponentModel
 Imports System.Drawing.Design
 
-<Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Never)>
-<System.ComponentModel.Description("PowerTray settings")>
-<Serializable()>
-Public Class PowerTraySettings
-    Private Const GeneralCategory As String = "General"
-    Private Const PSScriptsCategory As String = "PowerShell scripts"
-
-#Region "Proprietà Default"
-    Private Shared defaultInstanceValue As New PowerTraySettings
-
-    <Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Never)>
-    Public Shared ReadOnly Property [Default]() As PowerTraySettings
-        Get
-            Return defaultInstanceValue
-        End Get
-    End Property
-#End Region
-
-    Private ReadOnly Property FilePath() As String
-        Get
-            Dim applicationDataPath = System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-            Dim company = System.Windows.Forms.Application.CompanyName
-            Dim product = System.Windows.Forms.Application.ProductName
-
-            Return System.IO.Path.Combine(
-                System.IO.Path.Combine(
-                    System.IO.Path.Combine(applicationDataPath, company), product),
-                    product & ".settings")
-        End Get
-    End Property
-
-#Region "Property RefreshInterval"
-    Public Const MinimumRefreshInterval As Integer = 1000
-    Public Const DefaultRefreshInterval As Integer = 5000
-    Private refreshIntervalValue As Integer = PowerTraySettings.DefaultRefreshInterval
-
-    <System.ComponentModel.Category(GeneralCategory)>
-    <System.ComponentModel.DisplayName("Refresh interval")>
-    <System.ComponentModel.Description("Refresh interval in milliseconds")>
-    Public Property RefreshInterval As Integer
-        Get
-            Return Me.refreshIntervalValue
-        End Get
-        Set(value As Integer)
-            If value < PowerTraySettings.MinimumRefreshInterval Then
-                Throw New System.ArgumentOutOfRangeException()
-            End If
-            Me.refreshIntervalValue = value
-        End Set
-    End Property
-
-    Private Function ShouldSerializeRefreshInterval() As Boolean
-        Return Me.refreshIntervalValue <> PowerTraySettings.DefaultRefreshInterval
-    End Function
-#End Region
-
-#Region "Property PSScripts"
-    Private psScriptsValue As New System.Collections.Generic.List(Of PSScriptSettings)
-
-    <System.ComponentModel.Category(PSScriptsCategory)>
-    <System.ComponentModel.Description("PowerShell scripts")>
-    <System.ComponentModel.DisplayName("PowerShell scripts list")>
-    Public Property PSScripts() As System.Collections.Generic.List(Of PSScriptSettings)
-        Get
-            Return Me.psScriptsValue
-        End Get
-        Set(ByVal value As System.Collections.Generic.List(Of PSScriptSettings))
-            Me.psScriptsValue = value
-        End Set
-    End Property
-
-    Private Function ShouldSerializePSScripts() As Boolean
-        Return Me.psScriptsValue.Count > 0
-    End Function
-#End Region
-
-#Region "Property PSPredefinedScripts"
-    Private Shared psPredefinedScriptsInternal As System.Collections.Generic.Dictionary(Of String, String) = Nothing
-
-    <System.ComponentModel.Browsable(False)>
-    Public Shared ReadOnly Property PSPredefinedScripts() As System.Collections.Generic.Dictionary(Of String, String)
-        Get
-            If PowerTraySettings.psPredefinedScriptsInternal Is Nothing Then
-                'La classe System.Collections.Specialized.StringDictionary
-                'non è stata utilizzata perchè le key sono gestite in LowerCase
-
-                Dim resourceSet = My.Resources.ResourceManager.GetResourceSet(System.Globalization.CultureInfo.CurrentCulture, False, True)
-                PowerTraySettings.psPredefinedScriptsInternal = New System.Collections.Generic.Dictionary(Of String, String)
-
-                Const PSQueryPrefix = "PSQuery_"
-
-                For Each resource As System.Collections.DictionaryEntry In resourceSet
-                    If TypeOf resource.Value Is String Then
-                    End If
-
-                    If TypeOf resource.Value Is String AndAlso resource.Key.ToString().StartsWith(PSQueryPrefix) Then
-                        PowerTraySettings.psPredefinedScriptsInternal.Add(resource.Key.ToString().Remove(0, PSQueryPrefix.Length), resource.Value.ToString())
-                    End If
-                Next
-            End If
-
-            Return PowerTraySettings.psPredefinedScriptsInternal
-        End Get
-    End Property
-#End Region
-
-    Private Sub New()
-        'Costruttore senza parametri per consentire la serializzazione
-        'http://support.microsoft.com/kb/816225/en-us
-    End Sub
-
-    Public Sub Save()
-        'Util.XmlSerialize(Me.FilePath, Me, True)
-        Util.XmlSerialize(Me.FilePath, Me, False)
-    End Sub
-
-    Public Function Load() As Boolean
-        'Return Util.XmlDeserialize(Me.FilePath, Me, True)
-        Return Util.XmlDeserialize(Me.FilePath, Me, False)
-    End Function
-
-    Public Sub Clear()
-        defaultInstanceValue = Nothing
-        defaultInstanceValue = New PowerTraySettings
-    End Sub
-End Class
-
-
-<Global.Microsoft.VisualBasic.HideModuleNameAttribute()>
-Public Module PowerTraySettingsDefaultProperty
-    Public ReadOnly Property PowerTrayConfiguration() As PowerTraySettings
-        Get
-            Return PowerTraySettings.Default
-        End Get
-    End Property
-End Module
-
-<System.ComponentModel.RefreshProperties(RefreshProperties.All)>
 Public Class PSScriptSettings
     Public Shared Function CreateInstance() As PSScriptSettings
         Return New PSScriptSettings()
@@ -227,10 +88,20 @@ Public Class PSScriptSettings
     Private Const DefaultSource As PSScriptSettings.Sources = Sources.Text
     Private sourceInternal As PSScriptSettings.Sources = PSScriptSettings.DefaultSource
 
+    <System.ComponentModel.RefreshProperties(RefreshProperties.All)>
     <System.ComponentModel.Category(PSScriptSettings.SourceCategory)>
     <System.ComponentModel.DefaultValue(PSScriptSettings.DefaultSource)>
     Public Property Source() As PSScriptSettings.Sources
         Get
+            'Set ReadOnly attribute on property Text
+            Util.SetReadOnlyAttribute(GetType(PSScriptSettings), "Text", Not Me.sourceInternal = Sources.Text)
+
+            'Set ReadOnly attribute on property FilePath
+            Util.SetReadOnlyAttribute(GetType(PSScriptSettings), "FilePath", Not Me.sourceInternal = Sources.File)
+
+            'Set ReadOnly attribute on property PredefinedScriptName
+            Util.SetReadOnlyAttribute(GetType(PSScriptSettings), "PredefinedScriptName", Not Me.sourceInternal = Sources.PredefinedScript)
+
             Return Me.sourceInternal
         End Get
         Set(ByVal value As PSScriptSettings.Sources)
@@ -254,12 +125,17 @@ Public Class PSScriptSettings
 #Region "Property Text"
     Private textInternalValue As String = String.Empty
 
+    <System.ComponentModel.Editor(GetType(System.ComponentModel.Design.MultilineStringEditor), GetType(System.Drawing.Design.UITypeEditor))>
     <System.ComponentModel.Category(PSScriptSettings.SourceCategory)>
     <System.ComponentModel.DisplayName("Source text")>
-    <System.ComponentModel.Editor(GetType(System.ComponentModel.Design.MultilineStringEditor), GetType(System.Drawing.Design.UITypeEditor))>
     <System.ComponentModel.DefaultValue("")>
+    <System.ComponentModel.ReadOnly(True)>
     Public Property Text() As String
         Get
+            'Set ReadOnly attribute
+            'Util.SetReadOnlyAttribute(Me.GetType(), "Text", Not (Me.Source = Sources.Text))
+
+
             Return Me.textInternalValue
         End Get
         Set(ByVal value As String)
@@ -281,12 +157,16 @@ Public Class PSScriptSettings
 #Region "Property FilePath"
     Private filePathInternalValue As String = String.Empty
 
+    <System.ComponentModel.Editor(GetType(System.Windows.Forms.Design.FileNameEditor), GetType(System.Drawing.Design.UITypeEditor))>
     <System.ComponentModel.Category(PSScriptSettings.SourceCategory)>
     <System.ComponentModel.DisplayName("Source file path")>
-    <System.ComponentModel.Editor(GetType(System.Windows.Forms.Design.FileNameEditor), GetType(System.Drawing.Design.UITypeEditor))>
     <System.ComponentModel.DefaultValue("")>
+    <System.ComponentModel.ReadOnly(True)>
     Public Property FilePath() As String
         Get
+            ''Set ReadOnly attribute
+            'Util.SetReadOnlyAttribute(Me.GetType(), "FilePath", Not (Me.Source = Sources.File))
+
             Return Me.filePathInternalValue
         End Get
         Set(ByVal value As String)
@@ -308,12 +188,16 @@ Public Class PSScriptSettings
 #Region "Property PredefinedScriptName"
     Private predefinedScriptNameInternalValue As String = String.Empty
 
+    <System.ComponentModel.TypeConverter(GetType(PredefinedScriptNameConverter))>
     <System.ComponentModel.Category(PSScriptSettings.SourceCategory)>
     <System.ComponentModel.DisplayName("Source predefined script")>
-    <System.ComponentModel.TypeConverter(GetType(PredefinedScriptNameConverter))>
     <System.ComponentModel.DefaultValue("")>
+    <System.ComponentModel.ReadOnly(True)>
     Public Property PredefinedScriptName() As String
         Get
+            ''Set ReadOnly attribute
+            'Util.SetReadOnlyAttribute(Me.GetType(), "PredefinedScriptName", Not (Me.Source = Sources.PredefinedScript))
+
             Return Me.predefinedScriptNameInternalValue
         End Get
         Set(ByVal value As String)
@@ -390,17 +274,51 @@ Public Class PSScriptSettings
 
     Private executionModeInternal As PSScriptSettings.ExecutionModes = PSScriptSettings.DefaultExecutionMode
 
+    <System.ComponentModel.RefreshProperties(RefreshProperties.All)>
     <System.ComponentModel.Category(PSScriptSettings.BehaviourCategory)>
     <System.ComponentModel.DisplayName("Execution mode")>
     <System.ComponentModel.DefaultValue(PSScriptSettings.DefaultExecutionMode)>
     Public Property ExecutionMode() As PSScriptSettings.ExecutionModes
         Get
+            'Set ReadOnly attribute on property ExecutionInterval
+            Util.SetReadOnlyAttribute(GetType(PSScriptSettings), "ExecutionInterval", Not Me.executionModeInternal = ExecutionModes.OnRefreshInterval)
+
+            'Set ReadOnly attribute on property ReExecuteOnlyWhenVisible
+            Util.SetReadOnlyAttribute(GetType(PSScriptSettings), "ReExecuteOnlyWhenVisible", Not Me.executionModeInternal = ExecutionModes.OnRefreshInterval)
+
             Return Me.executionModeInternal
         End Get
         Set(ByVal value As PSScriptSettings.ExecutionModes)
             Me.executionModeInternal = value
         End Set
     End Property
+#End Region
+
+#Region "Property ExecutionInterval"
+    Private Shared ReadOnly DefaultExecutionInterval As Integer? = Nothing
+    Private executionIntervalValue As Integer? = PSScriptSettings.DefaultExecutionInterval
+
+    <System.ComponentModel.Category(PSScriptSettings.BehaviourCategory)>
+    <System.ComponentModel.DisplayName("Execution interval")>
+    <System.ComponentModel.Description("Execution interval in milliseconds (if null the application refresh interval will be used)")>
+    <System.ComponentModel.ReadOnly(False)>
+    Public Property ExecutionInterval As Integer?
+        Get
+            Return Me.executionIntervalValue
+        End Get
+        Set(value As Integer?)
+            If value.HasValue AndAlso
+                (value.Value < PowerTraySettings.MinimumRefreshInterval OrElse
+                value.Value < PowerTraySettings.Default.RefreshInterval) Then
+                Throw New System.ArgumentOutOfRangeException()
+            End If
+            Me.executionIntervalValue = value
+        End Set
+    End Property
+
+    Private Function ShouldSerializeExecutionInterval() As Boolean
+        Return Me.executionIntervalValue.HasValue
+    End Function
 #End Region
 
 #Region "Property ReExecuteOnlyWhenVisible"
@@ -411,6 +329,7 @@ Public Class PSScriptSettings
     <System.ComponentModel.DisplayName("Re-Execute only when visible")>
     <System.ComponentModel.Description("Re-Execute the script only when output is visible")>
     <System.ComponentModel.DefaultValue(PSScriptSettings.DefaultReExecuteOnlyWhenVisible)>
+    <System.ComponentModel.ReadOnly(False)>
     Public Property ReExecuteOnlyWhenVisible() As Boolean
         Get
             Return Me.reExecuteOnlyWhenVisibleValue
@@ -419,32 +338,6 @@ Public Class PSScriptSettings
             Me.reExecuteOnlyWhenVisibleValue = value
         End Set
     End Property
-#End Region
-
-#Region "Property RefreshInterval"
-    Private Shared ReadOnly DefaultCustomRefreshInterval As Integer? = Nothing
-    Private refreshIntervalValue As Integer? = PSScriptSettings.DefaultCustomRefreshInterval
-
-    <System.ComponentModel.Category(PSScriptSettings.BehaviourCategory)>
-    <System.ComponentModel.DisplayName("Refresh interval")>
-    <System.ComponentModel.Description("Refresh interval in milliseconds (if null the application refresh interval will be used)")>
-    Public Property RefreshInterval As Integer?
-        Get
-            Return Me.refreshIntervalValue
-        End Get
-        Set(value As Integer?)
-            If value.HasValue AndAlso
-                (value.Value < PowerTraySettings.MinimumRefreshInterval OrElse
-                value.Value < PowerTraySettings.Default.RefreshInterval) Then
-                Throw New System.ArgumentOutOfRangeException()
-            End If
-            Me.refreshIntervalValue = value
-        End Set
-    End Property
-
-    Private Function ShouldSerializeRefreshInterval() As Boolean
-        Return Me.refreshIntervalValue.HasValue
-    End Function
 #End Region
 
 #Region "Property Timeout"

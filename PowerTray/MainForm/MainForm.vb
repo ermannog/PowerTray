@@ -1,5 +1,8 @@
 ﻿Imports System.ComponentModel
+
 Public Class MainForm
+    Private isInitializing As Boolean = True
+
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.nicMain.Icon = My.Resources.PowerTrayGreen
         Me.nicMain.Text = My.Application.Info.Title
@@ -16,23 +19,6 @@ Public Class MainForm
         End Try
 
         Me.ExecuteScriptsInitialize()
-
-        ''Abilitazione gestione eventi esecuzuione scripts
-        'AddHandler UtilExecuteScripts.ExecuteScriptsStarting, AddressOf UtilExecuteScripts_ExecuteScriptsStarting
-        'AddHandler UtilExecuteScripts.ExecuteScriptsStarted, AddressOf UtilExecuteScripts_ExecuteScriptsStarted
-        'AddHandler UtilExecuteScripts.ScriptExecuted, AddressOf UtilExecuteScripts_ScriptExecuted
-        'AddHandler UtilExecuteScripts.ExecuteScriptsComplete, AddressOf UtilExecuteScripts_ExecuteScriptsComplete
-
-        ''Esecuzione scripts di avvio
-        'UtilExecuteScripts.ExecuteScriptsAsync(PSScriptSettings.ExecutionModes.OnStartupOnly)
-
-        ''Impostazione e attivazione Timer
-        'Me.tmrExecuteScripts.Interval = PowerTrayConfiguration.RefreshInterval
-        'Me.tmrExecuteScripts.Enabled = True
-
-        'Me.ExecuteScripts()
-
-        'Util.RunPowerShellScript2(My.Resources.PSQuery_IPv4Info.ToString())
     End Sub
 
     Protected Overrides Sub OnShown(e As EventArgs)
@@ -42,6 +28,9 @@ Public Class MainForm
         ' so that registered delegates receive the event.
         MyBase.OnShown(e)
         Me.Hide()
+
+        'Reset initializing flag
+        Me.isInitializing = False
     End Sub
     Private Sub MainForm_LostFocus(sender As Object, e As EventArgs) Handles Me.LostFocus
         Me.Hide()
@@ -86,39 +75,6 @@ Public Class MainForm
 
         Try
             Using frm As New SettingsForm
-                frm.prgMain.SelectedObject = PowerTrayConfiguration
-
-                If frm.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
-                    'Salvataggio Impostazioni
-                    Try
-                        PowerTrayConfiguration.Save()
-                    Catch ex As Exception
-                        Util.ShowErrorException("Error during save settings.", ex, False)
-                    End Try
-                End If
-            End Using
-        Catch ex As Exception
-            Util.ShowErrorException("Error during open settings.", ex, False)
-        End Try
-
-        'Start del timer di esecuzione scripts
-        Me.tmrExecuteScripts.Start()
-
-        'Util.SetWaitCursor(False)
-
-        Me.mniNotifyIconSettings.Enabled = True
-    End Sub
-
-    Private Sub Settings2ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles Settings2ToolStripMenuItem.Click
-        Me.Settings2ToolStripMenuItem.Enabled = False
-
-        'Stop del timer di esecuzione scripts
-        Me.tmrExecuteScripts.Stop()
-
-        Try
-            Using frm As New SettingsForm1
-                'frm.prgMain.SelectedObject = PowerTrayConfiguration
-
                 If frm.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
                     'Salvataggio Impostazioni
                     Try
@@ -142,8 +98,11 @@ Public Class MainForm
         'Start del timer di esecuzione scripts
         Me.tmrExecuteScripts.Start()
 
-        Me.Settings2ToolStripMenuItem.Enabled = True
+        'Util.SetWaitCursor(False)
+
+        Me.mniNotifyIconSettings.Enabled = True
     End Sub
+
 
 #Region "Draw Output"
     Private Sub pnlMain_Paint(sender As Object, e As PaintEventArgs) Handles pnlMain.Paint
@@ -199,92 +158,5 @@ Public Class MainForm
 
 
 #End Region
-
-    '#Region "Execute Scripts"
-    '    Private Sub UtilExecuteScripts_ExecuteScriptsStarting(sender As Object, e As System.ComponentModel.CancelEventArgs)
-    '        'Condizioni di blocco
-    '    End Sub
-
-    '    Private Sub UtilExecuteScripts_ExecuteScriptsStarted(sender As Object, e As System.EventArgs)
-    '        Me.pnlMain.UtilInvokeRefresh()
-
-    '        'Impostazione icona blue durante esecuzione scripts
-    '        Me.nicMain.Icon = My.Resources.PowerTrayBlue
-    '    End Sub
-
-    '    Private Sub UtilExecuteScripts_ScriptExecuted(sender As Object, e As UtilScriptExecutedEventArgs)
-    '        Me.pnlMain.UtilInvokeRefresh()
-    '    End Sub
-
-    '    Private Sub UtilExecuteScripts_ExecuteScriptsComplete(sender As Object, e As System.EventArgs)
-    '        Me.pnlMain.UtilInvokeRefresh()
-
-    '        'Reimpostazione icona
-    '        If Not UtilExecuteScripts.ExecutionError Then
-    '            Me.nicMain.Icon = My.Resources.PowerTrayGreen
-    '        Else
-    '            Me.nicMain.Icon = My.Resources.PowerTrayRed
-    '        End If
-    '    End Sub
-
-    '    'Private Sub pnlMain_Refresh()
-    '    '    If Me.pnlMain.InvokeRequired Then
-    '    '        Me.pnlMain.BeginInvoke(New Action(Of Object, System.EventArgs)(AddressOf UtilExecuteScripts_ScriptsExecuted), sender, e)
-    '    '    Else
-    '    '        Me.pnlMain.Refresh()
-    '    '    End If
-    '    'End Sub
-
-
-    '    'Private executeScriptsErrorText As String = String.Empty
-    '    'Private scriptsOutput As New System.Collections.Generic.Dictionary(Of String, String)
-
-    '    'Private Sub ExecuteScripts()
-    '    '    Me.executeScriptsErrorText = String.Empty
-
-    '    '    For Each script In PowerTrayConfiguration.PSScripts
-    '    '        If Not script.Enabled Then Continue For
-
-    '    '        'Impostazione sourceScript
-    '    '        Dim sourceScript = String.Empty
-
-    '    '        If Not Me.scriptsOutput.ContainsKey(script.Name) Then
-    '    '            Select Case script.Source
-    '    '                Case PSScriptSettings.Sources.Text
-
-    '    '                Case PSScriptSettings.Sources.File
-
-    '    '                Case PSScriptSettings.Sources.Predefined
-    '    '                    Try
-    '    '                        sourceScript = Util.GetPredefinedScripts().Item(script.PredefinedScriptName)
-    '    '                    Catch ex As Exception
-    '    '                        'Me.DrawErrorText(Util.GetExceptionMessage("Error during read predefined scripts", ex), Graphics)
-    '    '                        Me.executeScriptsErrorText = Util.GetExceptionMessage(String.Format("Error during read predefined script '{0}'", script.PredefinedScriptName), ex)
-    '    '                        Exit Sub
-    '    '                    End Try
-    '    '            End Select
-    '    '        Else
-    '    '            sourceScript = Me.scriptsOutput.Item(script.Name)
-    '    '        End If
-
-    '    '        'Esecuzione script
-    '    '        'Me.scriptsOutput.Item(script.Name) = Util.RunPowerShellScript(sourceScript)
-    '    '        'System.Threading.Thread.Sleep(20000)
-    '    '    Next
-    '    'End Sub
-
-
-    '    'Private tmrMainLock As New Object
-    '    'Private tmrMainRunning As Boolean = False
-    '    'Private tmrMainLastExecution As Date = Date.MinValue
-
-    '    'Private xtmrExecuteScriptsError As String = String.Empty
-
-    '    Private Sub tmrExecuteScripts_Tick(sender As Object, e As EventArgs) Handles tmrExecuteScripts.Tick
-    '        'Esecuzione scripts
-    '        UtilExecuteScripts.ExecuteScriptsAsync(PSScriptSettings.ExecutionModes.OnRefreshInterval)
-    '    End Sub
-
-    '#End Region
 
 End Class

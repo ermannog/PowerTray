@@ -32,7 +32,6 @@ Partial Class MainForm
         Me.mniNotifyIconExit = New System.Windows.Forms.ToolStripMenuItem()
         Me.pnlMain = New System.Windows.Forms.Panel()
         Me.tmrExecuteScripts = New System.Windows.Forms.Timer(Me.components)
-        Me.Settings2ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.cmsNotifyIcon.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -45,9 +44,9 @@ Partial Class MainForm
         'cmsNotifyIcon
         '
         Me.cmsNotifyIcon.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.cmsNotifyIcon.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mniNotifyIconOpen, Me.mniNotifyIconSettings, Me.mniNotifyIconSeparator1, Me.mniNotifyIconExit, Me.Settings2ToolStripMenuItem})
+        Me.cmsNotifyIcon.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mniNotifyIconOpen, Me.mniNotifyIconSettings, Me.mniNotifyIconSeparator1, Me.mniNotifyIconExit})
         Me.cmsNotifyIcon.Name = "cmsNotifyIcon"
-        Me.cmsNotifyIcon.Size = New System.Drawing.Size(157, 136)
+        Me.cmsNotifyIcon.Size = New System.Drawing.Size(157, 110)
         '
         'mniNotifyIconOpen
         '
@@ -85,12 +84,6 @@ Partial Class MainForm
         Me.pnlMain.Size = New System.Drawing.Size(600, 366)
         Me.pnlMain.TabIndex = 1
         '
-        'Settings2ToolStripMenuItem
-        '
-        Me.Settings2ToolStripMenuItem.Name = "Settings2ToolStripMenuItem"
-        Me.Settings2ToolStripMenuItem.Size = New System.Drawing.Size(156, 26)
-        Me.Settings2ToolStripMenuItem.Text = "Settings2..."
-        '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -118,5 +111,4 @@ Partial Class MainForm
     Friend WithEvents mniNotifyIconSeparator1 As ToolStripSeparator
     Friend WithEvents mniNotifyIconOpen As ToolStripMenuItem
     Friend WithEvents tmrExecuteScripts As Timer
-    Friend WithEvents Settings2ToolStripMenuItem As ToolStripMenuItem
 End Class

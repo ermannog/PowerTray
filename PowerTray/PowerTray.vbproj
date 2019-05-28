@@ -98,16 +98,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
-    <Compile Include="MainForm.ExecuteScripts.vb">
+    <Compile Include="MainForm\MainForm.ExecuteScripts.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SettingsForm1.Designer.vb">
-      <DependentUpon>SettingsForm1.vb</DependentUpon>
+    <Compile Include="Settings\PSScriptSettings.vb" />
+    <Compile Include="Settings\SettingsForm.Designer.vb">
+      <DependentUpon>SettingsForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="SettingsForm1.vb">
+    <Compile Include="Settings\SettingsForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UtilControlExtensions.vb" />
+    <Compile Include="Util\UtilControlExtensions.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -123,22 +124,22 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="MainForm.Designer.vb">
+    <Compile Include="MainForm\MainForm.Designer.vb">
       <DependentUpon>MainForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.vb">
+    <Compile Include="MainForm\MainForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PowerTraySettings.vb" />
-    <Compile Include="SettingsForm.Designer.vb">
-      <DependentUpon>SettingsForm.vb</DependentUpon>
+    <Compile Include="Settings\PowerTraySettings.vb" />
+    <Compile Include="Settings\SettingsFormOLD.Designer.vb">
+      <DependentUpon>SettingsFormOLD.vb</DependentUpon>
     </Compile>
-    <Compile Include="SettingsForm.vb">
+    <Compile Include="Settings\SettingsFormOLD.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Util.vb" />
-    <Compile Include="UtilExecuteScripts.vb" />
-    <Compile Include="UtilPropertyGrid.vb" />
+    <Compile Include="Util\Util.vb" />
+    <Compile Include="Util\UtilExecuteScripts.vb" />
+    <Compile Include="Util\UtilPropertyGrid.vb" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -160,14 +161,14 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="MainForm\MainForm.resx">
       <DependentUpon>MainForm.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SettingsForm.resx">
-      <DependentUpon>SettingsForm.vb</DependentUpon>
+    <EmbeddedResource Include="Settings\SettingsFormOLD.resx">
+      <DependentUpon>SettingsFormOLD.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SettingsForm1.resx">
-      <DependentUpon>SettingsForm1.vb</DependentUpon>
+    <EmbeddedResource Include="Settings\SettingsForm.resx">
+      <DependentUpon>SettingsForm.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

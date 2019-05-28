@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class SettingsForm1
+Partial Class SettingsForm
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,13 +22,13 @@ Partial Class SettingsForm1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SettingsForm1))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SettingsForm))
         Me.btnOK = New System.Windows.Forms.Button()
         Me.btnCancel = New System.Windows.Forms.Button()
         Me.tbcMain = New System.Windows.Forms.TabControl()
         Me.tbpApplication = New System.Windows.Forms.TabPage()
         Me.prgApplicationSettings = New System.Windows.Forms.PropertyGrid()
-        Me.tblScripts = New System.Windows.Forms.TabPage()
+        Me.tbpScripts = New System.Windows.Forms.TabPage()
         Me.btnPreview = New System.Windows.Forms.Button()
         Me.btnRemove = New System.Windows.Forms.Button()
         Me.btnAdd = New System.Windows.Forms.Button()
@@ -40,14 +40,14 @@ Partial Class SettingsForm1
         Me.lsvScripts = New System.Windows.Forms.ListView()
         Me.tbcMain.SuspendLayout()
         Me.tbpApplication.SuspendLayout()
-        Me.tblScripts.SuspendLayout()
+        Me.tbpScripts.SuspendLayout()
         Me.SuspendLayout()
         '
         'btnOK
         '
         Me.btnOK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.btnOK.Location = New System.Drawing.Point(456, 406)
+        Me.btnOK.Location = New System.Drawing.Point(456, 486)
         Me.btnOK.Name = "btnOK"
         Me.btnOK.Size = New System.Drawing.Size(75, 23)
         Me.btnOK.TabIndex = 3
@@ -58,7 +58,7 @@ Partial Class SettingsForm1
         '
         Me.btnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancel.Location = New System.Drawing.Point(537, 406)
+        Me.btnCancel.Location = New System.Drawing.Point(537, 486)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(75, 23)
         Me.btnCancel.TabIndex = 2
@@ -71,11 +71,11 @@ Partial Class SettingsForm1
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tbcMain.Controls.Add(Me.tbpApplication)
-        Me.tbcMain.Controls.Add(Me.tblScripts)
+        Me.tbcMain.Controls.Add(Me.tbpScripts)
         Me.tbcMain.Location = New System.Drawing.Point(0, 0)
         Me.tbcMain.Name = "tbcMain"
         Me.tbcMain.SelectedIndex = 0
-        Me.tbcMain.Size = New System.Drawing.Size(625, 400)
+        Me.tbcMain.Size = New System.Drawing.Size(625, 480)
         Me.tbcMain.TabIndex = 4
         '
         'tbpApplication
@@ -84,7 +84,7 @@ Partial Class SettingsForm1
         Me.tbpApplication.Location = New System.Drawing.Point(4, 22)
         Me.tbpApplication.Name = "tbpApplication"
         Me.tbpApplication.Padding = New System.Windows.Forms.Padding(3)
-        Me.tbpApplication.Size = New System.Drawing.Size(617, 374)
+        Me.tbpApplication.Size = New System.Drawing.Size(617, 454)
         Me.tbpApplication.TabIndex = 0
         Me.tbpApplication.Text = "Application"
         Me.tbpApplication.UseVisualStyleBackColor = True
@@ -95,28 +95,28 @@ Partial Class SettingsForm1
         Me.prgApplicationSettings.Location = New System.Drawing.Point(3, 3)
         Me.prgApplicationSettings.Name = "prgApplicationSettings"
         Me.prgApplicationSettings.PropertySort = System.Windows.Forms.PropertySort.Categorized
-        Me.prgApplicationSettings.Size = New System.Drawing.Size(611, 368)
+        Me.prgApplicationSettings.Size = New System.Drawing.Size(611, 448)
         Me.prgApplicationSettings.TabIndex = 3
         Me.prgApplicationSettings.ToolbarVisible = False
         '
-        'tblScripts
+        'tbpScripts
         '
-        Me.tblScripts.Controls.Add(Me.btnPreview)
-        Me.tblScripts.Controls.Add(Me.btnRemove)
-        Me.tblScripts.Controls.Add(Me.btnAdd)
-        Me.tblScripts.Controls.Add(Me.prgScriptSettings)
-        Me.tblScripts.Controls.Add(Me.btnDown)
-        Me.tblScripts.Controls.Add(Me.btnUp)
-        Me.tblScripts.Controls.Add(Me.lblScriptProperties)
-        Me.tblScripts.Controls.Add(Me.lblScripts)
-        Me.tblScripts.Controls.Add(Me.lsvScripts)
-        Me.tblScripts.Location = New System.Drawing.Point(4, 22)
-        Me.tblScripts.Name = "tblScripts"
-        Me.tblScripts.Padding = New System.Windows.Forms.Padding(3)
-        Me.tblScripts.Size = New System.Drawing.Size(617, 374)
-        Me.tblScripts.TabIndex = 1
-        Me.tblScripts.Text = "Scripts"
-        Me.tblScripts.UseVisualStyleBackColor = True
+        Me.tbpScripts.Controls.Add(Me.btnPreview)
+        Me.tbpScripts.Controls.Add(Me.btnRemove)
+        Me.tbpScripts.Controls.Add(Me.btnAdd)
+        Me.tbpScripts.Controls.Add(Me.prgScriptSettings)
+        Me.tbpScripts.Controls.Add(Me.btnDown)
+        Me.tbpScripts.Controls.Add(Me.btnUp)
+        Me.tbpScripts.Controls.Add(Me.lblScriptProperties)
+        Me.tbpScripts.Controls.Add(Me.lblScripts)
+        Me.tbpScripts.Controls.Add(Me.lsvScripts)
+        Me.tbpScripts.Location = New System.Drawing.Point(4, 22)
+        Me.tbpScripts.Name = "tbpScripts"
+        Me.tbpScripts.Padding = New System.Windows.Forms.Padding(3)
+        Me.tbpScripts.Size = New System.Drawing.Size(617, 374)
+        Me.tbpScripts.TabIndex = 1
+        Me.tbpScripts.Text = "Scripts"
+        Me.tbpScripts.UseVisualStyleBackColor = True
         '
         'btnPreview
         '
@@ -164,6 +164,7 @@ Partial Class SettingsForm1
         '
         'btnDown
         '
+        Me.btnDown.Enabled = False
         Me.btnDown.Image = CType(resources.GetObject("btnDown.Image"), System.Drawing.Image)
         Me.btnDown.Location = New System.Drawing.Point(170, 48)
         Me.btnDown.Name = "btnDown"
@@ -173,6 +174,7 @@ Partial Class SettingsForm1
         '
         'btnUp
         '
+        Me.btnUp.Enabled = False
         Me.btnUp.Image = CType(resources.GetObject("btnUp.Image"), System.Drawing.Image)
         Me.btnUp.Location = New System.Drawing.Point(170, 19)
         Me.btnUp.Name = "btnUp"
@@ -211,27 +213,27 @@ Partial Class SettingsForm1
         Me.lsvScripts.UseCompatibleStateImageBehavior = False
         Me.lsvScripts.View = System.Windows.Forms.View.List
         '
-        'SettingsForm1
+        'SettingsForm
         '
         Me.AcceptButton = Me.btnOK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCancel
-        Me.ClientSize = New System.Drawing.Size(624, 441)
+        Me.ClientSize = New System.Drawing.Size(624, 521)
         Me.Controls.Add(Me.tbcMain)
         Me.Controls.Add(Me.btnOK)
         Me.Controls.Add(Me.btnCancel)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimizeBox = False
-        Me.Name = "SettingsForm1"
+        Me.Name = "SettingsForm"
         Me.ShowInTaskbar = False
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "{0} Settings"
         Me.tbcMain.ResumeLayout(False)
         Me.tbpApplication.ResumeLayout(False)
-        Me.tblScripts.ResumeLayout(False)
-        Me.tblScripts.PerformLayout()
+        Me.tbpScripts.ResumeLayout(False)
+        Me.tbpScripts.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -240,7 +242,7 @@ Partial Class SettingsForm1
     Friend WithEvents btnCancel As Button
     Friend WithEvents tbcMain As TabControl
     Friend WithEvents tbpApplication As TabPage
-    Friend WithEvents tblScripts As TabPage
+    Friend WithEvents tbpScripts As TabPage
     Friend WithEvents prgApplicationSettings As PropertyGrid
     Friend WithEvents lsvScripts As ListView
     Friend WithEvents lblScripts As Label

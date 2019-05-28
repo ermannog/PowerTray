@@ -520,7 +520,9 @@
 
         Dim isReadOnlyField = readOnlyAttribute.GetType().GetField("isReadOnly", System.Reflection.BindingFlags.NonPublic Or System.Reflection.BindingFlags.Instance)
 
-        isReadOnlyField.SetValue(readOnlyAttribute, value)
+        If System.Convert.ToBoolean(isReadOnlyField.GetValue(readOnlyAttribute)) <> value Then
+            isReadOnlyField.SetValue(readOnlyAttribute, value)
+        End If
     End Sub
 
     Public Shared Sub SetBrowsableAttribute(type As System.Type, propertyName As String, value As Boolean)
@@ -529,6 +531,8 @@
 
         Dim isBrowsableField = browsableAttribute.GetType().GetField("browsable", System.Reflection.BindingFlags.NonPublic Or System.Reflection.BindingFlags.Instance)
 
+        'If System.Convert.ToBoolean(isBrowsableField.GetValue(browsableAttribute)) <> value Then
         isBrowsableField.SetValue(browsableAttribute, value)
+        'End If
     End Sub
 End Class

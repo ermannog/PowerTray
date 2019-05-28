@@ -1,4 +1,4 @@
-﻿Public Class SettingsForm1
+﻿Public Class SettingsForm
     Private defaultLabelScriptPropertiesText As String = String.Empty
 
     Private Sub SettingsForm1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -11,6 +11,11 @@
         'Inizializzazione controlli
         Me.InitializeApplicationSettingsControls()
         Me.InitializeScriptsSettingsControls()
+
+        'Selezione primo script
+        If Me.lsvScripts.Items.Count >= 1 Then
+            Me.lsvScripts.Items(0).Selected = True
+        End If
 
         'Me.ResetLabelScriptPropertiesText()
 
@@ -46,7 +51,8 @@
         Me.prgScriptSettings.SelectedObject = Nothing
 
         Me.btnRemove.Enabled = False
-
+        Me.btnUp.Enabled = False
+        Me.btnDown.Enabled = False
         Me.btnPreview.Enabled = False
     End Sub
 
@@ -54,13 +60,30 @@
         Try
             If Me.lsvScripts.SelectedItems.Count = 1 Then
                 Me.lblScriptProperties.Text = String.Format(Me.defaultLabelScriptPropertiesText, Me.lsvScripts.SelectedItems(0).Text)
+                Me.prgScriptSettings.SelectedObject = Nothing
                 Me.prgScriptSettings.SelectedObject = Me.lsvScripts.SelectedItems(0).Tag
                 Me.btnRemove.Enabled = True
                 Me.btnPreview.Enabled = True
+
+                If Me.lsvScripts.Items.Count <= 1 Then
+                    Me.btnUp.Enabled = False
+                    Me.btnDown.Enabled = False
+                ElseIf Me.lsvScripts.SelectedIndices(0) = 0 Then
+                    Me.btnUp.Enabled = False
+                    Me.btnDown.Enabled = True
+                ElseIf Me.lsvScripts.SelectedIndices(0) = Me.lsvScripts.Items.Count - 1 Then
+                    Me.btnUp.Enabled = True
+                    Me.btnDown.Enabled = False
+                Else
+                    Me.btnUp.Enabled = True
+                    Me.btnDown.Enabled = True
+                End If
             Else
                 Me.ResetLabelScriptPropertiesText()
                 Me.prgScriptSettings.SelectedObject = Nothing
                 Me.btnRemove.Enabled = False
+                Me.btnUp.Enabled = False
+                Me.btnDown.Enabled = False
                 Me.btnPreview.Enabled = False
             End If
         Catch ex As Exception
@@ -103,5 +126,63 @@
         Catch ex As Exception
             Util.ShowErrorException("Error during remove script.", ex, False)
         End Try
+    End Sub
+    Private Sub btnUp_Click(sender As Object, e As EventArgs) Handles btnUp.Click
+        Try
+            Dim script = DirectCast(Me.lsvScripts.SelectedItems(0).Tag, PowerTray.PSScriptSettings)
+            Dim index = PowerTray.PowerTrayConfiguration.PSScripts.IndexOf(script)
+
+            PowerTray.PowerTrayConfiguration.PSScripts.Remove(script)
+            PowerTray.PowerTrayConfiguration.PSScripts.Insert(index - 1, script)
+
+            'Inizializzaizone controlli scripts
+            Me.InitializeScriptsSettingsControls()
+
+            'Selezione nuovo ListViewItem
+            Dim listViewitem = DirectCast(Me.lsvScripts.Items.Cast(Of System.Windows.Forms.ListViewItem).Where(Function(item) item.Tag Is script).First(), System.Windows.Forms.ListViewItem)
+            listViewitem.Selected = True
+
+            'Fuoco sul ListView
+            Me.lsvScripts.Focus()
+        Catch ex As Exception
+            Util.ShowErrorException("Error during move up script.", ex, False)
+        End Try
+    End Sub
+
+    Private Sub btnDown_Click(sender As Object, e As EventArgs) Handles btnDown.Click
+        Try
+            Dim script = DirectCast(Me.lsvScripts.SelectedItems(0).Tag, PowerTray.PSScriptSettings)
+            Dim index = PowerTray.PowerTrayConfiguration.PSScripts.IndexOf(script)
+
+            PowerTray.PowerTrayConfiguration.PSScripts.Remove(script)
+            PowerTray.PowerTrayConfiguration.PSScripts.Insert(index + 1, script)
+
+            'Inizializzaizone controlli scripts
+            Me.InitializeScriptsSettingsControls()
+
+            'Selezione nuovo ListViewItem
+            Dim listViewitem = DirectCast(Me.lsvScripts.Items.Cast(Of System.Windows.Forms.ListViewItem).Where(Function(item) item.Tag Is script).First(), System.Windows.Forms.ListViewItem)
+            listViewitem.Selected = True
+
+            'Fuoco sul ListView
+            Me.lsvScripts.Focus()
+        Catch ex As Exception
+            Util.ShowErrorException("Error during move down script.", ex, False)
+        End Try
+    End Sub
+
+    Private Sub tbcMain_SelectedIndexChanged(sender As Object, e As EventArgs) Handles tbcMain.SelectedIndexChanged
+        If Me.tbcMain.SelectedTab Is Me.tbpScripts Then
+            Me.lsvScripts.Focus()
+        End If
+    End Sub
+
+    Private Sub prgScriptSettings_PropertyValueChanged(s As Object, e As PropertyValueChangedEventArgs) Handles prgScriptSettings.PropertyValueChanged
+        'Update Selected ListViewItem Text with Name value
+        If e.ChangedItem.PropertyDescriptor.Name = "Name" AndAlso
+            Me.lsvScripts.SelectedItems.Count = 1 AndAlso
+            Me.lsvScripts.SelectedItems(0).Text = e.OldValue.ToString() Then
+            Me.lsvScripts.SelectedItems(0).Text = e.ChangedItem.Value.ToString()
+        End If
     End Sub
 End Class
