@@ -12,5 +12,5 @@
 #>
 
 $LastBootUpTime=Get-WmiObject -Class Win32_OperatingSystem | Select-Object  @{label='LastBootUpTime';expression={$_.ConvertToDateTime($_.LastBootUpTime)}}
-$UpTime=New-TimeSpan -Start $LastBootUpTime.LastBootUpTime.Date -End (Get-Date)
+$UpTime=New-TimeSpan -Start $LastBootUpTime.LastBootUpTime -End (Get-Date)
 $UpTime | Select-Object @{Label='Uptime'; Expression={$_.Days.ToString() + ' day(s) ' + $_.Hours.ToString() + ' hour(s) ' + $_.Minutes.ToString() +  ' minute(s)'}} | Format-Table -HideTableHeaders

@@ -113,7 +113,7 @@ Partial Class SettingsForm
         Me.tbpScripts.Location = New System.Drawing.Point(4, 22)
         Me.tbpScripts.Name = "tbpScripts"
         Me.tbpScripts.Padding = New System.Windows.Forms.Padding(3)
-        Me.tbpScripts.Size = New System.Drawing.Size(617, 374)
+        Me.tbpScripts.Size = New System.Drawing.Size(617, 454)
         Me.tbpScripts.TabIndex = 1
         Me.tbpScripts.Text = "Scripts"
         Me.tbpScripts.UseVisualStyleBackColor = True
@@ -122,7 +122,7 @@ Partial Class SettingsForm
         '
         Me.btnPreview.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnPreview.Enabled = False
-        Me.btnPreview.Location = New System.Drawing.Point(533, 345)
+        Me.btnPreview.Location = New System.Drawing.Point(533, 425)
         Me.btnPreview.Name = "btnPreview"
         Me.btnPreview.Size = New System.Drawing.Size(75, 23)
         Me.btnPreview.TabIndex = 7
@@ -133,7 +133,7 @@ Partial Class SettingsForm
         '
         Me.btnRemove.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnRemove.Enabled = False
-        Me.btnRemove.Location = New System.Drawing.Point(89, 345)
+        Me.btnRemove.Location = New System.Drawing.Point(89, 425)
         Me.btnRemove.Name = "btnRemove"
         Me.btnRemove.Size = New System.Drawing.Size(75, 23)
         Me.btnRemove.TabIndex = 6
@@ -143,7 +143,7 @@ Partial Class SettingsForm
         'btnAdd
         '
         Me.btnAdd.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAdd.Location = New System.Drawing.Point(8, 345)
+        Me.btnAdd.Location = New System.Drawing.Point(8, 425)
         Me.btnAdd.Name = "btnAdd"
         Me.btnAdd.Size = New System.Drawing.Size(75, 23)
         Me.btnAdd.TabIndex = 5
@@ -158,7 +158,7 @@ Partial Class SettingsForm
         Me.prgScriptSettings.Location = New System.Drawing.Point(199, 19)
         Me.prgScriptSettings.Name = "prgScriptSettings"
         Me.prgScriptSettings.PropertySort = System.Windows.Forms.PropertySort.Categorized
-        Me.prgScriptSettings.Size = New System.Drawing.Size(409, 320)
+        Me.prgScriptSettings.Size = New System.Drawing.Size(409, 400)
         Me.prgScriptSettings.TabIndex = 5
         Me.prgScriptSettings.ToolbarVisible = False
         '
@@ -208,7 +208,7 @@ Partial Class SettingsForm
         Me.lsvScripts.Location = New System.Drawing.Point(8, 19)
         Me.lsvScripts.MultiSelect = False
         Me.lsvScripts.Name = "lsvScripts"
-        Me.lsvScripts.Size = New System.Drawing.Size(156, 320)
+        Me.lsvScripts.Size = New System.Drawing.Size(156, 400)
         Me.lsvScripts.TabIndex = 0
         Me.lsvScripts.UseCompatibleStateImageBehavior = False
         Me.lsvScripts.View = System.Windows.Forms.View.List

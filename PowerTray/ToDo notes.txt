@@ -1,5 +1,5 @@
-﻿- Cerare editore custom per file in modo che rispetti l'attributo ReadOny
-- Gestire resize della form
+﻿- Gestire resize della form
 - Gestire colore sfondo e colore testo e carattere
 - Gestire il path del file configurazione cercando prima nel profilo utente poi nella directory del programma
   nella for di settings visualizzare il path del file e consentire di sceglire se operare a livello utente o di applicativo 
+- Gestire il preview dello script

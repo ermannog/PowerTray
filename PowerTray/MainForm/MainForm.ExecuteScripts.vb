@@ -8,7 +8,7 @@
         AddHandler UtilExecuteScripts.ExecuteScriptsComplete, AddressOf UtilExecuteScripts_ExecuteScriptsComplete
 
         'Esecuzione scripts di avvio
-        UtilExecuteScripts.ExecuteScriptsAsync(PSScriptSettings.ExecutionModes.OnStartupOnly, Me)
+        UtilExecuteScripts.ExecuteScriptsAsync(PSScriptSettings.ExecutionModes.OnStartup, Me)
 
         'Impostazione e attivazione Timer
         Me.tmrExecuteScripts.Interval = PowerTrayConfiguration.RefreshInterval
@@ -46,7 +46,7 @@
         UtilExecuteScripts.ExecuteScriptsAsync(PSScriptSettings.ExecutionModes.OnRefreshInterval, Me)
     End Sub
 
-    Private Sub MainForm_VisibleChanged(sender As Object, e As EventArgs) Handles Me.VisibleChanged
+    Private Sub MainFormExecuteScripts_VisibleChanged(sender As Object, e As EventArgs) Handles Me.VisibleChanged
         If Not Me.isInitializing AndAlso Me.Visible Then
             'Esecuzione scripts OnOpen
             UtilExecuteScripts.ExecuteScriptsAsync(PSScriptSettings.ExecutionModes.OnOpen, Me)

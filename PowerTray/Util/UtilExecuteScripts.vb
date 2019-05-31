@@ -28,6 +28,10 @@
     End Property
 #End Region
 
+    Public Sub ClearScriptsExecuteInfo()
+        UtilExecuteScripts.scriptsExecuteInfoValue.Clear()
+    End Sub
+
 #Region "Property ErrorMessages"
     Private errorMessagesValue As New System.Collections.Specialized.StringCollection()
 
@@ -110,7 +114,7 @@
 
                 If Not script.ExecutionMode = mode Then Continue For
 
-                If script.ExecutionMode = PSScriptSettings.ExecutionModes.OnStartupOnly Then
+                If script.ExecutionMode = PSScriptSettings.ExecutionModes.OnStartup Then
                     If UtilExecuteScripts.scriptsExecuteInfoValue.ContainsKey(script) Then
                         Continue For
                     End If
@@ -127,7 +131,6 @@
                 'Impostazione sourceScript
                 Dim sourceScript = String.Empty
 
-                'If Not UtilExecuteScripts.scriptsOutputValue.ContainsKey(script) Then
                 Select Case script.Source
                     Case PSScriptSettings.Sources.Text
                         sourceScript = script.Text
@@ -148,10 +151,6 @@
                             Continue For
                         End Try
                 End Select
-
-                'Else
-                '    sourceScript = UtilExecuteScripts.scriptsOutputValue.Item(script)
-                'End If
 
                 'Raise evento ScriptExecuting
                 Dim utilScriptExecutingEventArgs = New UtilScriptExecutingEventArgs(script)

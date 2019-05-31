@@ -18,6 +18,8 @@ Public Class MainForm
             Util.ShowErrorException("Error during load settings.", ex, False)
         End Try
 
+        Me.MainFormInitializeWithSettings()
+
         Me.ExecuteScriptsInitialize()
     End Sub
 
@@ -32,11 +34,20 @@ Public Class MainForm
         'Reset initializing flag
         Me.isInitializing = False
     End Sub
+
     Private Sub MainForm_LostFocus(sender As Object, e As EventArgs) Handles Me.LostFocus
         Me.Hide()
     End Sub
     Private Sub MainForm_FormClosed(sender As Object, e As EventArgs) Handles Me.FormClosed
         Me.nicMain.Visible = False
+    End Sub
+
+    Private Sub MainFormInitializeWithSettings()
+        'Impostazione size e location
+        If Me.Size <> PowerTrayConfiguration.OutputConsoleSize Then
+            Me.Size = PowerTrayConfiguration.OutputConsoleSize
+            Me.SetFormLocation()
+        End If
     End Sub
 
     Private Sub mniNotifyIconExit_Click(sender As Object, e As EventArgs) Handles mniNotifyIconExit.Click
@@ -49,17 +60,18 @@ Public Class MainForm
 
     Private Sub mniNotifyIconOpen_Click(sender As Object, e As EventArgs) Handles mniNotifyIconOpen.Click
         If Not Me.Visible Then
-            Dim y As Integer = My.Computer.Screen.WorkingArea.Top
-            If Cursor.Position.Y > My.Computer.Screen.WorkingArea.Height / 2 Then
-                y = My.Computer.Screen.WorkingArea.Bottom - Me.Height
-            End If
+            'Dim y As Integer = My.Computer.Screen.WorkingArea.Top
+            'If Cursor.Position.Y > My.Computer.Screen.WorkingArea.Height / 2 Then
+            '    y = My.Computer.Screen.WorkingArea.Bottom - Me.Height
+            'End If
 
-            Dim x = My.Computer.Screen.WorkingArea.Left
-            If Cursor.Position.X > My.Computer.Screen.WorkingArea.Width / 2 Then
-                x = My.Computer.Screen.WorkingArea.Right - Me.Width
-            End If
+            'Dim x = My.Computer.Screen.WorkingArea.Left
+            'If Cursor.Position.X > My.Computer.Screen.WorkingArea.Width / 2 Then
+            '    x = My.Computer.Screen.WorkingArea.Right - Me.Width
+            'End If
 
-            Me.Location = New Point(x, y)
+            'Me.Location = New Point(x, y)
+            Me.SetFormLocation()
             Me.Visible = True
             Me.Activate()
         Else
@@ -67,7 +79,22 @@ Public Class MainForm
         End If
     End Sub
 
+    Private Sub SetFormLocation()
+        Dim y As Integer = My.Computer.Screen.WorkingArea.Top
+        If Cursor.Position.Y > My.Computer.Screen.WorkingArea.Height / 2 Then
+            y = My.Computer.Screen.WorkingArea.Bottom - Me.Height
+        End If
+
+        Dim x = My.Computer.Screen.WorkingArea.Left
+        If Cursor.Position.X > My.Computer.Screen.WorkingArea.Width / 2 Then
+            x = My.Computer.Screen.WorkingArea.Right - Me.Width
+        End If
+
+        Me.Location = New Point(x, y)
+    End Sub
+
     Private Sub mniNotifyIconSettings_Click(sender As Object, e As EventArgs) Handles mniNotifyIconSettings.Click
+        'Disabilitazione voce menu contestuale settings per evitare avvii multipli
         Me.mniNotifyIconSettings.Enabled = False
 
         'Stop del timer di esecuzione scripts
@@ -76,19 +103,21 @@ Public Class MainForm
         Try
             Using frm As New SettingsForm
                 If frm.ShowDialog(Me) = Windows.Forms.DialogResult.OK Then
-                    'Salvataggio Impostazioni
-                    Try
-                        PowerTrayConfiguration.Save()
-                    Catch ex As Exception
-                        Util.ShowErrorException("Error during save settings.", ex, False)
-                    End Try
-                Else
                     'Rilettura delle impostazoni
                     Try
                         PowerTrayConfiguration.Load()
                     Catch ex As Exception
                         Util.ShowErrorException("Error during load settings.", ex, False)
                     End Try
+
+                    'Inizializzazione main form con nuove impostazioni
+                    Me.MainFormInitializeWithSettings()
+
+                    'Clear Scripts execute info
+                    UtilExecuteScripts.ClearScriptsExecuteInfo()
+
+                    'Forzatura esecuzione scripts di avvio
+                    UtilExecuteScripts.ExecuteScriptsAsync(PSScriptSettings.ExecutionModes.OnStartup, Me)
                 End If
             End Using
         Catch ex As Exception
@@ -98,11 +127,9 @@ Public Class MainForm
         'Start del timer di esecuzione scripts
         Me.tmrExecuteScripts.Start()
 
-        'Util.SetWaitCursor(False)
-
+        'Riabilitazione voce menu contestuale settings
         Me.mniNotifyIconSettings.Enabled = True
     End Sub
-
 
 #Region "Draw Output"
     Private Sub pnlMain_Paint(sender As Object, e As PaintEventArgs) Handles pnlMain.Paint

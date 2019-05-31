@@ -6,12 +6,14 @@ Imports System.ComponentModel
 Imports System.Drawing.Design
 
 Public Class PSScriptSettings
-    Public Shared Function CreateInstance() As PSScriptSettings
-        Return New PSScriptSettings()
+    Public Shared Function CreateInstance(name As String) As PSScriptSettings
+        Dim script = New PSScriptSettings()
+        script.nameValue = name
+        Return script
     End Function
 
     Private Sub New()
-        Me.nameValue = "Script name"
+        'Me.nameValue = "Script name"
     End Sub
 
     Private Const GeneralCategory As String = "General"
@@ -89,19 +91,11 @@ Public Class PSScriptSettings
     Private sourceInternal As PSScriptSettings.Sources = PSScriptSettings.DefaultSource
 
     <System.ComponentModel.RefreshProperties(RefreshProperties.All)>
+    <System.ComponentModel.TypeConverter(GetType(PSScriptSettings.EnumDescriptionConverter))>
     <System.ComponentModel.Category(PSScriptSettings.SourceCategory)>
     <System.ComponentModel.DefaultValue(PSScriptSettings.DefaultSource)>
     Public Property Source() As PSScriptSettings.Sources
         Get
-            'Set ReadOnly attribute on property Text
-            Util.SetReadOnlyAttribute(GetType(PSScriptSettings), "Text", Not Me.sourceInternal = Sources.Text)
-
-            'Set ReadOnly attribute on property FilePath
-            Util.SetReadOnlyAttribute(GetType(PSScriptSettings), "FilePath", Not Me.sourceInternal = Sources.File)
-
-            'Set ReadOnly attribute on property PredefinedScriptName
-            Util.SetReadOnlyAttribute(GetType(PSScriptSettings), "PredefinedScriptName", Not Me.sourceInternal = Sources.PredefinedScript)
-
             Return Me.sourceInternal
         End Get
         Set(ByVal value As PSScriptSettings.Sources)
@@ -133,8 +127,7 @@ Public Class PSScriptSettings
     Public Property Text() As String
         Get
             'Set ReadOnly attribute
-            'Util.SetReadOnlyAttribute(Me.GetType(), "Text", Not (Me.Source = Sources.Text))
-
+            Util.SetReadOnlyAttribute(Me.GetType(), "Text", Not (Me.Source = Sources.Text))
 
             Return Me.textInternalValue
         End Get
@@ -157,15 +150,15 @@ Public Class PSScriptSettings
 #Region "Property FilePath"
     Private filePathInternalValue As String = String.Empty
 
-    <System.ComponentModel.Editor(GetType(System.Windows.Forms.Design.FileNameEditor), GetType(System.Drawing.Design.UITypeEditor))>
+    <System.ComponentModel.Editor(GetType(PSScriptSettings.PSFileNameEditor), GetType(System.Drawing.Design.UITypeEditor))>
     <System.ComponentModel.Category(PSScriptSettings.SourceCategory)>
     <System.ComponentModel.DisplayName("Source file path")>
     <System.ComponentModel.DefaultValue("")>
     <System.ComponentModel.ReadOnly(True)>
     Public Property FilePath() As String
         Get
-            ''Set ReadOnly attribute
-            'Util.SetReadOnlyAttribute(Me.GetType(), "FilePath", Not (Me.Source = Sources.File))
+            'Set ReadOnly attribute
+            Util.SetReadOnlyAttribute(Me.GetType(), "FilePath", Not (Me.Source = Sources.File))
 
             Return Me.filePathInternalValue
         End Get
@@ -195,8 +188,8 @@ Public Class PSScriptSettings
     <System.ComponentModel.ReadOnly(True)>
     Public Property PredefinedScriptName() As String
         Get
-            ''Set ReadOnly attribute
-            'Util.SetReadOnlyAttribute(Me.GetType(), "PredefinedScriptName", Not (Me.Source = Sources.PredefinedScript))
+            'Set ReadOnly attribute
+            Util.SetReadOnlyAttribute(Me.GetType(), "PredefinedScriptName", Not (Me.Source = Sources.PredefinedScript))
 
             Return Me.predefinedScriptNameInternalValue
         End Get
@@ -214,34 +207,6 @@ Public Class PSScriptSettings
     Public Sub ResetPredefinedScriptName()
         Me.predefinedScriptNameInternalValue = String.Empty
     End Sub
-
-    Public Class PredefinedScriptNameConverter
-        Inherits System.ComponentModel.StringConverter
-
-        Public Overrides Function GetStandardValuesSupported(context As ITypeDescriptorContext) As Boolean
-            'true if GetStandardValues() should be called to find a common set of values the object supports
-            Return True
-        End Function
-
-        Public Overrides Function GetStandardValuesExclusive(context As ITypeDescriptorContext) As Boolean
-            'true if the TypeConverter.StandardValuesCollection returned from GetStandardValues() is an exhaustive list of possible values
-            Return True
-        End Function
-
-        Public Overrides Function GetStandardValues(context As ITypeDescriptorContext) As StandardValuesCollection
-            'Dim predefinedScripts = Util.GetPredefinedScripts()
-
-            Dim names(PowerTraySettings.PSPredefinedScripts.Count) As String
-
-            names(0) = String.Empty
-
-            If PowerTraySettings.PSPredefinedScripts.Count > 0 Then
-                PowerTraySettings.PSPredefinedScripts.Keys.CopyTo(names, 1)
-            End If
-
-            Return New StandardValuesCollection(names)
-        End Function
-    End Class
 #End Region
 
 #Region "Property Enabled"
@@ -264,9 +229,13 @@ Public Class PSScriptSettings
 
 #Region "Property ExecutionMode"
     Public Enum ExecutionModes As Integer
-        OnStartupOnly
+        <System.ComponentModel.Description("On startup application")>
+        OnStartup
+        <System.ComponentModel.Description("On open output console")>
         OnOpen
+        <System.ComponentModel.Description("On refresh interval")>
         OnRefreshInterval
+        <System.ComponentModel.Description("On manual start")>
         OnManualStart
     End Enum
 
@@ -275,17 +244,12 @@ Public Class PSScriptSettings
     Private executionModeInternal As PSScriptSettings.ExecutionModes = PSScriptSettings.DefaultExecutionMode
 
     <System.ComponentModel.RefreshProperties(RefreshProperties.All)>
+    <System.ComponentModel.TypeConverter(GetType(PSScriptSettings.EnumDescriptionConverter))>
     <System.ComponentModel.Category(PSScriptSettings.BehaviourCategory)>
     <System.ComponentModel.DisplayName("Execution mode")>
     <System.ComponentModel.DefaultValue(PSScriptSettings.DefaultExecutionMode)>
     Public Property ExecutionMode() As PSScriptSettings.ExecutionModes
         Get
-            'Set ReadOnly attribute on property ExecutionInterval
-            Util.SetReadOnlyAttribute(GetType(PSScriptSettings), "ExecutionInterval", Not Me.executionModeInternal = ExecutionModes.OnRefreshInterval)
-
-            'Set ReadOnly attribute on property ReExecuteOnlyWhenVisible
-            Util.SetReadOnlyAttribute(GetType(PSScriptSettings), "ReExecuteOnlyWhenVisible", Not Me.executionModeInternal = ExecutionModes.OnRefreshInterval)
-
             Return Me.executionModeInternal
         End Get
         Set(ByVal value As PSScriptSettings.ExecutionModes)
@@ -304,6 +268,9 @@ Public Class PSScriptSettings
     <System.ComponentModel.ReadOnly(False)>
     Public Property ExecutionInterval As Integer?
         Get
+            'Set ReadOnly attribute
+            Util.SetReadOnlyAttribute(GetType(PSScriptSettings), "ExecutionInterval", Not Me.executionModeInternal = ExecutionModes.OnRefreshInterval)
+
             Return Me.executionIntervalValue
         End Get
         Set(value As Integer?)
@@ -316,7 +283,7 @@ Public Class PSScriptSettings
         End Set
     End Property
 
-    Private Function ShouldSerializeExecutionInterval() As Boolean
+    Public Function ShouldSerializeExecutionInterval() As Boolean
         Return Me.executionIntervalValue.HasValue
     End Function
 #End Region
@@ -332,6 +299,9 @@ Public Class PSScriptSettings
     <System.ComponentModel.ReadOnly(False)>
     Public Property ReExecuteOnlyWhenVisible() As Boolean
         Get
+            'Set ReadOnly attribute
+            Util.SetReadOnlyAttribute(GetType(PSScriptSettings), "ReExecuteOnlyWhenVisible", Not Me.executionModeInternal = ExecutionModes.OnRefreshInterval)
+
             Return Me.reExecuteOnlyWhenVisibleValue
         End Get
         Set(ByVal value As Boolean)
@@ -391,7 +361,7 @@ Public Class PSScriptSettings
         End Set
     End Property
 
-    Private Function ShouldSerializeOutputLocation() As Boolean
+    Public Function ShouldSerializeOutputLocation() As Boolean
         Return Not Me.outputLocationValue.Equals(System.Drawing.Point.Empty)
     End Function
 #End Region

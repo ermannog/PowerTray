@@ -322,8 +322,7 @@
 
         'Creazione/Sovrascrittura File
         Dim serializer As System.Xml.Serialization.XmlSerializer
-        serializer = New System.Xml.Serialization.XmlSerializer(
-            obj.GetType())
+        serializer = New System.Xml.Serialization.XmlSerializer(obj.GetType())
 
         If encryptByRijndael Then
             Dim serializeText = String.Empty

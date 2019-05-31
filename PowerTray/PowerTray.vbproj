@@ -101,6 +101,9 @@
     <Compile Include="MainForm\MainForm.ExecuteScripts.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Settings\PSScriptSettings.EnumDescriptionConverter.vb" />
+    <Compile Include="Settings\PSScriptSettings.PredefinedScriptNameConverter.vb" />
+    <Compile Include="Settings\PSScriptSettings.PSFileNameEditor.vb" />
     <Compile Include="Settings\PSScriptSettings.vb" />
     <Compile Include="Settings\SettingsForm.Designer.vb">
       <DependentUpon>SettingsForm.vb</DependentUpon>
@@ -131,12 +134,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Settings\PowerTraySettings.vb" />
-    <Compile Include="Settings\SettingsFormOLD.Designer.vb">
-      <DependentUpon>SettingsFormOLD.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Settings\SettingsFormOLD.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Util\Util.vb" />
     <Compile Include="Util\UtilExecuteScripts.vb" />
     <Compile Include="Util\UtilPropertyGrid.vb" />
@@ -163,9 +160,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm\MainForm.resx">
       <DependentUpon>MainForm.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings\SettingsFormOLD.resx">
-      <DependentUpon>SettingsFormOLD.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\SettingsForm.resx">
       <DependentUpon>SettingsForm.vb</DependentUpon>

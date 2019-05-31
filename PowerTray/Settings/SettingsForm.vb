@@ -1,12 +1,30 @@
 ﻿Public Class SettingsForm
     Private defaultLabelScriptPropertiesText As String = String.Empty
 
-    Private Sub SettingsForm1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Public Property PowerTrayConfigurationClone As PowerTraySettings
+
+    Private Sub SettingsForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Impostazione Text  Form
         Me.Text = String.Format(Me.Text, My.Application.Info.Title)
 
         'Memorizzazione Text Label Script Properties
         Me.defaultLabelScriptPropertiesText = Me.lblScriptProperties.Text
+
+        'Creazione clone delle impostazioni
+        Try
+            Me.PowerTrayConfigurationClone = PowerTray.PowerTrayConfiguration.CreateInstance()
+        Catch ex As Exception
+            Util.ShowErrorException("Error during initialize settings.", ex, False)
+            Exit Sub
+        End Try
+
+        'Lettura impostazioni
+        Try
+            Me.PowerTrayConfigurationClone.Load()
+        Catch ex As Exception
+            Util.ShowErrorException("Error during load settings.", ex, False)
+            Exit Sub
+        End Try
 
         'Inizializzazione controlli
         Me.InitializeApplicationSettingsControls()
@@ -16,17 +34,6 @@
         If Me.lsvScripts.Items.Count >= 1 Then
             Me.lsvScripts.Items(0).Selected = True
         End If
-
-        'Me.ResetLabelScriptPropertiesText()
-
-        'Me.prgApplicationSettings.SelectedObject = PowerTrayConfiguration
-
-        'Me.lsvScripts.Items.Clear()
-        'For Each script In PowerTrayConfiguration.PSScripts
-        '    With Me.lsvScripts.Items.Add(script.Name)
-        '        .Tag = script
-        '    End With
-        'Next
     End Sub
 
     Private Sub ResetLabelScriptPropertiesText()
@@ -35,12 +42,12 @@
 
     Private Sub InitializeApplicationSettingsControls()
         Me.prgApplicationSettings.SelectedObject = Nothing
-        Me.prgApplicationSettings.SelectedObject = PowerTray.PowerTrayConfiguration
+        Me.prgApplicationSettings.SelectedObject = Me.PowerTrayConfigurationClone
     End Sub
 
     Private Sub InitializeScriptsSettingsControls()
         Me.lsvScripts.Clear()
-        For Each script In PowerTrayConfiguration.PSScripts
+        For Each script In Me.PowerTrayConfigurationClone.PSScripts
             With Me.lsvScripts.Items.Add(script.Name)
                 .Tag = script
             End With
@@ -93,11 +100,26 @@
 
     Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
         Try
-            'Aggiunta script
-            Dim script = PowerTray.PSScriptSettings.CreateInstance()
-            PowerTray.PowerTrayConfiguration.PSScripts.Add(script)
+            'Inizializzazione nome script
+            Dim scriptNameTemplate = "Script {0:0000}"
+            Dim scriptNameIndex = 0
+            Dim scriptName = String.Empty
 
-            'Inizializzaizone controlli scripts
+            Do
+                If scriptNameIndex = 0 Then
+                    scriptNameIndex = Me.PowerTrayConfigurationClone.PSScripts.Count + 1
+                Else
+                    scriptNameIndex += 1
+                End If
+
+                scriptName = String.Format(scriptNameTemplate, scriptNameIndex)
+            Loop Until Me.PowerTrayConfigurationClone.PSScripts.FirstOrDefault(Function(s) s.Name = scriptName) Is Nothing
+
+            'Aggiunta script
+            Dim script = PowerTray.PSScriptSettings.CreateInstance(scriptName)
+            Me.PowerTrayConfigurationClone.PSScripts.Add(script)
+
+            'Inizializzazione controlli scripts
             Me.InitializeScriptsSettingsControls()
 
             'Selezione nuovo ListViewItem
@@ -119,7 +141,7 @@
             If Util.ShowQuestion(String.Format("Confirm the removal of the script '{0}'?", script.Name)) = DialogResult.No Then Exit Sub
 
             'Rimozione script
-            PowerTray.PowerTrayConfiguration.PSScripts.Remove(script)
+            Me.PowerTrayConfigurationClone.PSScripts.Remove(script)
 
             'Inizializzaizone controlli scripts
             Me.InitializeScriptsSettingsControls()
@@ -130,10 +152,10 @@
     Private Sub btnUp_Click(sender As Object, e As EventArgs) Handles btnUp.Click
         Try
             Dim script = DirectCast(Me.lsvScripts.SelectedItems(0).Tag, PowerTray.PSScriptSettings)
-            Dim index = PowerTray.PowerTrayConfiguration.PSScripts.IndexOf(script)
+            Dim index = Me.PowerTrayConfigurationClone.PSScripts.IndexOf(script)
 
-            PowerTray.PowerTrayConfiguration.PSScripts.Remove(script)
-            PowerTray.PowerTrayConfiguration.PSScripts.Insert(index - 1, script)
+            Me.PowerTrayConfigurationClone.PSScripts.Remove(script)
+            Me.PowerTrayConfigurationClone.PSScripts.Insert(index - 1, script)
 
             'Inizializzaizone controlli scripts
             Me.InitializeScriptsSettingsControls()
@@ -152,10 +174,10 @@
     Private Sub btnDown_Click(sender As Object, e As EventArgs) Handles btnDown.Click
         Try
             Dim script = DirectCast(Me.lsvScripts.SelectedItems(0).Tag, PowerTray.PSScriptSettings)
-            Dim index = PowerTray.PowerTrayConfiguration.PSScripts.IndexOf(script)
+            Dim index = Me.PowerTrayConfigurationClone.PSScripts.IndexOf(script)
 
-            PowerTray.PowerTrayConfiguration.PSScripts.Remove(script)
-            PowerTray.PowerTrayConfiguration.PSScripts.Insert(index + 1, script)
+            Me.PowerTrayConfigurationClone.PSScripts.Remove(script)
+            Me.PowerTrayConfigurationClone.PSScripts.Insert(index + 1, script)
 
             'Inizializzaizone controlli scripts
             Me.InitializeScriptsSettingsControls()
@@ -184,5 +206,14 @@
             Me.lsvScripts.SelectedItems(0).Text = e.OldValue.ToString() Then
             Me.lsvScripts.SelectedItems(0).Text = e.ChangedItem.Value.ToString()
         End If
+    End Sub
+
+    Private Sub btnOK_Click(sender As Object, e As EventArgs) Handles btnOK.Click
+        'Salvataggio Impostazioni
+        Try
+            Me.PowerTrayConfigurationClone.Save()
+        Catch ex As Exception
+            Util.ShowErrorException("Error during save settings.", ex, False)
+        End Try
     End Sub
 End Class
