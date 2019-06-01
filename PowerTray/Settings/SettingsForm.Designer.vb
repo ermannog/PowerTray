@@ -22,6 +22,7 @@ Partial Class SettingsForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SettingsForm))
         Me.btnOK = New System.Windows.Forms.Button()
         Me.btnCancel = New System.Windows.Forms.Button()
@@ -38,9 +39,12 @@ Partial Class SettingsForm
         Me.lblScriptProperties = New System.Windows.Forms.Label()
         Me.lblScripts = New System.Windows.Forms.Label()
         Me.lsvScripts = New System.Windows.Forms.ListView()
+        Me.cmnPropertyGrid = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.cmiPropertyGridReset = New System.Windows.Forms.ToolStripMenuItem()
         Me.tbcMain.SuspendLayout()
         Me.tbpApplication.SuspendLayout()
         Me.tbpScripts.SuspendLayout()
+        Me.cmnPropertyGrid.SuspendLayout()
         Me.SuspendLayout()
         '
         'btnOK
@@ -91,6 +95,7 @@ Partial Class SettingsForm
         '
         'prgApplicationSettings
         '
+        Me.prgApplicationSettings.ContextMenuStrip = Me.cmnPropertyGrid
         Me.prgApplicationSettings.Dock = System.Windows.Forms.DockStyle.Fill
         Me.prgApplicationSettings.Location = New System.Drawing.Point(3, 3)
         Me.prgApplicationSettings.Name = "prgApplicationSettings"
@@ -155,6 +160,7 @@ Partial Class SettingsForm
         Me.prgScriptSettings.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.prgScriptSettings.ContextMenuStrip = Me.cmnPropertyGrid
         Me.prgScriptSettings.Location = New System.Drawing.Point(199, 19)
         Me.prgScriptSettings.Name = "prgScriptSettings"
         Me.prgScriptSettings.PropertySort = System.Windows.Forms.PropertySort.Categorized
@@ -213,6 +219,19 @@ Partial Class SettingsForm
         Me.lsvScripts.UseCompatibleStateImageBehavior = False
         Me.lsvScripts.View = System.Windows.Forms.View.List
         '
+        'cmnPropertyGrid
+        '
+        Me.cmnPropertyGrid.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.cmiPropertyGridReset})
+        Me.cmnPropertyGrid.Name = "cmnPropertyGrid"
+        Me.cmnPropertyGrid.Size = New System.Drawing.Size(153, 48)
+        '
+        'cmiPropertyGridReset
+        '
+        Me.cmiPropertyGridReset.Enabled = False
+        Me.cmiPropertyGridReset.Name = "cmiPropertyGridReset"
+        Me.cmiPropertyGridReset.Size = New System.Drawing.Size(152, 22)
+        Me.cmiPropertyGridReset.Text = "Reset"
+        '
         'SettingsForm
         '
         Me.AcceptButton = Me.btnOK
@@ -234,6 +253,7 @@ Partial Class SettingsForm
         Me.tbpApplication.ResumeLayout(False)
         Me.tbpScripts.ResumeLayout(False)
         Me.tbpScripts.PerformLayout()
+        Me.cmnPropertyGrid.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -253,4 +273,6 @@ Partial Class SettingsForm
     Friend WithEvents btnAdd As Button
     Friend WithEvents prgScriptSettings As PropertyGrid
     Friend WithEvents btnPreview As Button
+    Friend WithEvents cmnPropertyGrid As ContextMenuStrip
+    Friend WithEvents cmiPropertyGridReset As ToolStripMenuItem
 End Class

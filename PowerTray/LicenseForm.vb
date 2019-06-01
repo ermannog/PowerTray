@@ -13,12 +13,12 @@
                     My.Application.Info.AssemblyName & "-Eula.rtf")
                 Me.rtbLicense.SaveFile(tmpFileName, RichTextBoxStreamType.RichText)
 
-                Dim piStart As New ProcessStartInfo(tmpFileName)
+                Dim piStart As New System.Diagnostics.ProcessStartInfo(tmpFileName)
                 With piStart
                     .Verb = "Printto"
                     .Arguments = """" & prtDlg.PrinterSettings.PrinterName & """"
                     .CreateNoWindow = True
-                    .WindowStyle = ProcessWindowStyle.Hidden
+                    .WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden
                 End With
 
                 Using p As New System.Diagnostics.Process()

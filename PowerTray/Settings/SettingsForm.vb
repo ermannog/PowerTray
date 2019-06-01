@@ -216,4 +216,22 @@
             Util.ShowErrorException("Error during save settings.", ex, False)
         End Try
     End Sub
+
+    Private Sub cmnPropertyGrid_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles cmnPropertyGrid.Opening
+        Dim menu = DirectCast(sender, System.Windows.Forms.ContextMenuStrip)
+        Dim propertyGrid = DirectCast(menu.SourceControl, System.Windows.Forms.PropertyGrid)
+        If propertyGrid.SelectedGridItem.PropertyDescriptor IsNot Nothing Then
+            Dim canResetItem = propertyGrid.SelectedGridItem.PropertyDescriptor.CanResetValue(propertyGrid.SelectedObject)
+            Me.cmiPropertyGridReset.Enabled = canResetItem
+        End If
+    End Sub
+
+    Private Sub cmiPropertyGridReset_Click(sender As Object, e As EventArgs) Handles cmiPropertyGridReset.Click
+        Dim menuItem = DirectCast(sender, System.Windows.Forms.ToolStripMenuItem)
+        Dim menu = DirectCast(menuItem.Owner, System.Windows.Forms.ContextMenuStrip)
+        Dim propertyGrid = DirectCast(menu.SourceControl, System.Windows.Forms.PropertyGrid)
+
+        propertyGrid.SelectedGridItem.PropertyDescriptor.ResetValue(propertyGrid.SelectedObject)
+        propertyGrid.Refresh()
+    End Sub
 End Class

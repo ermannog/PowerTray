@@ -61,6 +61,16 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to {\rtf1\adeflang1025\ansi\ansicpg1252\uc1\adeff31507\deff0\stshfdbch31505\stshfloch31506\stshfhich31506\stshfbi31507\deflang1040\deflangfe1040\themelang1040\themelangfe0\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f3\fbidi \froman\fcharset2\fprq2{\*\panose 05050102010706020507}Symbol;}
+        '''{\f3\fbidi \froman\fcharset2\fprq2{\*\panose 05050102010706020507}Symbol;}{\flomajor\f31500\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property MIT_License() As String
+            Get
+                Return ResourceManager.GetString("MIT_License", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         '''</summary>
         Friend ReadOnly Property PowerTray() As System.Drawing.Icon
@@ -127,7 +137,7 @@ Namespace My.Resources
         '''$IPv4Adresses=Get-NetIPAddress -AddressFamily IPv4 | Where-Object PrefixOrigin -ne &apos;WellKnow&apos;
         '''$IPv4Adresses | Format-Table @{Label=&apos;C1&apos;; Expression={$_.InterfaceAlias}}, `
         '''	@{Label=&apos;C2&apos;; Expression={&apos;[&apos;+ $_.PrefixOrigin+&apos;]&apos;}; Alignment=&apos;Left&apos;}, `
-        '''	@{Label=&apos;C3&apos;; Expression={&apos;: &apos; + $_.IPAddress+&apos;/&apos;+$_.Pre [rest of string was truncated]&quot;;.
+        '''	@{Label=&apos;C3&apos;; Expression={&apos;: &apos; + $_.IPAddress + &apos;/&apos; + $_ [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property PSQuery_IPv4Info() As String
             Get
@@ -163,10 +173,10 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized string similar to &lt;#
         '''.SYNOPSIS
-        '''  Info on last boot up time
+        '''  Info on up time
         '''
         '''.DESCRIPTION
-        '''  Get the date and time the operating system was last restarted
+        '''  Get the time the operating system is up
         '''
         '''.NOTES
         '''  Version:        1.0
@@ -175,8 +185,8 @@ Namespace My.Resources
         '''#&gt;
         '''
         '''$LastBootUpTime=Get-WmiObject -Class Win32_OperatingSystem | Select-Object  @{label=&apos;LastBootUpTime&apos;;expression={$_.ConvertToDateTime($_.LastBootUpTime)}}
-        '''$UpTime=New-TimeSpan -Start $LastBootUpTime -End (Get-Date)
-        '''$UpTime | Select-Object Days, Hours, Minutes @{Label=&apos;Uptime&apos;; Exp [rest of string was truncated]&quot;;.
+        '''$UpTime=New-TimeSpan -Start $LastBootUpTime.LastBootUpTime -End (Get-Date)
+        '''$UpTime | Select-Object @{Label=&apos;Uptime&apos;; Expression={$_.Days.ToString() + &apos; day(s) [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property PSQuery_UpTime() As String
             Get

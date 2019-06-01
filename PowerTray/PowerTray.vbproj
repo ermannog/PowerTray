@@ -98,6 +98,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="LicenseForm.Designer.vb">
+      <DependentUpon>LicenseForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="LicenseForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainForm\MainForm.ExecuteScripts.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -152,6 +158,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="LicenseForm.resx">
+      <DependentUpon>LicenseForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -168,6 +177,7 @@
   <ItemGroup>
     <Content Include="Notes.txt" />
     <Content Include="PSQueries\PSQuery_UpTime.txt" />
+    <None Include="Resources\MIT License.rtf" />
     <None Include="ToDo notes.txt" />
     <None Include="PSQueries\PSQuery_LastBootUpTime.txt" />
     <None Include="PSQueries\PSQuery_IPv4Info.txt" />

@@ -17,47 +17,47 @@
         Return waitState
     End Function
 
-    '#Region "Gestione Licenza"
-    '    Public Shared Function CheckEulaAccepted(ByVal companyName As String, ByVal productName As String) As Boolean
-    '        Const EulaAcceptedValueName As String = "EulaAccepted"
-    '        Dim registryKey As String = String.Format("Software\{0}\{1}", _
-    '            companyName, productName)
+#Region "Gestione Licenza"
+    Public Shared Function CheckEulaAccepted(ByVal companyName As String, ByVal productName As String) As Boolean
+        Const EulaAcceptedValueName As String = "EulaAccepted"
+        Dim registryKey As String = String.Format("Software\{0}\{1}",
+            companyName, productName)
 
-    '        Dim key = My.Computer.Registry.CurrentUser.OpenSubKey(registryKey, True)
-    '        Dim value As Object = Nothing
+        Dim key = My.Computer.Registry.CurrentUser.OpenSubKey(registryKey, True)
+        Dim value As Object = Nothing
 
-    '        If key IsNot Nothing Then
-    '            value = key.GetValue(EulaAcceptedValueName)
-    '        End If
+        If key IsNot Nothing Then
+            value = key.GetValue(EulaAcceptedValueName)
+        End If
 
-    '        If key Is Nothing OrElse _
-    '            value Is Nothing OrElse _
-    '            String.IsNullOrEmpty(value.ToString()) OrElse _
-    '            value.ToString <> "1" Then
+        If key Is Nothing OrElse
+            value Is Nothing OrElse
+            String.IsNullOrEmpty(value.ToString()) OrElse
+            value.ToString <> "1" Then
 
-    '            'Visualizzazione Dialog
-    '            Using frm As New LicenseForm
-    '                If frm.ShowDialog() <> DialogResult.OK Then
-    '                    Return False
-    '                End If
-    '            End Using
+            'Visualizzazione Dialog
+            Using frm As New LicenseForm
+                If frm.ShowDialog() <> DialogResult.OK Then
+                    Return False
+                End If
+            End Using
 
-    '            'Creazione Key
-    '            If key Is Nothing Then
-    '                key = My.Computer.Registry.CurrentUser.CreateSubKey(registryKey)
-    '            End If
+            'Creazione Key
+            If key Is Nothing Then
+                key = My.Computer.Registry.CurrentUser.CreateSubKey(registryKey)
+            End If
 
-    '            'Impostazione Valore
-    '            If value Is Nothing OrElse _
-    '                String.IsNullOrEmpty(value.ToString()) OrElse _
-    '                value.ToString <> "1" Then
-    '                key.SetValue(EulaAcceptedValueName, 1, Microsoft.Win32.RegistryValueKind.DWord)
-    '            End If
-    '        End If
+            'Impostazione Valore
+            If value Is Nothing OrElse
+                String.IsNullOrEmpty(value.ToString()) OrElse
+                value.ToString <> "1" Then
+                key.SetValue(EulaAcceptedValueName, 1, Microsoft.Win32.RegistryValueKind.DWord)
+            End If
+        End If
 
-    '        Return True
-    '    End Function
-    '#End Region
+        Return True
+    End Function
+#End Region
 
 #Region "Method ShowMessage"
     Public Overloads Shared Function ShowMessage(ByVal text As String) As System.Windows.Forms.DialogResult

@@ -84,8 +84,11 @@ Public Class PowerTraySettings
     Public Function ShouldSerializeOutputConsoleSize() As Boolean
         Return Not Me.outputConsoleSizeValue.Equals(PowerTraySettings.DefaultOutputConsoleSize)
     End Function
-#End Region
 
+    Public Sub ResetOutputConsoleSize()
+        Me.OutputConsoleSize = PowerTraySettings.DefaultOutputConsoleSize
+    End Sub
+#End Region
 
 #Region "Property PSScripts"
     Private psScriptsValue As New System.Collections.Generic.List(Of PSScriptSettings)
