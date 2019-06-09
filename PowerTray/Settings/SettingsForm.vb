@@ -234,4 +234,11 @@
         propertyGrid.SelectedGridItem.PropertyDescriptor.ResetValue(propertyGrid.SelectedObject)
         propertyGrid.Refresh()
     End Sub
+
+    Private Sub btnPreview_Click(sender As Object, e As EventArgs) Handles btnPreview.Click
+        Using previewForm As New ScriptPreviewForm
+            previewForm.Script = DirectCast(Me.lsvScripts.SelectedItems(0).Tag, PowerTray.PSScriptSettings)
+            previewForm.ShowDialog(Me)
+        End Using
+    End Sub
 End Class

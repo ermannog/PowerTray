@@ -17,8 +17,6 @@ Partial Class PSScriptSettings
         End Function
 
         Public Overrides Function GetStandardValues(context As ITypeDescriptorContext) As StandardValuesCollection
-            'Dim predefinedScripts = Util.GetPredefinedScripts()
-
             Dim names(PowerTraySettings.PSPredefinedScripts.Count) As String
 
             names(0) = String.Empty

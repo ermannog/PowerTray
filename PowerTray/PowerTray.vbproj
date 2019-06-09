@@ -111,6 +111,12 @@
     <Compile Include="Settings\PSScriptSettings.PredefinedScriptNameConverter.vb" />
     <Compile Include="Settings\PSScriptSettings.PSFileNameEditor.vb" />
     <Compile Include="Settings\PSScriptSettings.vb" />
+    <Compile Include="Settings\ScriptPreviewForm.Designer.vb">
+      <DependentUpon>ScriptPreviewForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\ScriptPreviewForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Settings\SettingsForm.Designer.vb">
       <DependentUpon>SettingsForm.vb</DependentUpon>
     </Compile>
@@ -169,6 +175,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm\MainForm.resx">
       <DependentUpon>MainForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\ScriptPreviewForm.resx">
+      <DependentUpon>ScriptPreviewForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\SettingsForm.resx">
       <DependentUpon>SettingsForm.vb</DependentUpon>

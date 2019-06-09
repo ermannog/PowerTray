@@ -337,8 +337,7 @@
             serializeText = Nothing
         Else
             Using stream = New System.IO.FileStream(filePath, System.IO.FileMode.Create)
-                serializer = New System.Xml.Serialization.XmlSerializer(
-                    obj.GetType())
+                serializer = New System.Xml.Serialization.XmlSerializer(obj.GetType())
                 serializer.Serialize(stream, obj)
             End Using
         End If
@@ -350,8 +349,7 @@
         Dim obj As System.Object = System.Activator.CreateInstance(type)
         Util.XmlSerialize(filePath, obj, encryptByRijndael)
 
-        Dim iDisposable As System.Type = obj.GetType.GetInterface(
-            "IDisposable", True)
+        Dim iDisposable As System.Type = obj.GetType.GetInterface("IDisposable", True)
         If iDisposable IsNot Nothing Then
             DirectCast(obj, System.IDisposable).Dispose()
             iDisposable = Nothing

@@ -29,6 +29,8 @@ Partial Class SettingsForm
         Me.tbcMain = New System.Windows.Forms.TabControl()
         Me.tbpApplication = New System.Windows.Forms.TabPage()
         Me.prgApplicationSettings = New System.Windows.Forms.PropertyGrid()
+        Me.cmnPropertyGrid = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.cmiPropertyGridReset = New System.Windows.Forms.ToolStripMenuItem()
         Me.tbpScripts = New System.Windows.Forms.TabPage()
         Me.btnPreview = New System.Windows.Forms.Button()
         Me.btnRemove = New System.Windows.Forms.Button()
@@ -39,12 +41,10 @@ Partial Class SettingsForm
         Me.lblScriptProperties = New System.Windows.Forms.Label()
         Me.lblScripts = New System.Windows.Forms.Label()
         Me.lsvScripts = New System.Windows.Forms.ListView()
-        Me.cmnPropertyGrid = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.cmiPropertyGridReset = New System.Windows.Forms.ToolStripMenuItem()
         Me.tbcMain.SuspendLayout()
         Me.tbpApplication.SuspendLayout()
-        Me.tbpScripts.SuspendLayout()
         Me.cmnPropertyGrid.SuspendLayout()
+        Me.tbpScripts.SuspendLayout()
         Me.SuspendLayout()
         '
         'btnOK
@@ -103,6 +103,19 @@ Partial Class SettingsForm
         Me.prgApplicationSettings.Size = New System.Drawing.Size(611, 448)
         Me.prgApplicationSettings.TabIndex = 3
         Me.prgApplicationSettings.ToolbarVisible = False
+        '
+        'cmnPropertyGrid
+        '
+        Me.cmnPropertyGrid.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.cmiPropertyGridReset})
+        Me.cmnPropertyGrid.Name = "cmnPropertyGrid"
+        Me.cmnPropertyGrid.Size = New System.Drawing.Size(103, 26)
+        '
+        'cmiPropertyGridReset
+        '
+        Me.cmiPropertyGridReset.Enabled = False
+        Me.cmiPropertyGridReset.Name = "cmiPropertyGridReset"
+        Me.cmiPropertyGridReset.Size = New System.Drawing.Size(102, 22)
+        Me.cmiPropertyGridReset.Text = "Reset"
         '
         'tbpScripts
         '
@@ -219,19 +232,6 @@ Partial Class SettingsForm
         Me.lsvScripts.UseCompatibleStateImageBehavior = False
         Me.lsvScripts.View = System.Windows.Forms.View.List
         '
-        'cmnPropertyGrid
-        '
-        Me.cmnPropertyGrid.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.cmiPropertyGridReset})
-        Me.cmnPropertyGrid.Name = "cmnPropertyGrid"
-        Me.cmnPropertyGrid.Size = New System.Drawing.Size(153, 48)
-        '
-        'cmiPropertyGridReset
-        '
-        Me.cmiPropertyGridReset.Enabled = False
-        Me.cmiPropertyGridReset.Name = "cmiPropertyGridReset"
-        Me.cmiPropertyGridReset.Size = New System.Drawing.Size(152, 22)
-        Me.cmiPropertyGridReset.Text = "Reset"
-        '
         'SettingsForm
         '
         Me.AcceptButton = Me.btnOK
@@ -245,15 +245,14 @@ Partial Class SettingsForm
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimizeBox = False
         Me.Name = "SettingsForm"
-        Me.ShowInTaskbar = False
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "{0} Settings"
         Me.tbcMain.ResumeLayout(False)
         Me.tbpApplication.ResumeLayout(False)
+        Me.cmnPropertyGrid.ResumeLayout(False)
         Me.tbpScripts.ResumeLayout(False)
         Me.tbpScripts.PerformLayout()
-        Me.cmnPropertyGrid.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
