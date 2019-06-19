@@ -8,6 +8,15 @@ Public Class MainForm
         Me.nicMain.Text = My.Application.Info.Title
         Me.mniNotifyIconSettings.Font = New Font(Me.mniNotifyIconSettings.Font, FontStyle.Bold)
 
+        'Inizializzazione SaveFileDialog Export Settings
+        Me.sfdExport.Title = String.Format(Me.sfdExport.Title, My.Application.Info.Title)
+        Me.sfdExport.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+
+        'Inizializzazione OpenFielDialog Import Settings
+        Me.ofdImport.Title = String.Format(Me.sfdExport.Title, My.Application.Info.Title)
+        Me.ofdImport.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+
+
         'Impostazione Panel Output
         Me.pnlMain.UtilSetStyle(ControlStyles.OptimizedDoubleBuffer, True)
 
@@ -183,7 +192,34 @@ Public Class MainForm
         graphics.DrawString(text, System.Drawing.SystemFonts.DefaultFont, System.Drawing.Brushes.Red, rectangleF)
     End Sub
 
+#End Region
 
+#Region "Import Export Settings"
+    Private Sub mniExportSettings_Click(sender As Object, e As EventArgs) Handles mniExportSettings.Click
+        Try
+            If Me.sfdExport.ShowDialog(Me) = DialogResult.OK Then
+                PowerTrayConfiguration.Export(Me.sfdExport.FileName)
+                Util.ShowMessage("Settings exported successfully.")
+            End If
+        Catch ex As Exception
+            Util.ShowErrorException("Error during export settings.", ex, False)
+        End Try
+    End Sub
+
+    Private Sub ImportSettingsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ImportSettingsToolStripMenuItem.Click
+        Try
+            If Me.ofdImport.ShowDialog(Me) = DialogResult.OK Then
+                If PowerTrayConfiguration.Import(Me.ofdImport.FileName) Then
+                    Me.MainFormInitializeWithSettings()
+                    Util.ShowMessage("Settings imported successfully.")
+                Else
+                    Util.ShowError("Import settings failed.", False)
+                End If
+            End If
+        Catch ex As Exception
+            Util.ShowErrorException("Error during import settings.", ex, False)
+        End Try
+    End Sub
 #End Region
 
 End Class

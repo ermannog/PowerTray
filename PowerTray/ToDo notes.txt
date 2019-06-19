@@ -1,5 +1,6 @@
 ﻿X Gestire resize della form
 - Gestire colore sfondo e colore testo e carattere
-  nella for di settings visualizzare il path del file e consentire di sceglire se operare a livello utente o di applicativo 
-- Gestire il preview dello script
-- Gestire l'import e l'export della configurazazione (l'import anche da riga di comando)
+- nella form di settings visualizzare il path del file e consentire di sceglire se operare a livello utente o di applicativo 
+X Gestire il preview dello script
+X Gestire l'import e l'export della configurazazione
+- Gestire l'import da riga di comando)

@@ -62,12 +62,6 @@ Public Class PowerTraySettings
 #Region "Property OutputConsoleSize"
     Public Shared ReadOnly Property DefaultOutputConsoleSize As System.Drawing.Size = New System.Drawing.Size(500, 250)
 
-    'Public Shared ReadOnly Property DefaultOutputConsoleSize As System.Drawing.Size
-    '    Get
-    '        Return New System.Drawing.Size(500, 250)
-    '    End Get
-    'End Property
-
     Private outputConsoleSizeValue As System.Drawing.Size = PowerTraySettings.DefaultOutputConsoleSize
 
     <System.ComponentModel.Category(GeneralCategory)>
@@ -143,13 +137,25 @@ Public Class PowerTraySettings
         'http://support.microsoft.com/kb/816225/en-us
     End Sub
 
-    Public Sub Save()
+    Public Overloads Sub Save()
         'Util.XmlSerialize(Me.FilePath, Me, True)
         Util.XmlSerialize(Me.FilePath, Me, False)
     End Sub
 
+    Public Overloads Sub Export(file As String)
+        'Util.XmlSerialize(Me.FilePath, Me, True)
+        Util.XmlSerialize(file, Me, False)
+    End Sub
+
     Public Function Load() As Boolean
         'Return Util.XmlDeserialize(Me.FilePath, Me, True)
+        Return Util.XmlDeserialize(Me.FilePath, Me, False)
+    End Function
+
+    Public Function Import(file As String) As Boolean
+        'Return Util.XmlDeserialize(Me.FilePath, Me, True)
+        If Not Util.XmlDeserialize(file, Me, False) Then Return False
+
         Return Util.XmlDeserialize(Me.FilePath, Me, False)
     End Function
 

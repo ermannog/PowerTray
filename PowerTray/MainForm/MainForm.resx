@@ -121,7 +121,7 @@
     <value>17, 17</value>
   </metadata>
   <metadata name="cmsNotifyIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>127, 17</value>
+    <value>112, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="mniNotifyIconOpen.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -144,8 +144,36 @@
         GbaJ23xr3XcYUfQDBLTXdqeEP9MAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="mniExportSettings.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        xAAADsQBlSsOGwAAASdJREFUOE/dk7FKxEAQhmNjKXY2tlfpUyR1mqSwCxgFW1HwLSytIsiViskTHARB
+        tBHTH56NcuIp7nq3m/Z3ZknWmAsKVzrwQXZ2/o8hIQ5XWZbrxAOBBnzuEasVS2a4KgAGWzRwoHWJ3ZMr
+        OOEpDs9umjLmnFiuxn8K6GKHUDzYlhRFgTAMkec5SwbECmesgBp7d8MxNvcvTajNxfUQaZrC8zxkWcaS
+        e2KtKXjcoPBR/xbPE4Hxm8TW8cCEeQM10wiCAK7rGpIkYcnICuRUmeGnVzG3vlYaUnzC930rYEhA2e8N
+        RvUGk48pXt6loQ636RJsN98BX3YFa+YEXNSITFDKxQRc3OTLrlCTfy5QURSZgd+I45gFokvAX0Kw/Q/4
+        n4msoH5YDDhfmffi+vC6fXQAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="ImportSettingsToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        xAAADsQBlSsOGwAAAR5JREFUOE/dkr1OhEAUhbGxNHaWPoLvAA0FNFjYTUH2BdTnsLTCaL0FPMEmxBgt
+        l36joTBx3Wj4yQLtcc7IEGTRNZbe5Evg5p5v7hAMVtM0E0kqQcuhZH/AjhpuC4BCheePrzg6C2EcX2H5
+        XmjJkKlkt81/EaQMn17f43mVo64/A0mSwHEcmKYJ27YRxzH7M8neUKBOTpeZCp7fPKj3yeUtsixHkZdw
+        XReWZSGKIs7MJQd9wUJvsMrKDUm1ruF5ntqEBEHAmae+QPS/wZDp3QJhGHYCwkM6AYsSNrNyjZe3AicX
+        MxXmJnVVq2toeJ0NAYtNwrW/C/9KoBkLbxXwfmOhPv9cUAkhlOQnfN+nIB8T8F/Iad9CJRGdQD/8DRgf
+        eOHcFDY0wPoAAAAASUVORK5CYII=
+</value>
+  </data>
   <metadata name="tmrExecuteScripts.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>257, 17</value>
+    <value>242, 17</value>
+  </metadata>
+  <metadata name="ofdImport.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>391, 17</value>
+  </metadata>
+  <metadata name="sfdExport.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>498, 17</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>226</value>
