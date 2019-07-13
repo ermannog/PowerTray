@@ -57,6 +57,11 @@ Public Class MainForm
             Me.Size = PowerTrayConfiguration.OutputConsoleSize
             Me.SetFormLocation()
         End If
+
+        'Impostazione backcolor
+        If Not Me.BackColor.Equals(PowerTrayConfiguration.OutputConsoleBackColor) Then
+            Me.pnlMain.BackColor = PowerTrayConfiguration.OutputConsoleBackColor
+        End If
     End Sub
 
     Private Sub mniNotifyIconExit_Click(sender As Object, e As EventArgs) Handles mniNotifyIconExit.Click

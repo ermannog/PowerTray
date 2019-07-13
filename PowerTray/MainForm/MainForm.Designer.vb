@@ -51,61 +51,61 @@ Partial Class MainForm
         Me.cmsNotifyIcon.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.cmsNotifyIcon.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mniNotifyIconOpen, Me.mniNotifyIconSeparator1, Me.mniNotifyIconSettings, Me.mniExportSettings, Me.ImportSettingsToolStripMenuItem, Me.mniNotifyIconSeparator2, Me.mniNotifyIconExit})
         Me.cmsNotifyIcon.Name = "cmsNotifyIcon"
-        Me.cmsNotifyIcon.Size = New System.Drawing.Size(168, 146)
+        Me.cmsNotifyIcon.Size = New System.Drawing.Size(192, 146)
         '
         'mniNotifyIconOpen
         '
         Me.mniNotifyIconOpen.Image = CType(resources.GetObject("mniNotifyIconOpen.Image"), System.Drawing.Image)
         Me.mniNotifyIconOpen.Name = "mniNotifyIconOpen"
-        Me.mniNotifyIconOpen.Size = New System.Drawing.Size(167, 26)
+        Me.mniNotifyIconOpen.Size = New System.Drawing.Size(191, 26)
         Me.mniNotifyIconOpen.Text = "Open"
         '
         'mniNotifyIconSeparator1
         '
         Me.mniNotifyIconSeparator1.Name = "mniNotifyIconSeparator1"
-        Me.mniNotifyIconSeparator1.Size = New System.Drawing.Size(164, 6)
+        Me.mniNotifyIconSeparator1.Size = New System.Drawing.Size(188, 6)
         '
         'mniNotifyIconSettings
         '
         Me.mniNotifyIconSettings.Image = CType(resources.GetObject("mniNotifyIconSettings.Image"), System.Drawing.Image)
         Me.mniNotifyIconSettings.Name = "mniNotifyIconSettings"
-        Me.mniNotifyIconSettings.Size = New System.Drawing.Size(167, 26)
+        Me.mniNotifyIconSettings.Size = New System.Drawing.Size(191, 26)
         Me.mniNotifyIconSettings.Text = "Settings..."
         '
         'mniExportSettings
         '
         Me.mniExportSettings.Image = CType(resources.GetObject("mniExportSettings.Image"), System.Drawing.Image)
         Me.mniExportSettings.Name = "mniExportSettings"
-        Me.mniExportSettings.Size = New System.Drawing.Size(167, 26)
+        Me.mniExportSettings.Size = New System.Drawing.Size(191, 26)
         Me.mniExportSettings.Text = "Export settings..."
         '
         'ImportSettingsToolStripMenuItem
         '
         Me.ImportSettingsToolStripMenuItem.Image = CType(resources.GetObject("ImportSettingsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ImportSettingsToolStripMenuItem.Name = "ImportSettingsToolStripMenuItem"
-        Me.ImportSettingsToolStripMenuItem.Size = New System.Drawing.Size(167, 26)
+        Me.ImportSettingsToolStripMenuItem.Size = New System.Drawing.Size(191, 26)
         Me.ImportSettingsToolStripMenuItem.Text = "Import settings..."
         '
         'mniNotifyIconSeparator2
         '
         Me.mniNotifyIconSeparator2.Name = "mniNotifyIconSeparator2"
-        Me.mniNotifyIconSeparator2.Size = New System.Drawing.Size(164, 6)
+        Me.mniNotifyIconSeparator2.Size = New System.Drawing.Size(188, 6)
         '
         'mniNotifyIconExit
         '
         Me.mniNotifyIconExit.Name = "mniNotifyIconExit"
-        Me.mniNotifyIconExit.Size = New System.Drawing.Size(167, 26)
+        Me.mniNotifyIconExit.Size = New System.Drawing.Size(191, 26)
         Me.mniNotifyIconExit.Text = "Exit"
         '
         'pnlMain
         '
-        Me.pnlMain.BackColor = System.Drawing.SystemColors.Desktop
+        Me.pnlMain.BackColor = System.Drawing.Color.FromArgb(CType(CType(1, Byte), Integer), CType(CType(36, Byte), Integer), CType(CType(86, Byte), Integer))
         Me.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlMain.Location = New System.Drawing.Point(0, 0)
-        Me.pnlMain.Margin = New System.Windows.Forms.Padding(2)
+        Me.pnlMain.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.pnlMain.Name = "pnlMain"
-        Me.pnlMain.Size = New System.Drawing.Size(500, 250)
+        Me.pnlMain.Size = New System.Drawing.Size(667, 308)
         Me.pnlMain.TabIndex = 1
         '
         'ofdImport
@@ -124,13 +124,14 @@ Partial Class MainForm
         '
         'MainForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(500, 250)
+        Me.ClientSize = New System.Drawing.Size(667, 308)
         Me.ControlBox = False
         Me.Controls.Add(Me.pnlMain)
+        Me.ForeColor = System.Drawing.SystemColors.Desktop
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
-        Me.Margin = New System.Windows.Forms.Padding(2)
+        Me.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Name = "MainForm"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual

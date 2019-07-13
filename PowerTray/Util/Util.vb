@@ -337,7 +337,6 @@
             serializeText = Nothing
         Else
             Using stream = New System.IO.FileStream(filePath, System.IO.FileMode.Create)
-                serializer = New System.Xml.Serialization.XmlSerializer(obj.GetType())
                 serializer.Serialize(stream, obj)
             End Using
         End If

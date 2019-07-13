@@ -1,5 +1,7 @@
 ﻿X Gestire resize della form
-- Gestire colore sfondo e colore testo e carattere
+X Gestire colore sfondo
+- Gestire colore testo
+- Gestire carattere
 - nella form di settings visualizzare il path del file e consentire di sceglire se operare a livello utente o di applicativo 
 X Gestire il preview dello script
 X Gestire l'import e l'export della configurazazione

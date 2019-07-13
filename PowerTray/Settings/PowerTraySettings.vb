@@ -84,6 +84,45 @@ Public Class PowerTraySettings
     End Sub
 #End Region
 
+#Region "Property OutputConsoleBackColor"
+    Public Shared ReadOnly Property DefaultOutputConsoleBackColor As System.Drawing.Color = System.Drawing.Color.FromArgb(1, 36, 86)
+
+    Private outputConsoleBackColorValue As System.Drawing.Color = PowerTraySettings.DefaultOutputConsoleBackColor
+
+    <System.Xml.Serialization.XmlIgnore()>
+    <System.ComponentModel.Category(GeneralCategory)>
+    <System.ComponentModel.DisplayName("Output console backcolor")>
+    Public Property OutputConsoleBackColor As System.Drawing.Color
+        Get
+            Return Me.outputConsoleBackColorValue
+        End Get
+        Set(value As System.Drawing.Color)
+            Me.outputConsoleBackColorValue = value
+        End Set
+    End Property
+
+    Public Function ShouldSerializeOutputConsoleBackColor() As Boolean
+        Return Not Me.outputConsoleBackColorValue.Equals(PowerTraySettings.DefaultOutputConsoleBackColor)
+    End Function
+
+    Public Sub ResetOutputConsoleBackColor()
+        Me.OutputConsoleBackColor = PowerTraySettings.DefaultOutputConsoleBackColor
+    End Sub
+
+    <System.ComponentModel.Browsable(False)>
+    Public Property OutputConsoleBackColorHtml As String
+        Get
+            Return System.Drawing.ColorTranslator.ToHtml(Me.outputConsoleBackColorValue)
+        End Get
+        Set(value As String)
+            Me.outputConsoleBackColorValue = System.Drawing.ColorTranslator.FromHtml(value)
+        End Set
+    End Property
+    Public Function ShouldSerializeOutputConsoleBackColorHtml() As Boolean
+        Return Me.ShouldSerializeOutputConsoleBackColor()
+    End Function
+#End Region
+
 #Region "Property PSScripts"
     Private psScriptsValue As New System.Collections.Generic.List(Of PSScriptSettings)
 

@@ -71,7 +71,7 @@
     Private Shared Function SendMessage(ByVal hWnd As IntPtr, ByVal msg As Int32, ByVal wParam As Int32, ByRef lParam As System.Drawing.Point) As Int32
     End Function
 
-    Private Sub rtbScriptTextc_VScroll(sender As Object, e As EventArgs) Handles rtbScriptText.VScroll
+    Private Sub rtbScriptText_VScroll(sender As Object, e As EventArgs) Handles rtbScriptText.VScroll
         Const WM_USER As Integer = &H400
         Const EM_GETSCROLLPOS As Integer = WM_USER + 221
         Const EM_SETSCROLLPOS As Integer = WM_USER + 222
