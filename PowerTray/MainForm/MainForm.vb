@@ -59,8 +59,14 @@ Public Class MainForm
         End If
 
         'Impostazione backcolor
-        If Not Me.BackColor.Equals(PowerTrayConfiguration.OutputConsoleBackColor) Then
+        'If Not Me.BackColor.Equals(PowerTrayConfiguration.OutputConsoleBackColor) Then
+        If Not Me.pnlMain.BackColor.Equals(PowerTrayConfiguration.OutputConsoleBackColor) Then
             Me.pnlMain.BackColor = PowerTrayConfiguration.OutputConsoleBackColor
+        End If
+
+        'Impostazione forecolor
+        If Not Me.pnlMain.ForeColor.Equals(PowerTrayConfiguration.OutputConsoleForeColor) Then
+            Me.pnlMain.ForeColor = PowerTrayConfiguration.OutputConsoleForeColor
         End If
     End Sub
 
@@ -165,7 +171,11 @@ Public Class MainForm
                                 outputText += ControlChars.NewLine + executeInfo.Key.Label
                         End Select
                     End If
-                    e.Graphics.DrawString(outputText, System.Drawing.SystemFonts.DefaultFont, System.Drawing.SystemBrushes.HighlightText, executeInfo.Key.OutputLocation)
+
+                    'e.Graphics.DrawString(outputText, System.Drawing.SystemFonts.DefaultFont, System.Drawing.SystemBrushes.HighlightText, executeInfo.Key.OutputLocation)
+                    Using outputConsoleForeColorBrush As New System.Drawing.SolidBrush(Me.pnlMain.ForeColor)
+                        e.Graphics.DrawString(outputText, System.Drawing.SystemFonts.DefaultFont, outputConsoleForeColorBrush, executeInfo.Key.OutputLocation)
+                    End Using
                 Next
             Else
                 'Draw error
@@ -194,7 +204,10 @@ Public Class MainForm
         Const Offset = 10
         Dim rectangleF = New System.Drawing.RectangleF(Offset, Offset, graphics.VisibleClipBounds.Width - Offset, graphics.VisibleClipBounds.Height - Offset)
 
-        graphics.DrawString(text, System.Drawing.SystemFonts.DefaultFont, System.Drawing.Brushes.Red, rectangleF)
+        'graphics.DrawString(text, System.Drawing.SystemFonts.DefaultFont, System.Drawing.Brushes.Red, rectangleF)
+        Using outputConsoleForeColorErrorBrush As New System.Drawing.SolidBrush(PowerTrayConfiguration.OutputConsoleForeColorError)
+            graphics.DrawString(text, System.Drawing.SystemFonts.DefaultFont, outputConsoleForeColorErrorBrush, rectangleF)
+        End Using
     End Sub
 
 #End Region

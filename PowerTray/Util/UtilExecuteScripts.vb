@@ -75,7 +75,6 @@
     End Property
 #End Region
 
-
     Public Sub ExecuteScripts(mode As PSScriptSettings.ExecutionModes, mainForm As System.Windows.Forms.Form)
         If UtilExecuteScripts.isExecutingValue Then Exit Sub
 

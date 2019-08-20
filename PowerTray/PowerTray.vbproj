@@ -185,7 +185,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Notes.txt" />
-    <Content Include="PSQueries\PSQuery_UpTime.txt" />
+    <None Include="PSQueries\PSQuery_OSVersion.txt" />
+    <None Include="PSQueries\PSQuery_UpTime.txt" />
     <None Include="Resources\MIT License.rtf" />
     <None Include="ToDo notes.txt" />
     <None Include="PSQueries\PSQuery_LastBootUpTime.txt" />

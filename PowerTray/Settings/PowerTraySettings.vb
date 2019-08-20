@@ -123,6 +123,85 @@ Public Class PowerTraySettings
     End Function
 #End Region
 
+#Region "Property OutputConsoleForeColor"
+    Public Shared ReadOnly Property DefaultOutputConsoleForeColor As System.Drawing.Color = System.Drawing.Color.White
+
+    Private outputConsoleForeColorValue As System.Drawing.Color = PowerTraySettings.DefaultOutputConsoleForeColor
+
+    <System.Xml.Serialization.XmlIgnore()>
+    <System.ComponentModel.Category(GeneralCategory)>
+    <System.ComponentModel.DisplayName("Output console forecolor")>
+    Public Property OutputConsoleForeColor As System.Drawing.Color
+        Get
+            Return Me.outputConsoleForeColorValue
+        End Get
+        Set(value As System.Drawing.Color)
+            Me.outputConsoleForeColorValue = value
+        End Set
+    End Property
+
+    Public Function ShouldSerializeOutputConsoleForeColor() As Boolean
+        Return Not Me.outputConsoleForeColorValue.Equals(PowerTraySettings.DefaultOutputConsoleForeColor)
+    End Function
+
+    Public Sub ResetOutputConsoleForeColor()
+        Me.OutputConsoleForeColor = PowerTraySettings.DefaultOutputConsoleForeColor
+    End Sub
+
+    <System.ComponentModel.Browsable(False)>
+    Public Property OutputConsoleForeColorHtml As String
+        Get
+            Return System.Drawing.ColorTranslator.ToHtml(Me.outputConsoleForeColorValue)
+        End Get
+        Set(value As String)
+            Me.outputConsoleForeColorValue = System.Drawing.ColorTranslator.FromHtml(value)
+        End Set
+    End Property
+    Public Function ShouldSerializeOutputConsoleForeColorHtml() As Boolean
+        Return Me.ShouldSerializeOutputConsoleForeColor()
+    End Function
+#End Region
+
+#Region "Property OutputConsoleForeColorError"
+    Public Shared ReadOnly Property DefaultOutputConsoleForeColorError As System.Drawing.Color = System.Drawing.Color.Red
+
+    Private outputConsoleForeColorErrorValue As System.Drawing.Color = PowerTraySettings.DefaultOutputConsoleForeColorError
+
+    <System.Xml.Serialization.XmlIgnore()>
+    <System.ComponentModel.Category(GeneralCategory)>
+    <System.ComponentModel.DisplayName("Output console error forecolor")>
+    Public Property OutputConsoleForeColorError As System.Drawing.Color
+        Get
+            Return Me.outputConsoleForeColorErrorValue
+        End Get
+        Set(value As System.Drawing.Color)
+            Me.outputConsoleForeColorErrorValue = value
+        End Set
+    End Property
+
+    Public Function ShouldSerializeOutputConsoleForeColorError() As Boolean
+        Return Not Me.outputConsoleForeColorErrorValue.Equals(PowerTraySettings.DefaultOutputConsoleForeColorError)
+    End Function
+
+    Public Sub ResetOutputConsoleForeColorError()
+        Me.OutputConsoleForeColorError = PowerTraySettings.DefaultOutputConsoleForeColorError
+    End Sub
+
+    <System.ComponentModel.Browsable(False)>
+    Public Property OutputConsoleForeColorErrorHtml As String
+        Get
+            Return System.Drawing.ColorTranslator.ToHtml(Me.outputConsoleForeColorErrorValue)
+        End Get
+        Set(value As String)
+            Me.outputConsoleForeColorErrorValue = System.Drawing.ColorTranslator.FromHtml(value)
+        End Set
+    End Property
+    Public Function ShouldSerializeOutputConsoleForeColorErrorHtml() As Boolean
+        Return Me.ShouldSerializeOutputConsoleForeColorError()
+    End Function
+#End Region
+
+
 #Region "Property PSScripts"
     Private psScriptsValue As New System.Collections.Generic.List(Of PSScriptSettings)
 
