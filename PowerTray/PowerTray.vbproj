@@ -107,6 +107,11 @@
     <Compile Include="MainForm\MainForm.ExecuteScripts.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Settings\PSScriptSettings.EnumDescriptionConverter.vb" />
     <Compile Include="Settings\PSScriptSettings.PredefinedScriptNameConverter.vb" />
     <Compile Include="Settings\PSScriptSettings.PSFileNameEditor.vb" />
@@ -124,11 +129,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Util\UtilControlExtensions.vb" />
-    <Compile Include="My Project\Resources.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -170,8 +170,8 @@
     <EmbeddedResource Include="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm\MainForm.resx">
       <DependentUpon>MainForm.vb</DependentUpon>
@@ -185,6 +185,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Notes.txt" />
+    <None Include="PSQueries\PSQuery_MemInfo.txt" />
+    <None Include="PSQueries\PSQuery_CPUInfo.txt" />
+    <None Include="PSQueries\PSQuery_UserNameDnsDomain.txt" />
+    <None Include="PSQueries\PSQuery_UserNameNetBIOSDomain.txt" />
+    <None Include="PSQueries\PSQuery_LogonServer.txt" />
+    <None Include="PSQueries\PSQuery_UserName.txt" />
+    <None Include="PSQueries\PSQuery_HostName.txt" />
     <None Include="PSQueries\PSQuery_OSVersion.txt" />
     <None Include="PSQueries\PSQuery_UpTime.txt" />
     <None Include="Resources\MIT License.rtf" />

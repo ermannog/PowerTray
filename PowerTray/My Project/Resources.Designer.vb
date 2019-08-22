@@ -123,6 +123,50 @@ Namespace My.Resources
         '''<summary>
         '''  Cerca una stringa localizzata simile a &lt;#
         '''.SYNOPSIS
+        '''  Info on processor
+        '''
+        '''.DESCRIPTION
+        '''  Get the info on processor
+        '''
+        '''.NOTES
+        '''  Version:        1.0
+        '''  Author:         Ermanno Goletto
+        '''  Creation Date:  2019-05-23
+        '''#&gt;
+        '''
+        '''Get-WmiObject -Class Win32_Processor | Select-Object @{label=&apos;CPUInfo&apos;;expression={$_.Name + &apos; (&apos; + $_.NumberOfCores + &apos; cores, &apos; + $_.NumberOfLogicalProcessors + &apos; logical processors)&apos;}} | Format-Table -HideTableHeaders.
+        '''</summary>
+        Friend ReadOnly Property PSQuery_CPUInfo() As String
+            Get
+                Return ResourceManager.GetString("PSQuery_CPUInfo", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Cerca una stringa localizzata simile a &lt;#
+        '''.SYNOPSIS
+        '''  Hostname
+        '''
+        '''.DESCRIPTION
+        '''  Get hostname
+        '''
+        '''.NOTES
+        '''  Version:        1.0
+        '''  Author:         Ermanno Goletto
+        '''  Creation Date:  2019-08-22
+        '''#&gt;
+        '''
+        '''$env:COMPUTERNAME.
+        '''</summary>
+        Friend ReadOnly Property PSQuery_HostName() As String
+            Get
+                Return ResourceManager.GetString("PSQuery_HostName", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Cerca una stringa localizzata simile a &lt;#
+        '''.SYNOPSIS
         '''  Info on IPv4 settings
         '''
         '''.DESCRIPTION
@@ -173,6 +217,51 @@ Namespace My.Resources
         '''<summary>
         '''  Cerca una stringa localizzata simile a &lt;#
         '''.SYNOPSIS
+        '''  Logon Server
+        '''
+        '''.DESCRIPTION
+        '''  Get logon server
+        '''
+        '''.NOTES
+        '''  Version:        1.0
+        '''  Author:         Ermanno Goletto
+        '''  Creation Date:  2019-08-22
+        '''#&gt;
+        '''
+        '''$env:LOGONSERVER.
+        '''</summary>
+        Friend ReadOnly Property PSQuery_LogonServer() As String
+            Get
+                Return ResourceManager.GetString("PSQuery_LogonServer", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Cerca una stringa localizzata simile a &lt;#
+        '''.SYNOPSIS
+        '''  Info on processor
+        '''
+        '''.DESCRIPTION
+        '''  Get the info on processor
+        '''
+        '''.NOTES
+        '''  Version:        1.0
+        '''  Author:         Ermanno Goletto
+        '''  Creation Date:  2019-05-23
+        '''#&gt;
+        '''
+        '''#Get-WmiObject -Class Win32_Processor | Select-Object @{label=&apos;CPUInfo&apos;;expression={$_.Name + &apos; (&apos; + $_.NumberOfCores + &apos; cores, &apos; + $_.NumberOfLogicalProcessors + &apos; logical processors)&apos;}} | Format-Table -HideTableHeaders
+        '''(Get-WmiObject -class &quot;cim_physicalmemory&quot; | Measure-Object -Property Capacity -Sum).Sum / 1Gb.
+        '''</summary>
+        Friend ReadOnly Property PSQuery_MemInfo() As String
+            Get
+                Return ResourceManager.GetString("PSQuery_MemInfo", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Cerca una stringa localizzata simile a &lt;#
+        '''.SYNOPSIS
         '''  Info on operating system version
         '''
         '''.DESCRIPTION
@@ -184,9 +273,10 @@ Namespace My.Resources
         '''  Creation Date:  2019-08-20
         '''#&gt;
         '''
-        '''$ProductName=(Get-ItemProperty &quot;HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot;).ProductName
-        '''$Version=(Get-ItemProperty &quot;HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot;).ReleaseId
-        '''$CurrentBuild=(Get-ItemProperty &quot;HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot;).CurrentBui [stringa troncata]&quot;;.
+        '''$ProductName=(Get-ItemProperty &apos;HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion&apos;).ProductName
+        '''$Version=(Get-ItemProperty &apos;HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion&apos;).ReleaseId
+        '''$Build=(Get-ItemProperty &apos;HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion&apos;).CurrentBuild
+        '''$UB [stringa troncata]&quot;;.
         '''</summary>
         Friend ReadOnly Property PSQuery_OSVersion() As String
             Get
@@ -215,6 +305,72 @@ Namespace My.Resources
         Friend ReadOnly Property PSQuery_UpTime() As String
             Get
                 Return ResourceManager.GetString("PSQuery_UpTime", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Cerca una stringa localizzata simile a &lt;#
+        '''.SYNOPSIS
+        '''  UserName
+        '''
+        '''.DESCRIPTION
+        '''  Get username
+        '''
+        '''.NOTES
+        '''  Version:        1.0
+        '''  Author:         Ermanno Goletto
+        '''  Creation Date:  2019-08-22
+        '''#&gt;
+        '''
+        '''$env:USERNAME.
+        '''</summary>
+        Friend ReadOnly Property PSQuery_UserName() As String
+            Get
+                Return ResourceManager.GetString("PSQuery_UserName", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Cerca una stringa localizzata simile a &lt;#
+        '''.SYNOPSIS
+        '''  UserName with DNS domain
+        '''
+        '''.DESCRIPTION
+        '''  Get username with DNS domain
+        '''
+        '''.NOTES
+        '''  Version:        1.0
+        '''  Author:         Ermanno Goletto
+        '''  Creation Date:  2019-08-22
+        '''#&gt;
+        '''
+        '''$env:USERNAME + &apos;@&apos; + $env:USERDNSDOMAIN.
+        '''</summary>
+        Friend ReadOnly Property PSQuery_UserNameDnsDomain() As String
+            Get
+                Return ResourceManager.GetString("PSQuery_UserNameDnsDomain", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Cerca una stringa localizzata simile a &lt;#
+        '''.SYNOPSIS
+        '''  UserName with NetBIOS domain
+        '''
+        '''.DESCRIPTION
+        '''  Get username with NetBIOS domain
+        '''
+        '''.NOTES
+        '''  Version:        1.0
+        '''  Author:         Ermanno Goletto
+        '''  Creation Date:  2019-08-22
+        '''#&gt;
+        '''
+        '''$env:USERDOMAIN + &apos;\&apos; + $env:USERNAME.
+        '''</summary>
+        Friend ReadOnly Property PSQuery_UserNameNetBIOSDomain() As String
+            Get
+                Return ResourceManager.GetString("PSQuery_UserNameNetBIOSDomain", resourceCulture)
             End Get
         End Property
     End Module

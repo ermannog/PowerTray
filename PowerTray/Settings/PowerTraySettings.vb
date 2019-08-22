@@ -24,7 +24,9 @@ Public Class PowerTraySettings
     End Property
 #End Region
 
-    Private ReadOnly Property FilePath() As String
+    <System.ComponentModel.DisplayName("Settings file")>
+    <System.ComponentModel.Description("Settings file path")>
+    Public ReadOnly Property FilePath() As String
         Get
             Dim applicationDataPath = System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
             Dim company = System.Windows.Forms.Application.CompanyName

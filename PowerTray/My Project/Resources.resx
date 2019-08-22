@@ -148,4 +148,25 @@
   <data name="PSQuery_OSVersion" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\PSQueries\PSQuery_OSVersion.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="PSQuery_CPUInfo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\PSQueries\PSQuery_CPUInfo.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="PSQuery_HostName" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\PSQueries\PSQuery_HostName.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="PSQuery_LogonServer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\PSQueries\PSQuery_LogonServer.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="PSQuery_MemInfo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\PSQueries\PSQuery_MemInfo.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="PSQuery_UserName" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\PSQueries\PSQuery_UserName.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="PSQuery_UserNameDnsDomain" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\PSQueries\PSQuery_UserNameDnsDomain.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="PSQuery_UserNameNetBIOSDomain" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\PSQueries\PSQuery_UserNameNetBIOSDomain.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
 </root>

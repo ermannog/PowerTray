@@ -1,0 +1,14 @@
+<#
+.SYNOPSIS
+  UserName with NetBIOS domain
+
+.DESCRIPTION
+  Get username with NetBIOS domain
+
+.NOTES
+  Version:        1.0
+  Author:         Ermanno Goletto
+  Creation Date:  2019-08-22
+#>
+
+$env:USERDOMAIN + '\' + $env:USERNAME

@@ -1,0 +1,14 @@
+﻿<#
+.SYNOPSIS
+  Info on processor
+
+.DESCRIPTION
+  Get the info on processor
+
+.NOTES
+  Version:        1.0
+  Author:         Ermanno Goletto
+  Creation Date:  2019-05-23
+#>
+
+Get-WmiObject -Class Win32_Processor | Select-Object @{label='CPUInfo';expression={$_.Name + ' (' + $_.NumberOfCores + ' cores, ' + $_.NumberOfLogicalProcessors + ' logical processors)'}} | Format-Table -HideTableHeaders

@@ -1,0 +1,14 @@
+<#
+.SYNOPSIS
+  UserName with DNS domain
+
+.DESCRIPTION
+  Get username with DNS domain
+
+.NOTES
+  Version:        1.0
+  Author:         Ermanno Goletto
+  Creation Date:  2019-08-22
+#>
+
+$env:USERNAME + '@' + $env:USERDNSDOMAIN

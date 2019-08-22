@@ -1,0 +1,14 @@
+<#
+.SYNOPSIS
+  Hostname
+
+.DESCRIPTION
+  Get hostname
+
+.NOTES
+  Version:        1.0
+  Author:         Ermanno Goletto
+  Creation Date:  2019-08-22
+#>
+
+$env:COMPUTERNAME
