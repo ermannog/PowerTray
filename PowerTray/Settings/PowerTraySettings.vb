@@ -28,14 +28,24 @@ Public Class PowerTraySettings
     <System.ComponentModel.Description("Settings file path")>
     Public ReadOnly Property FilePath() As String
         Get
+            Dim product = System.Windows.Forms.Application.ProductName
+            Dim fileName = product & ".settings"
+
+            'Se esiste un file di impostazione nel profilo utente viene restituito il path di questo file
             Dim applicationDataPath = System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
             Dim company = System.Windows.Forms.Application.CompanyName
-            Dim product = System.Windows.Forms.Application.ProductName
-
-            Return System.IO.Path.Combine(
-                System.IO.Path.Combine(
+            Dim userSettingsFilePath = System.IO.Path.Combine(
+                    System.IO.Path.Combine(
                     System.IO.Path.Combine(applicationDataPath, company), product),
-                    product & ".settings")
+                    fileName)
+            If System.IO.File.Exists(userSettingsFilePath) Then Return userSettingsFilePath
+
+            'Se esiste un file di impostazione nel path in cui è stato avviata l'applicazione viene restituito il path di questo file
+            Dim applicationSettingFilePath = System.IO.Path.Combine(My.Application.Info.DirectoryPath, fileName)
+            If System.IO.File.Exists(applicationSettingFilePath) Then Return applicationSettingFilePath
+
+            'In caso contrario viene restituito il path del file nel profilo utente
+            Return userSettingsFilePath
         End Get
     End Property
 

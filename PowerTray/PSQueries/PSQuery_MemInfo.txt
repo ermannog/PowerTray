@@ -11,7 +11,6 @@
   Creation Date:  2019-05-23
 #>
 
-#Get-WmiObject -Class Win32_Processor | Select-Object @{label='CPUInfo';expression={$_.Name + ' (' + $_.NumberOfCores + ' cores, ' + $_.NumberOfLogicalProcessors + ' logical processors)'}} | Format-Table -HideTableHeaders
 $PhysicalRAM = (Get-WmiObject -Class Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1Gb
 $PhysicalRAMBanks = (Get-WmiObject -Class Win32_PhysicalMemory).Count
 

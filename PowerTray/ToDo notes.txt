@@ -4,6 +4,7 @@ X Gestire colore testo
 - Gestire carattere
 - nella form di settings visualizzare il path del file e consentire di sceglire se operare a livello utente o di applicativo
   (si può cercare prima se esiste un file di impostazione a livello utente e poi se esiste nella cartella da cui è stato avviato l'applicativo)
+  (al monento il percoso del file è visualizzato nella property grid)
 X Gestire il preview dello script
 X Gestire l'import e l'export della configurazazione
 - Gestire l'import da riga di comando)

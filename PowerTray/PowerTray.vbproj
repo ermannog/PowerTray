@@ -185,6 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Notes.txt" />
+    <None Include="PSQueries\PSQuery_IPv6Info.txt" />
     <None Include="PSQueries\PSQuery_MemInfo.txt" />
     <None Include="PSQueries\PSQuery_CPUInfo.txt" />
     <None Include="PSQueries\PSQuery_UserNameDnsDomain.txt" />

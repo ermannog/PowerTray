@@ -192,6 +192,31 @@ Namespace My.Resources
         '''<summary>
         '''  Cerca una stringa localizzata simile a &lt;#
         '''.SYNOPSIS
+        '''  Info on IPv6 settings
+        '''
+        '''.DESCRIPTION
+        '''  Get IPv6 WellKnow addresses of the system
+        '''
+        '''.NOTES
+        '''  Version:        1.0
+        '''  Author:         Ermanno Goletto
+        '''  Creation Date:  2019-09-22
+        '''#&gt;
+        '''
+        '''$IPv6Adresses=Get-NetIPAddress -AddressFamily IPv6 | Where-Object PrefixOrigin -ne &apos;WellKnow&apos;
+        '''$IPv6Adresses | Format-Table @{Label=&apos;C1&apos;; Expression={$_.InterfaceAlias}}, `
+        '''	@{Label=&apos;C2&apos;; Expression={&apos;[&apos;+ $_.PrefixOrigin+&apos;]&apos;}; Alignment=&apos;Left&apos;}, `
+        '''	@{Label=&apos;C3&apos;; Expression={&apos;: &apos; + $_.IPAddress + &apos;/&apos; + $_ [stringa troncata]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property PSQuery_IPv6Info() As String
+            Get
+                Return ResourceManager.GetString("PSQuery_IPv6Info", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Cerca una stringa localizzata simile a &lt;#
+        '''.SYNOPSIS
         '''  Info on last boot up time
         '''
         '''.DESCRIPTION
@@ -239,10 +264,10 @@ Namespace My.Resources
         '''<summary>
         '''  Cerca una stringa localizzata simile a &lt;#
         '''.SYNOPSIS
-        '''  Info on processor
+        '''  Info on phycal memory
         '''
         '''.DESCRIPTION
-        '''  Get the info on processor
+        '''  Get the info on phycal memory
         '''
         '''.NOTES
         '''  Version:        1.0
@@ -250,8 +275,10 @@ Namespace My.Resources
         '''  Creation Date:  2019-05-23
         '''#&gt;
         '''
-        '''#Get-WmiObject -Class Win32_Processor | Select-Object @{label=&apos;CPUInfo&apos;;expression={$_.Name + &apos; (&apos; + $_.NumberOfCores + &apos; cores, &apos; + $_.NumberOfLogicalProcessors + &apos; logical processors)&apos;}} | Format-Table -HideTableHeaders
-        '''(Get-WmiObject -class &quot;cim_physicalmemory&quot; | Measure-Object -Property Capacity -Sum).Sum / 1Gb.
+        '''$PhysicalRAM = (Get-WmiObject -Class Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1Gb
+        '''$PhysicalRAMBanks = (Get-WmiObject -Class Win32_PhysicalMemory).Count
+        '''
+        '''$PhysicalRAM.ToString() + &apos; Gb (&apos; + $PhysicalRAMBanks +  &apos; banks)&apos;.
         '''</summary>
         Friend ReadOnly Property PSQuery_MemInfo() As String
             Get

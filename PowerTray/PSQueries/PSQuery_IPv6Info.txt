@@ -1,0 +1,22 @@
+﻿<#
+.SYNOPSIS
+  Info on IPv6 settings
+
+.DESCRIPTION
+  Get IPv6 WellKnow addresses of the system
+
+.NOTES
+  Version:        1.0
+  Author:         Ermanno Goletto
+  Creation Date:  2019-09-22
+#>
+
+$IPv6Adresses=Get-NetIPAddress -AddressFamily IPv6 | Where-Object PrefixOrigin -ne 'WellKnow'
+$IPv6Adresses | Format-Table @{Label='C1'; Expression={$_.InterfaceAlias}}, `
+	@{Label='C2'; Expression={'['+ $_.PrefixOrigin+']'}; Alignment='Left'}, `
+	@{Label='C3'; Expression={': ' + $_.IPAddress + '/' + $_.PrefixLength}} `
+	-HideTableHeaders -AutoSize
+
+# Get-NetIPAddress -AddressFamily IPv4 | Where-Object PrefixOrigin -ne 'WellKnow'| Format-Table InterfaceAlias, @{Name='Origin'; Expression={'['+ $_.PrefixOrigin+']'}; Alignment='Left'}, {': ' + $_.IPAddress+'/'+$_.PrefixLength} -HideTableHeaders
+# Get-NetIPAddress -AddressFamily IPv4 | Where-Object PrefixOrigin -ne 'WellKnow' | Select-Object @{name='Address'; expression={$_.IPAddress+'/ '+$_.PrefixLength+' ['+$_.PrefixOrigin+']'}}, @{name='Interface'; expression={$_.InterfaceAlias}}, @{name='State'; expression={$_.AddressState}}
+# Get-NetIPAddress -AddressFamily IPv4 | Where-Object PrefixOrigin -ne 'WellKnow'| Format-Table InterfaceAlias, @{Expression={'['+$_.PrefixOrigin+']'}; Alignment='Left'}, {': ' + $_.IPAddress+'/'+$_.PrefixLength} -HideTableHeaders
