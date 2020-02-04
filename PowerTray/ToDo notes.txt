@@ -6,5 +6,5 @@ X Gestire colore testo
   (si può cercare prima se esiste un file di impostazione a livello utente e poi se esiste nella cartella da cui è stato avviato l'applicativo)
   (al monento il percoso del file è visualizzato nella property grid)
 X Gestire il preview dello script
-X Gestire l'import e l'export della configurazazione
-- Gestire l'import da riga di comando)
+X Gestire l'import e l'export della configurazione
+- Gestire l'impostazione di un file configurazione da riga di comando

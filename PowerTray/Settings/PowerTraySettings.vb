@@ -28,6 +28,12 @@ Public Class PowerTraySettings
     <System.ComponentModel.Description("Settings file path")>
     Public ReadOnly Property FilePath() As String
         Get
+            'Verifica se è stato specificato un file di configurazione all'avvio
+            If Not String.IsNullOrWhiteSpace(My.Application.StartupConfigurationFile) Then
+                Return My.Application.StartupConfigurationFile
+            End If
+
+
             Dim product = System.Windows.Forms.Application.ProductName
             Dim fileName = product & ".settings"
 
