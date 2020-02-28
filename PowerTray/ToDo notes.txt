@@ -1,10 +1,10 @@
 ﻿X Gestire resize della form
 X Gestire colore sfondo
 X Gestire colore testo
-- Gestire carattere
+X Gestire carattere testo
 - nella form di settings visualizzare il path del file e consentire di sceglire se operare a livello utente o di applicativo
   (si può cercare prima se esiste un file di impostazione a livello utente e poi se esiste nella cartella da cui è stato avviato l'applicativo)
-  (al monento il percoso del file è visualizzato nella property grid)
+  (al momento il percoso del file è visualizzato nella property grid)
 X Gestire il preview dello script
 X Gestire l'import e l'export della configurazione
-- Gestire l'impostazione di un file configurazione da riga di comando
+X Gestire l'impostazione di un file configurazione da riga di comando

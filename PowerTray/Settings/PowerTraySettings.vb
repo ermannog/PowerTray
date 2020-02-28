@@ -219,6 +219,49 @@ Public Class PowerTraySettings
     End Function
 #End Region
 
+#Region "Property OutputConsoleFont"
+    Public Shared ReadOnly Property DefaultOutputConsoleFont As System.Drawing.Font = System.Drawing.SystemFonts.DefaultFont
+
+    Private outputConsoleFontValue As System.Drawing.Font = PowerTraySettings.DefaultOutputConsoleFont
+
+    <System.Xml.Serialization.XmlIgnore()>
+    <System.ComponentModel.Category(GeneralCategory)>
+    <System.ComponentModel.DisplayName("Output console font")>
+    Public Property OutputConsoleFont As System.Drawing.Font
+        Get
+            Return Me.outputConsoleFontValue
+        End Get
+        Set(value As System.Drawing.Font)
+            Me.outputConsoleFontValue = value
+        End Set
+    End Property
+
+    Public Function ShouldSerializeOutputConsoleFont() As Boolean
+        Dim fc As New System.Drawing.FontConverter
+        Return Not (fc.ConvertToInvariantString(Me.outputConsoleFontValue) = fc.ConvertToInvariantString(PowerTraySettings.DefaultOutputConsoleFont))
+    End Function
+
+    Public Sub ResetOutputConsoleFont()
+        Me.outputConsoleFontValue = PowerTraySettings.DefaultOutputConsoleFont
+    End Sub
+
+    <System.ComponentModel.Browsable(False)>
+    Public Property OutputConsoleFontInvariantString As String
+        Get
+            Dim fc As New System.Drawing.FontConverter
+            Return fc.ConvertToInvariantString(Me.outputConsoleFontValue)
+        End Get
+        Set(value As String)
+            'Il confronto eseguito con il metodo Equals restisce False per che la Proprietà GdiCharSet differisce
+            'https://docs.microsoft.com/en-us/dotnet/api/system.drawing.font.equals
+            Dim fc As New System.Drawing.FontConverter
+            Me.outputConsoleFontValue = DirectCast(fc.ConvertFromInvariantString(value), System.Drawing.Font)
+        End Set
+    End Property
+    Public Function ShouldSerializeOutputConsoleFontInvariantString() As Boolean
+        Return Me.ShouldSerializeOutputConsoleFont()
+    End Function
+#End Region
 
 #Region "Property PSScripts"
     Private psScriptsValue As New System.Collections.Generic.List(Of PSScriptSettings)

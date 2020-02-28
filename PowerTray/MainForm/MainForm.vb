@@ -68,6 +68,11 @@ Public Class MainForm
         If Not Me.pnlMain.ForeColor.Equals(PowerTrayConfiguration.OutputConsoleForeColor) Then
             Me.pnlMain.ForeColor = PowerTrayConfiguration.OutputConsoleForeColor
         End If
+
+        'Impostazione font
+        If Not Me.pnlMain.Font.Equals(PowerTrayConfiguration.OutputConsoleFont) Then
+            Me.pnlMain.Font = PowerTrayConfiguration.OutputConsoleFont
+        End If
     End Sub
 
     Private Sub mniNotifyIconExit_Click(sender As Object, e As EventArgs) Handles mniNotifyIconExit.Click
@@ -174,7 +179,9 @@ Public Class MainForm
 
                     'e.Graphics.DrawString(outputText, System.Drawing.SystemFonts.DefaultFont, System.Drawing.SystemBrushes.HighlightText, executeInfo.Key.OutputLocation)
                     Using outputConsoleForeColorBrush As New System.Drawing.SolidBrush(Me.pnlMain.ForeColor)
-                        e.Graphics.DrawString(outputText, System.Drawing.SystemFonts.DefaultFont, outputConsoleForeColorBrush, executeInfo.Key.OutputLocation)
+                        Using outputConsoleFont As New System.Drawing.Font(Me.pnlMain.Font, Me.pnlMain.Font.Style)
+                            e.Graphics.DrawString(outputText, outputConsoleFont, outputConsoleForeColorBrush, executeInfo.Key.OutputLocation)
+                        End Using
                     End Using
                 Next
             Else

@@ -26,7 +26,6 @@ Namespace My
         End Property
 
 
-
         Private Sub MyApplication_Startup(sender As Object, e As StartupEventArgs) Handles Me.Startup
             'Check License 
             Try
