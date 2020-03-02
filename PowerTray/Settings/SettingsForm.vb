@@ -43,6 +43,25 @@
     Private Sub InitializeApplicationSettingsControls()
         Me.prgApplicationSettings.SelectedObject = Nothing
         Me.prgApplicationSettings.SelectedObject = Me.PowerTrayConfigurationClone
+
+        'Inizializzaione Button ManageSettingsFile e DeleteManageSettingsFile
+        If Me.PowerTrayConfigurationClone.SourceSettings = PowerTraySettings.SourcesSettings.User Then
+            Me.btnManageSettingsFile.Text = "Move settings file to application folder"
+            Me.btnManageSettingsFile.Enabled = System.IO.File.Exists(Me.PowerTrayConfigurationClone.UserFilePath)
+            Me.btnManageSettingsFile.Visible = True
+
+            Me.btnDeleteSettingsFile.Text = "Delete user settings file"
+            Me.btnDeleteSettingsFile.Enabled = System.IO.File.Exists(Me.PowerTrayConfigurationClone.UserFilePath)
+            Me.btnDeleteSettingsFile.Visible = True
+        ElseIf Me.PowerTrayConfigurationClone.SourceSettings = PowerTraySettings.SourcesSettings.Application Then
+            Me.btnManageSettingsFile.Text = "Copy settings file to user profile"
+            Me.btnManageSettingsFile.Enabled = System.IO.File.Exists(Me.PowerTrayConfigurationClone.ApplicationFilePath)
+            Me.btnManageSettingsFile.Visible = True
+
+            Me.btnDeleteSettingsFile.Text = "Delete application settings file"
+            Me.btnDeleteSettingsFile.Enabled = System.IO.File.Exists(Me.PowerTrayConfigurationClone.ApplicationFilePath)
+            Me.btnDeleteSettingsFile.Visible = True
+        End If
     End Sub
 
     Private Sub InitializeScriptsSettingsControls()
@@ -242,4 +261,51 @@
         End Using
     End Sub
 
+    Private Sub btnMoveSettingsFileToApplicationFolder_Click(sender As Object, e As EventArgs) Handles btnManageSettingsFile.Click
+        Try
+            If Me.PowerTrayConfigurationClone.SourceSettings = PowerTraySettings.SourcesSettings.User Then
+                If Util.ShowQuestion("Are you sure you want to move the settings file from the user profile folder to the application folder?") = DialogResult.No Then Exit Sub
+
+                'Move del file dal profilo utente alla cartella dell'applicazione
+                My.Computer.FileSystem.MoveFile(Me.PowerTrayConfigurationClone.UserFilePath, Me.PowerTrayConfigurationClone.ApplicationFilePath, True)
+            ElseIf Me.PowerTrayConfigurationClone.SourceSettings = PowerTraySettings.SourcesSettings.Application Then
+                If Util.ShowQuestion("Are you sure you want to move the settings file from the application folder to the user profile folder?") = DialogResult.No Then Exit Sub
+
+                'Move del file dal profilo utente alla cartella dell'applicazione
+                My.Computer.FileSystem.CopyFile(Me.PowerTrayConfigurationClone.ApplicationFilePath, Me.PowerTrayConfigurationClone.UserFilePath, True)
+            End If
+        Catch ex As Exception
+            If Me.PowerTrayConfigurationClone.SourceSettings = PowerTraySettings.SourcesSettings.User Then
+                Util.ShowErrorException("Error during move settings file from the user profile folder to the application folder.", ex, True)
+            ElseIf Me.PowerTrayConfigurationClone.SourceSettings = PowerTraySettings.SourcesSettings.Application Then
+                Util.ShowErrorException("Error during move settings file from the application folder to the user profile folder.", ex, True)
+            Else
+                Util.ShowErrorException(ex, True)
+            End If
+        End Try
+    End Sub
+
+    Private Sub btnDeleteSettingsFile_Click(sender As Object, e As EventArgs) Handles btnDeleteSettingsFile.Click
+        Try
+            If Me.PowerTrayConfigurationClone.SourceSettings = PowerTraySettings.SourcesSettings.User Then
+                If Util.ShowQuestion("Are you sure you want to delete the settings file from the user profile folder?") = DialogResult.No Then Exit Sub
+
+                'Move del file dal profilo utente alla cartella dell'applicazione
+                My.Computer.FileSystem.DeleteFile(Me.PowerTrayConfigurationClone.UserFilePath)
+            ElseIf Me.PowerTrayConfigurationClone.SourceSettings = PowerTraySettings.SourcesSettings.Application Then
+                If Util.ShowQuestion("Are you sure you want to delete the settings file from the application folder?") = DialogResult.No Then Exit Sub
+
+                'Move del file dal profilo utente alla cartella dell'applicazione
+                My.Computer.FileSystem.DeleteFile(Me.PowerTrayConfigurationClone.ApplicationFilePath)
+            End If
+        Catch ex As Exception
+            If Me.PowerTrayConfigurationClone.SourceSettings = PowerTraySettings.SourcesSettings.User Then
+                Util.ShowErrorException("Error during delete settings file from the user profile folder.", ex, True)
+            ElseIf Me.PowerTrayConfigurationClone.SourceSettings = PowerTraySettings.SourcesSettings.Application Then
+                Util.ShowErrorException("Error during delete settings file from the application folder.", ex, True)
+            Else
+                Util.ShowErrorException(ex, True)
+            End If
+        End Try
+    End Sub
 End Class

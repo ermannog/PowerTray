@@ -41,6 +41,8 @@ Partial Class SettingsForm
         Me.lblScriptProperties = New System.Windows.Forms.Label()
         Me.lblScripts = New System.Windows.Forms.Label()
         Me.lsvScripts = New System.Windows.Forms.ListView()
+        Me.btnManageSettingsFile = New System.Windows.Forms.Button()
+        Me.btnDeleteSettingsFile = New System.Windows.Forms.Button()
         Me.tbcMain.SuspendLayout()
         Me.tbpApplication.SuspendLayout()
         Me.cmnPropertyGrid.SuspendLayout()
@@ -232,6 +234,32 @@ Partial Class SettingsForm
         Me.lsvScripts.UseCompatibleStateImageBehavior = False
         Me.lsvScripts.View = System.Windows.Forms.View.List
         '
+        'btnManageSettingsFile
+        '
+        Me.btnManageSettingsFile.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnManageSettingsFile.DialogResult = System.Windows.Forms.DialogResult.OK
+        Me.btnManageSettingsFile.Enabled = False
+        Me.btnManageSettingsFile.Location = New System.Drawing.Point(4, 486)
+        Me.btnManageSettingsFile.Name = "btnManageSettingsFile"
+        Me.btnManageSettingsFile.Size = New System.Drawing.Size(200, 23)
+        Me.btnManageSettingsFile.TabIndex = 5
+        Me.btnManageSettingsFile.Text = "Manage settings file"
+        Me.btnManageSettingsFile.UseVisualStyleBackColor = True
+        Me.btnManageSettingsFile.Visible = False
+        '
+        'btnDeleteSettingsFile
+        '
+        Me.btnDeleteSettingsFile.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnDeleteSettingsFile.DialogResult = System.Windows.Forms.DialogResult.OK
+        Me.btnDeleteSettingsFile.Enabled = False
+        Me.btnDeleteSettingsFile.Location = New System.Drawing.Point(210, 486)
+        Me.btnDeleteSettingsFile.Name = "btnDeleteSettingsFile"
+        Me.btnDeleteSettingsFile.Size = New System.Drawing.Size(200, 23)
+        Me.btnDeleteSettingsFile.TabIndex = 6
+        Me.btnDeleteSettingsFile.Text = "Delete settings file"
+        Me.btnDeleteSettingsFile.UseVisualStyleBackColor = True
+        Me.btnDeleteSettingsFile.Visible = False
+        '
         'SettingsForm
         '
         Me.AcceptButton = Me.btnOK
@@ -239,6 +267,8 @@ Partial Class SettingsForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCancel
         Me.ClientSize = New System.Drawing.Size(624, 521)
+        Me.Controls.Add(Me.btnDeleteSettingsFile)
+        Me.Controls.Add(Me.btnManageSettingsFile)
         Me.Controls.Add(Me.tbcMain)
         Me.Controls.Add(Me.btnOK)
         Me.Controls.Add(Me.btnCancel)
@@ -274,4 +304,6 @@ Partial Class SettingsForm
     Friend WithEvents btnPreview As Button
     Friend WithEvents cmnPropertyGrid As ContextMenuStrip
     Friend WithEvents cmiPropertyGridReset As ToolStripMenuItem
+    Friend WithEvents btnManageSettingsFile As Button
+    Friend WithEvents btnDeleteSettingsFile As Button
 End Class

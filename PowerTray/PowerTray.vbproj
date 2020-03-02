@@ -97,6 +97,12 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutBox.Designer.vb">
+      <DependentUpon>AboutBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AboutBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ApplicationEvents.vb" />
     <Compile Include="LicenseForm.Designer.vb">
       <DependentUpon>LicenseForm.vb</DependentUpon>
@@ -148,7 +154,7 @@
     <Compile Include="Settings\PowerTraySettings.vb" />
     <Compile Include="Util\Util.vb" />
     <Compile Include="Util\UtilExecuteScripts.vb" />
-    <Compile Include="Util\UtilPropertyGrid.vb" />
+    <Compile Include="Util\UtilDescriptionEnumConverter.vb" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -164,6 +170,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LicenseForm.resx">
       <DependentUpon>LicenseForm.vb</DependentUpon>
     </EmbeddedResource>

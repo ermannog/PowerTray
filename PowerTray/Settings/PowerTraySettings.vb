@@ -24,36 +24,94 @@ Public Class PowerTraySettings
     End Property
 #End Region
 
+    <System.ComponentModel.Browsable(False)>
+    Public ReadOnly Property FileName As String
+        Get
+            Dim product = System.Windows.Forms.Application.ProductName
+            Return product & ".settings"
+        End Get
+    End Property
+
+    <System.ComponentModel.Browsable(False)>
+    Public ReadOnly Property UserFilePath As String
+        Get
+            Dim product = System.Windows.Forms.Application.ProductName
+            Dim applicationDataPath = System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+            Dim company = System.Windows.Forms.Application.CompanyName
+            Return System.IO.Path.Combine(System.IO.Path.Combine(System.IO.Path.Combine(applicationDataPath, company), product), Me.FileName)
+        End Get
+    End Property
+
+    <System.ComponentModel.Browsable(False)>
+    Public ReadOnly Property ApplicationFilePath As String
+        Get
+            Dim product = System.Windows.Forms.Application.ProductName
+            Return System.IO.Path.Combine(My.Application.Info.DirectoryPath, Me.FileName)
+        End Get
+    End Property
+
+
     <System.ComponentModel.DisplayName("Settings file")>
     <System.ComponentModel.Description("Settings file path")>
     Public ReadOnly Property FilePath() As String
         Get
             'Verifica se è stato specificato un file di configurazione all'avvio
             If Not String.IsNullOrWhiteSpace(My.Application.StartupConfigurationFile) Then
+                Me.sourceSettingsValue = PowerTraySettings.SourcesSettings.StartupParameter
                 Return My.Application.StartupConfigurationFile
             End If
 
 
-            Dim product = System.Windows.Forms.Application.ProductName
-            Dim fileName = product & ".settings"
+            'Dim product = System.Windows.Forms.Application.ProductName
+            'Dim fileName = product & ".settings"
 
             'Se esiste un file di impostazione nel profilo utente viene restituito il path di questo file
-            Dim applicationDataPath = System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-            Dim company = System.Windows.Forms.Application.CompanyName
-            Dim userSettingsFilePath = System.IO.Path.Combine(
-                    System.IO.Path.Combine(
-                    System.IO.Path.Combine(applicationDataPath, company), product),
-                    fileName)
-            If System.IO.File.Exists(userSettingsFilePath) Then Return userSettingsFilePath
+            'Dim applicationDataPath = System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+            'Dim company = System.Windows.Forms.Application.CompanyName
+            'Dim userSettingsFilePath = System.IO.Path.Combine(
+            '        System.IO.Path.Combine(
+            '        System.IO.Path.Combine(applicationDataPath, company), product),
+            '        Me.FileName)
+            If System.IO.File.Exists(Me.UserFilePath) Then
+                Me.sourceSettingsValue = PowerTraySettings.SourcesSettings.User
+                Return Me.UserFilePath
+            End If
 
             'Se esiste un file di impostazione nel path in cui è stato avviata l'applicazione viene restituito il path di questo file
-            Dim applicationSettingFilePath = System.IO.Path.Combine(My.Application.Info.DirectoryPath, fileName)
-            If System.IO.File.Exists(applicationSettingFilePath) Then Return applicationSettingFilePath
+            'Dim applicationSettingFilePath = System.IO.Path.Combine(My.Application.Info.DirectoryPath, Me.FileName)
+            If System.IO.File.Exists(Me.ApplicationFilePath) Then
+                Me.sourceSettingsValue = PowerTraySettings.SourcesSettings.Application
+                Return Me.ApplicationFilePath
+            End If
 
             'In caso contrario viene restituito il path del file nel profilo utente
-            Return userSettingsFilePath
+            Me.sourceSettingsValue = PowerTraySettings.SourcesSettings.User
+            Return Me.UserFilePath
         End Get
     End Property
+
+
+#Region "Property SourceSettings"
+    <TypeConverter(GetType(UtilDescriptionEnumConverter))>
+    Public Enum SourcesSettings As UInteger
+        <System.ComponentModel.Description("User profile")>
+        User
+        <System.ComponentModel.Description("Application folder")>
+        Application
+        <System.ComponentModel.Description("Startup parameter")>
+        StartupParameter
+    End Enum
+
+    Private sourceSettingsValue As PowerTraySettings.SourcesSettings = PowerTraySettings.SourcesSettings.User
+
+    <System.ComponentModel.DisplayName("Source Settings")>
+    <System.ComponentModel.Description("Source of the settings")>
+    Public ReadOnly Property SourceSettings As PowerTraySettings.SourcesSettings
+        Get
+            Return Me.sourceSettingsValue
+        End Get
+    End Property
+#End Region
 
 #Region "Property RefreshInterval"
     Public Const MinimumRefreshInterval As Integer = 1000

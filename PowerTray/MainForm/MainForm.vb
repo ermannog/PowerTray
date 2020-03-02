@@ -79,6 +79,12 @@ Public Class MainForm
         Me.Close()
     End Sub
 
+    Private Sub mniNotifyIconAbout_Click(sender As Object, e As EventArgs) Handles mniNotifyIconAbout.Click
+        Using frm As New AboutBox
+            frm.ShowDialog(Me)
+        End Using
+    End Sub
+
     Private Sub nicMain_DoubleClick(sender As Object, e As EventArgs) Handles nicMain.DoubleClick
         Me.mniNotifyIconOpen.PerformClick()
     End Sub
